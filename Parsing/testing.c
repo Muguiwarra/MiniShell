@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 18:10:59 by nabboune          #+#    #+#             */
-/*   Updated: 2023/06/16 23:19:05 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/06/17 19:01:05 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,19 +36,19 @@ char	**ft_get_paths(char **env)
 	return (paths);
 }
 
-void	ft_exec(t_htable *ht, char **paths, char **env)
-{
-	int		i;
-	char	*full_path;
+// void	ft_exec(t_htable *ht, char **paths, char **env)
+// {
+// 	int		i;
+// 	char	*full_path;
 
-	i = 0;
-	while (paths[i])
-	{
-		full_path = ft_strjoin(paths[i], "/");
-		full_path = ft_strjoin(full_path, ht->value);
-		if (!access(full_path, X_OK))
-			execve (full_path, ft_cmd_with_null(ht->value), env);
-		free(full_path);
-		i++;
-	}
-}
+// 	i = 0;
+// 	while (paths[i])
+// 	{
+// 		full_path = ft_strjoin(paths[i], "/");
+// 		full_path = ft_strjoin(full_path, ht->value);
+// 		if (!access(full_path, X_OK))
+// 			execve (full_path, ft_cmd_with_null(ht->value), env);
+// 		free(full_path);
+// 		i++;
+// 	}
+// }

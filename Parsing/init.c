@@ -6,44 +6,34 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 23:23:30 by nabboune          #+#    #+#             */
-/*   Updated: 2023/06/17 02:26:04 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/06/18 03:00:33 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-char	**ft_cmd_with_null(char *cmd)
+void	ft_prompt()
 {
-	char	**arr;
+	char	*input;
+	t_dic	*dic;
 
-	arr = (char **) malloc(2 * sizeof(char *));
-	arr[0] = ft_strdup(cmd);
-	arr[1] = NULL;
-	return (arr);
-}
-
-void	ft_prompt(char **paths, char **env)
-{
-	char		*input;
-	t_htable	*ht;
-	int			i;
-
-	(void) env;
-	(void) paths;
 	while (1)
 	{
-		i = 0;
-		signal(SIGINT, &ft_new_line);
+		// i = 0;
 		rl_on_new_line();
 		input = readline("MiniShell-0.1$ ");
-		add_history(input);
-		ht = ft_hash_table(input);
-		// printf("{$$}\n");
-		while (ht)
+
+		// To REMOVE after
+		if (ft_strncmp(input, "exit", 5) == 0)
+			exit(0);
+		// Remember to REMOVE IT !!!
+		dic = ft_crea_dic(input);
+		while (dic)
 		{
-			ft_printf("Key : %s\nValue : %s\n\n", ht->key, ht->value);
-			ht = ht->next;
+			printf("Key : %d\nValue : %s\n\n", dic->key, dic->value);
+			dic = dic->next;
 		}
+		add_history(input);
 		// ft_exec(ht, paths, env);					/* To remove : Testing if the cmd is accessible */
 		free(input);
 	}
@@ -56,106 +46,177 @@ void	ft_new_line(int signum)
 	rl_redisplay();
 }
 
-int	ft_add_arg(t_htable **ht, char *input, int i)
+t_dic	*ft_crea_dic(char *input)
 {
-	int			j;
-	t_htable	node;
-	t_htable	*last_node;
-
-	j = 0;
-	while (input[i] && input[i] == ' ')
-		i++;
-	while (input[i + j] && input[i + j] != ' ')
-		j++;
-	node.key = ft_strdup("arg");
-	node.value = ft_substr(input, i, j);
-	last_node = (t_htable *) malloc(sizeof(t_htable));
-	last_node = *ht;
-	while(last_node->next)
-		last_node = last_node->next;
-	last_node->next = &node;
-
-	return(j);
-}
-
-int	ft_add_cmd(t_htable **ht, char *input, int i)
-{
-	int			j;
-	t_htable	node;
-	t_htable	*last_node;
-
-	j = 0;
-	while (input[i + j] && input[i + j] != ' ')
-		j++;
-	node.key = ft_strdup("cmd");
-	node.value = ft_substr(input, i, j);
-	node.next = NULL;
-	i += j;
-
-	*ht = &node;
-	last_node = (t_htable *) malloc(sizeof(t_htable));
-	last_node = *ht;
-	while(last_node->next)
-		last_node = last_node->next;
-	last_node->next = &node;
-
-	while (input[i] == ' ')
-		i++;
-	if (ft_isalpha(input[i]) || input[i] == '-')
-		j = ft_add_arg(ht, input, i);
-	return(i + j);
-}
-
-int	ft_add_infile(t_htable **ht, char *input, int i)
-{
-	int			j;
-	t_htable	node;
-	t_htable	*last_node;
-
-	while (input[i] == ' ')
-		i++;
-	j = 0;
-	while (input[i + j] && input[i + j] != ' ')
-		j++;
-	node.key = ft_strdup("infile");
-	node.value = ft_substr(input, i, j);
-
-	last_node = (t_htable *) malloc(sizeof(t_htable));
-	last_node = *ht;
-	while(last_node->next)
-		last_node = last_node->next;
-	last_node->next = &node;
-
-	return(i + j);
-}
-
-t_htable	*ft_hash_table(char *input)
-{
-	t_htable	*ht;
-	int			i;
+	int		i;
+	int		j;
+	int		open;
+	char	*word;
+	t_dic	*page;
+	t_dic	*last_page;
+	t_dic	*dic;
 
 	i = 0;
-	ht = (t_htable *) malloc(sizeof(t_htable));
+	open = 0;
+	page = (t_dic *) malloc(sizeof(t_dic));
 	while (input[i])
 	{
-		while (input[i] == ' ')
-			i++;
-		if (ft_isalpha(input[i]))
-			i = ft_add_cmd(&ht, input, i);
-		else if (input[i] == '<' && input[i + 1] != '<')
-			i = ft_add_infile(&ht, input, i);
+		j = 0;
+		// last_page = ft_lastpage(*dic);
+		if (!ft_is_delimiter(input[i + j]))
+		{
+			if (open == 0)
+			{
+				while (!ft_is_delimiter(input[i + j]))
+					j++;
+				word = ft_substr(input, i, j);
+				page->key = CMD;
+				page->value = word;
+				page->next = NULL;
+				ft_addpage_back(&dic, page);
+				free(word);
+				free(page);
+			}
+			else
+			{
+				last_page = ft_lastpage(dic);
+				while (input[i + j] != last_page->value[0])
+					j++;
+				word = ft_substr(input, i, j);
+				page->key = CMD;
+				page->value = word;
+				page->next = NULL;
+				ft_addpage_back(&dic, page);
+				free(word);
+				free(page);
+			}
+		}
+		else
+		{
+			if (ft_is_delimiter(input[i]) == SQUOTE)
+			{
+				if (open == 0)
+					open = 1;
+				else
+					open = 0;
+				page->key = SQUOTE;
+				page->value = (char *) malloc(2 * sizeof(char));
+				page->value = "\'";
+				page->next = NULL;
+				ft_addpage_back(&dic, page);
+				free(page->value);
+				free(page);
+			}
+			else if (ft_is_delimiter(input[i]) == DQUOTE)
+			{
+				if (open == 0)
+					open = 1;
+				else
+					open = 0;
+				page->key = DQUOTE;
+				page->value = (char *) malloc(2 * sizeof(char));
+				page->value = "\"";
+				page->next = NULL;
+				ft_addpage_back(&dic, page);
+				free(page->value);
+				free(page);
+			}
+			else if (ft_is_delimiter(input[i]) == LESSER)
+			{
+				page->key = LESSER;
+				page->value = (char *) malloc(2 * sizeof(char));
+				page->value = "<";
+				page->next = NULL;
+				ft_addpage_back(&dic, page);
+				free(page->value);
+				free(page);
+			}
+			else if (ft_is_delimiter(input[i]) == GREATER)
+			{
+				page->key = GREATER;
+				page->value = (char *) malloc(2 * sizeof(char));
+				page->value = ">";
+				page->next = NULL;
+				ft_addpage_back(&dic, page);
+				free(page->value);
+				free(page);
+			}
+			else if (ft_is_delimiter(input[i]) == PIPE)
+			{
+				page->key = PIPE;
+				page->value = (char *) malloc(2 * sizeof(char));
+				page->value = "|";
+				page->next = NULL;
+				ft_addpage_back(&dic, page);
+				free(page->value);
+				free(page);
+			}
+			else if (ft_is_delimiter(input[i]) == FLAG)
+			{
+				page->key = GREATER;
+				page->value = (char *) malloc(2 * sizeof(char));
+				page->value = "-";
+				page->next = NULL;
+				ft_addpage_back(&dic, page);
+				free(page->value);
+				free(page);
+			}
+		}
+		i += j + 1;
 	}
-	return(ht);
+	return(dic);
+}
+
+int	ft_is_delimiter(char c)
+{
+	if (c == ' ' || c == '\t' || c == '\n')
+		return (1);
+	else if (c == '\'')
+		return (SQUOTE);
+	else if (c == '\"')
+		return (DQUOTE);
+	else if (c == '<')
+		return (LESSER);
+	else if (c == '>')
+		return (GREATER);
+	else if (c == '|')
+		return (PIPE);
+	else if (c == '-')
+		return (FLAG);
+	return (0);
+}
+
+t_dic	*ft_lastpage(t_dic *lst)
+{
+	if (lst)
+	{
+		while (lst->next)
+			lst = lst->next;
+	}
+	return (lst);
+}
+
+void	ft_addpage_back(t_dic **lst, t_dic *new)
+{
+	t_dic	*ptr;
+
+	if (*lst)
+	{
+		ptr = ft_lastpage(*lst);
+		ptr->next = new;
+	}
+	else
+		*lst = new;
 }
 
 int	main(int ac, char **av, char **env)
 {
-	char	**paths;
-
 	(void) ac;
 	(void) av;
-	paths = ft_get_paths(env);
-	ft_prompt(paths, env);
+	glob.env = env;
+	glob.paths = ft_get_paths(glob.env);
+	signal(SIGINT, &ft_new_line);
+	ft_prompt();
 
 	return (0);
 }
