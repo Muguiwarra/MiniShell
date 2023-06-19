@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 23:24:08 by nabboune          #+#    #+#             */
-/*   Updated: 2023/06/18 02:57:49 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/06/19 01:36:04 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,8 @@ int			ft_is_delimiter(char c);
 void		ft_new_line(int signum);
 void		ft_prompt();
 void		ft_addpage_back(t_dic **lst, t_dic *new);
-t_dic		*ft_lastpage(t_list *lst);
+t_dic		*ft_pagenew(int key, char *value);
+t_dic		*ft_lastpage(t_dic *lst);
 t_dic		*ft_crea_dic(char *input);
 
 // To Remove : Testing

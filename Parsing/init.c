@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 23:23:30 by nabboune          #+#    #+#             */
-/*   Updated: 2023/06/18 03:00:33 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/06/19 03:17:26 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	ft_prompt()
 		dic = ft_crea_dic(input);
 		while (dic)
 		{
-			printf("Key : %d\nValue : %s\n\n", dic->key, dic->value);
+			printf("Present : %p\nKey : %d\nValue : %s\nNext : %p\n\n", dic, dic->key, dic->value, dic->next);
 			dic = dic->next;
 		}
 		add_history(input);
@@ -51,116 +51,58 @@ t_dic	*ft_crea_dic(char *input)
 	int		i;
 	int		j;
 	int		open;
-	char	*word;
-	t_dic	*page;
 	t_dic	*last_page;
 	t_dic	*dic;
 
 	i = 0;
 	open = 0;
-	page = (t_dic *) malloc(sizeof(t_dic));
+	dic = NULL;
 	while (input[i])
 	{
 		j = 0;
-		// last_page = ft_lastpage(*dic);
-		if (!ft_is_delimiter(input[i + j]))
+		if (input[i + j] && !ft_is_delimiter(input[i + j]))
 		{
 			if (open == 0)
 			{
-				while (!ft_is_delimiter(input[i + j]))
+				while (input[i + j] && !ft_is_delimiter(input[i + j]))
 					j++;
-				word = ft_substr(input, i, j);
-				page->key = CMD;
-				page->value = word;
-				page->next = NULL;
-				ft_addpage_back(&dic, page);
-				free(word);
-				free(page);
+				ft_addpage_back(&dic, ft_pagenew(CMD, ft_substr(input, i, j)));
 			}
 			else
 			{
 				last_page = ft_lastpage(dic);
-				while (input[i + j] != last_page->value[0])
+				while (input[i + j] && input[i + j] != last_page->value[0])
 					j++;
-				word = ft_substr(input, i, j);
-				page->key = CMD;
-				page->value = word;
-				page->next = NULL;
-				ft_addpage_back(&dic, page);
-				free(word);
-				free(page);
+				ft_addpage_back(&dic, ft_pagenew(CMD, ft_substr(input, i, j)));
+				j--;
 			}
 		}
-		else
+		else if (input[i + j] && ft_is_delimiter(input[i + j]))
 		{
-			if (ft_is_delimiter(input[i]) == SQUOTE)
+			if (input[i] && ft_is_delimiter(input[i]) == SQUOTE)
 			{
 				if (open == 0)
 					open = 1;
 				else
 					open = 0;
-				page->key = SQUOTE;
-				page->value = (char *) malloc(2 * sizeof(char));
-				page->value = "\'";
-				page->next = NULL;
-				ft_addpage_back(&dic, page);
-				free(page->value);
-				free(page);
+				ft_addpage_back(&dic, ft_pagenew(SQUOTE, "\'\0"));
 			}
-			else if (ft_is_delimiter(input[i]) == DQUOTE)
+			else if (input[i] && ft_is_delimiter(input[i]) == DQUOTE)
 			{
 				if (open == 0)
 					open = 1;
 				else
 					open = 0;
-				page->key = DQUOTE;
-				page->value = (char *) malloc(2 * sizeof(char));
-				page->value = "\"";
-				page->next = NULL;
-				ft_addpage_back(&dic, page);
-				free(page->value);
-				free(page);
+				ft_addpage_back(&dic, ft_pagenew(DQUOTE, "\"\0"));
 			}
-			else if (ft_is_delimiter(input[i]) == LESSER)
-			{
-				page->key = LESSER;
-				page->value = (char *) malloc(2 * sizeof(char));
-				page->value = "<";
-				page->next = NULL;
-				ft_addpage_back(&dic, page);
-				free(page->value);
-				free(page);
-			}
-			else if (ft_is_delimiter(input[i]) == GREATER)
-			{
-				page->key = GREATER;
-				page->value = (char *) malloc(2 * sizeof(char));
-				page->value = ">";
-				page->next = NULL;
-				ft_addpage_back(&dic, page);
-				free(page->value);
-				free(page);
-			}
-			else if (ft_is_delimiter(input[i]) == PIPE)
-			{
-				page->key = PIPE;
-				page->value = (char *) malloc(2 * sizeof(char));
-				page->value = "|";
-				page->next = NULL;
-				ft_addpage_back(&dic, page);
-				free(page->value);
-				free(page);
-			}
-			else if (ft_is_delimiter(input[i]) == FLAG)
-			{
-				page->key = GREATER;
-				page->value = (char *) malloc(2 * sizeof(char));
-				page->value = "-";
-				page->next = NULL;
-				ft_addpage_back(&dic, page);
-				free(page->value);
-				free(page);
-			}
+			else if (input[i] && ft_is_delimiter(input[i]) == LESSER)
+				ft_addpage_back(&dic, ft_pagenew(LESSER, "<\0"));
+			else if (input[i] && ft_is_delimiter(input[i]) == GREATER)
+				ft_addpage_back(&dic, ft_pagenew(GREATER, ">\0"));
+			else if (input[i] && ft_is_delimiter(input[i]) == PIPE)
+				ft_addpage_back(&dic, ft_pagenew(PIPE, "|\0"));
+			else if (input[i] && ft_is_delimiter(input[i]) == FLAG)
+				ft_addpage_back(&dic, ft_pagenew(FLAG, "-\0"));
 		}
 		i += j + 1;
 	}
@@ -184,6 +126,19 @@ int	ft_is_delimiter(char c)
 	else if (c == '-')
 		return (FLAG);
 	return (0);
+}
+
+t_dic	*ft_pagenew(int key, char *value)
+{
+	t_dic	*head;
+
+	head = (t_dic *)malloc(sizeof(t_dic));
+	if (!head)
+		return (0);
+	head->key = key;
+	head->value = value;
+	head->next = NULL;
+	return (head);
 }
 
 t_dic	*ft_lastpage(t_dic *lst)
