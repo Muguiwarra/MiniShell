@@ -6,12 +6,21 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 23:24:08 by nabboune          #+#    #+#             */
-/*   Updated: 2023/06/19 01:36:04 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/06/20 01:32:58 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_H
 #define PARSER_H
+
+// Have to Implement GARBAGE COLLECTOR !!!!
+// Have to Implement GARBAGE COLLECTOR !!!!
+// Have to Implement GARBAGE COLLECTOR !!!!
+// Have to Implement GARBAGE COLLECTOR !!!!
+// Have to Implement GARBAGE COLLECTOR !!!!
+// Have to Implement GARBAGE COLLECTOR !!!!
+// Have to Implement GARBAGE COLLECTOR !!!!
+// Have to Implement GARBAGE COLLECTOR !!!!
 
 #include "../Libft/libft.h"
 #include <signal.h>
@@ -65,9 +74,10 @@ typedef struct	s_global
 	char	**env;
 	char	**paths;
 	int		exit_status;
+	t_dic	*allocations;
 }				t_global;
 
-t_global	glob;
+t_global	g_glob;
 int			ft_is_delimiter(char c);
 void		ft_new_line(int signum);
 void		ft_prompt();

@@ -6,11 +6,44 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 23:23:30 by nabboune          #+#    #+#             */
-/*   Updated: 2023/06/19 03:17:26 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/06/20 02:34:56 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
+
+void	*ft_malloc(size_t size)
+{
+	t_dic	*ptr;
+
+	ptr = malloc(size);
+	ptr->next = g_glob.allocations;
+	g_glob.allocations = ptr;
+	return(ptr);
+}
+
+void	ft_collect_garbadge()
+{
+	t_dic	**ptr1;
+	t_dic	*ptr2;
+
+	ptr1 = &g_glob.allocations;
+	while (*ptr1)
+	{
+		ptr2 = *ptr1;
+		if (g_glob.allocations->value)
+		{
+			free(g_glob.allocations->value);
+			g_glob.allocations->value = NULL;
+			ptr1 = &ptr2->next;
+		}
+		else
+		{
+			*ptr1 = ptr2->next;
+			free(ptr2);
+		}
+	}
+}
 
 void	ft_prompt()
 {
@@ -35,7 +68,9 @@ void	ft_prompt()
 		}
 		add_history(input);
 		// ft_exec(ht, paths, env);					/* To remove : Testing if the cmd is accessible */
-		free(input);
+		// free(input);
+		// free(dic);
+		ft_collect_garbadge();
 	}
 }
 
@@ -132,9 +167,10 @@ t_dic	*ft_pagenew(int key, char *value)
 {
 	t_dic	*head;
 
-	head = (t_dic *)malloc(sizeof(t_dic));
-	if (!head)
-		return (0);
+	// head = (t_dic *)malloc(sizeof(t_dic));
+	// if (!head)
+	// 	return (0);
+	head = ft_malloc(sizeof(t_dic));
 	head->key = key;
 	head->value = value;
 	head->next = NULL;
@@ -164,12 +200,14 @@ void	ft_addpage_back(t_dic **lst, t_dic *new)
 		*lst = new;
 }
 
+
+
 int	main(int ac, char **av, char **env)
 {
 	(void) ac;
 	(void) av;
-	glob.env = env;
-	glob.paths = ft_get_paths(glob.env);
+	g_glob.env = env;
+	g_glob.paths = ft_get_paths(g_glob.env);
 	signal(SIGINT, &ft_new_line);
 	ft_prompt();
 
