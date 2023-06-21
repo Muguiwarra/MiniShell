@@ -6,44 +6,11 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 23:23:30 by nabboune          #+#    #+#             */
-/*   Updated: 2023/06/20 02:34:56 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/06/21 03:14:06 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
-
-void	*ft_malloc(size_t size)
-{
-	t_dic	*ptr;
-
-	ptr = malloc(size);
-	ptr->next = g_glob.allocations;
-	g_glob.allocations = ptr;
-	return(ptr);
-}
-
-void	ft_collect_garbadge()
-{
-	t_dic	**ptr1;
-	t_dic	*ptr2;
-
-	ptr1 = &g_glob.allocations;
-	while (*ptr1)
-	{
-		ptr2 = *ptr1;
-		if (g_glob.allocations->value)
-		{
-			free(g_glob.allocations->value);
-			g_glob.allocations->value = NULL;
-			ptr1 = &ptr2->next;
-		}
-		else
-		{
-			*ptr1 = ptr2->next;
-			free(ptr2);
-		}
-	}
-}
 
 void	ft_prompt()
 {
@@ -52,7 +19,6 @@ void	ft_prompt()
 
 	while (1)
 	{
-		// i = 0;
 		rl_on_new_line();
 		input = readline("MiniShell-0.1$ ");
 
@@ -68,9 +34,8 @@ void	ft_prompt()
 		}
 		add_history(input);
 		// ft_exec(ht, paths, env);					/* To remove : Testing if the cmd is accessible */
-		// free(input);
-		// free(dic);
 		ft_collect_garbadge();
+		free(input);
 	}
 }
 
@@ -167,10 +132,9 @@ t_dic	*ft_pagenew(int key, char *value)
 {
 	t_dic	*head;
 
-	// head = (t_dic *)malloc(sizeof(t_dic));
-	// if (!head)
-	// 	return (0);
 	head = ft_malloc(sizeof(t_dic));
+	if (!head)
+		exit (UNSPECIFIED_ERROR);
 	head->key = key;
 	head->value = value;
 	head->next = NULL;

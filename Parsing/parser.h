@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 23:24:08 by nabboune          #+#    #+#             */
-/*   Updated: 2023/06/20 01:32:58 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/06/21 03:14:01 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ typedef struct	s_global
 	char	**env;
 	char	**paths;
 	int		exit_status;
-	t_dic	*allocations;
+	t_list	*allocations;
 }				t_global;
 
 t_global	g_glob;

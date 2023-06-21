@@ -6,7 +6,7 @@
 #    By: nabboune <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/26 04:47:10 by nabboune          #+#    #+#              #
-#    Updated: 2022/12/25 17:10:42 by nabboune         ###   ########.fr        #
+#    Updated: 2023/06/21 03:07:35 by nabboune         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,7 @@ SRCS = 	ft_atoi.c \
 		ft_isdigit.c \
 		ft_isprint.c \
 		ft_itoa.c \
+		ft_malloc.c \
 		ft_memchr.c \
 		ft_memcmp.c \
 		ft_memcpy.c \

@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 12:37:56 by nabboune          #+#    #+#             */
-/*   Updated: 2022/10/25 23:43:18 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/06/21 03:02:59 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	if (start > slen)
 		return (ft_strdup(""));
 	if (len <= slen - start)
-		ptr = (char *)malloc(len + 1);
+		ptr = (char *)ft_malloc(len + 1);
 	else
 	{
-		ptr = (char *)malloc(slen - start + 1);
+		ptr = (char *)ft_malloc(slen - start + 1);
 		len = slen - start;
 	}
 	if (!ptr)

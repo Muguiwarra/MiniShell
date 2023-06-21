@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 22:26:49 by nabboune          #+#    #+#             */
-/*   Updated: 2022/12/25 17:35:00 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/06/21 03:05:31 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,8 @@ t_list				*ft_lstlast(t_list *lst);
 void				ft_lstadd_back(t_list **lst, t_list *new);
 void				ft_lstdelone(t_list *lst, void (*del)(void *));
 void				ft_lstclear(t_list **lst, void (*del)(void *));
+
+void				*ft_malloc(size_t size);
+void				ft_collect_garbadge();
 
 #endif
