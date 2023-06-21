@@ -13,15 +13,6 @@
 #ifndef PARSER_H
 #define PARSER_H
 
-// Have to Implement GARBAGE COLLECTOR !!!!
-// Have to Implement GARBAGE COLLECTOR !!!!
-// Have to Implement GARBAGE COLLECTOR !!!!
-// Have to Implement GARBAGE COLLECTOR !!!!
-// Have to Implement GARBAGE COLLECTOR !!!!
-// Have to Implement GARBAGE COLLECTOR !!!!
-// Have to Implement GARBAGE COLLECTOR !!!!
-// Have to Implement GARBAGE COLLECTOR !!!!
-
 #include "../Libft/libft.h"
 #include <signal.h>
 #include <readline/readline.h>
