@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 23:23:30 by nabboune          #+#    #+#             */
-/*   Updated: 2023/06/21 03:14:06 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/06/22 06:42:31 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	ft_prompt()
 
 	while (1)
 	{
+		g_glob.exit_status = 0;
 		rl_on_new_line();
 		input = readline("MiniShell-0.1$ ");
 
@@ -27,15 +28,215 @@ void	ft_prompt()
 			exit(0);
 		// Remember to REMOVE IT !!!
 		dic = ft_crea_dic(input);
+		ft_check_dic(dic);
+		if (ft_check_exit())
+		{
+			ft_ending_prompt(input);
+			continue;
+		}
+		ft_update_dic(&dic);
+		if (ft_check_exit())
+		{
+			ft_ending_prompt(input);
+			continue;
+		}
 		while (dic)
 		{
-			printf("Present : %p\nKey : %d\nValue : %s\nNext : %p\n\n", dic, dic->key, dic->value, dic->next);
+			printf("Present : %p\nKey : %d\nValue : %s\nNext : %p\nPrevious : %p\n\n", dic, dic->key, dic->value, dic->next, dic->previous);
 			dic = dic->next;
 		}
-		add_history(input);
-		// ft_exec(ht, paths, env);					/* To remove : Testing if the cmd is accessible */
-		ft_collect_garbadge();
-		free(input);
+		ft_ending_prompt(input);
+	}
+}
+
+void	ft_ending_prompt(char *input)
+{
+	add_history(input);
+	ft_collect_garbadge();
+	free(input);
+	g_glob.exit_stat = g_glob.exit_status;
+}
+
+int	ft_check_exit()
+{
+	if (g_glob.exit_status == UNSPECIFIED_ERROR)
+	{
+		ft_printf("minishell: Unspecified error !\n");
+		return (1);
+	}
+	else if (g_glob.exit_status == CMD_NOT_EXECUTABLE)
+	{
+		ft_printf("minishell: Command not executable !\n");
+		return (1);
+	}
+	else if (g_glob.exit_status == CMD_NOT_FOUND)
+	{
+		ft_printf("minishell: Command not found !\n");
+		return (1);
+	}
+	else if (g_glob.exit_status == SYNTAX_ERROR)
+	{
+		ft_printf("minishell: Syntax ERROR !\n");
+		return (1);
+	}
+	return (0);
+}
+
+void	ft_check_dic(t_dic *dic)
+{
+	int	i;
+	int	doc;
+
+	i = 0;
+	doc = 0;
+	while (dic)
+	{
+		if (dic->key == DQUOTE)
+		{
+			i++;
+			if (dic->next)
+				dic = dic->next;
+			else
+				g_glob.exit_status = SYNTAX_ERROR;
+			while (dic)
+			{
+				if (dic->key == DQUOTE)
+				{
+					i++;
+					break ;
+				}
+				dic = dic->next;
+			}
+			if (i != 2)
+				g_glob.exit_status = SYNTAX_ERROR;
+		}
+		else if (dic->key == SQUOTE)
+		{
+			i++;
+			if (dic->next)
+				dic = dic->next;
+			else
+				g_glob.exit_status = SYNTAX_ERROR;
+			while (dic)
+			{
+				if (dic->key == SQUOTE)
+				{
+					i++;
+					break ;
+				}
+				dic = dic->next;
+			}
+			if (i != 2)
+				g_glob.exit_status = SYNTAX_ERROR;
+		}
+		else if (dic->key == HEREDOC)					// Have to check why multiple HEREDOCS aren't detected when no SPACE
+		{
+			doc++;
+			if (doc == 17)
+			{
+				g_glob.exit_status = MAXIMUM_HEREDOC;
+				break ;
+			}
+		}
+		i = 0;
+		dic = dic->next;
+	}
+}
+
+void	ft_update_dic(t_dic **dic)
+{
+	int		i;
+	t_dic	*ptr1;
+	t_dic	*ptr2;
+	t_dic	*ptr3;
+
+	ptr1 = *dic;
+	i = 1;
+	while (ptr1)
+	{
+		if (ptr1->key == LESSER)
+		{
+			if (ptr1->next)
+			{
+				ptr2 = ptr1->next;
+				if (ptr2 && ptr2->key == CMD)
+					ptr2->key = INFILE;
+				else if (ptr2 && (ptr2->key == DQUOTE || ptr2->key == SQUOTE))
+					ptr2->next->key = INFILE;
+				else if (ptr2 && ptr2->key == LESSER)			// Have to check why multiple HEREDOCS aren't detected when no SPACE
+				{
+					ft_del_page(dic, ptr2);
+					ptr1->key = HEREDOC;
+					ptr2 = ptr1->next;
+					if (ptr2)
+						ptr2->key = LIMITER;
+					else
+						g_glob.exit_status = SYNTAX_ERROR;
+				}
+				else
+					g_glob.exit_status = SYNTAX_ERROR;
+			}
+			else
+				g_glob.exit_status = SYNTAX_ERROR;
+		}
+		else if (ptr1->key == GREATER)
+		{
+			if (ptr1->next)
+			{
+				ptr2 = ptr1->next;
+				if (ptr2 && ptr2->key == CMD)
+					ptr2->key = OUTFILE;
+				else if (ptr2 && (ptr2->key == DQUOTE || ptr2->key == SQUOTE))
+					ptr2->next->key = OUTFILE;
+				else if (ptr2 && ptr2->key == GREATER)
+				{
+					ft_del_page(dic, ptr2);
+					ptr1->key = APPEND;
+					ptr2 = ptr1->next;
+					if (ptr2)
+						ptr2->key = OUTFILE;
+					else
+						g_glob.exit_status = SYNTAX_ERROR;
+				}
+				else
+					g_glob.exit_status = SYNTAX_ERROR;
+			}
+			else
+				g_glob.exit_status = SYNTAX_ERROR;
+		}
+		else if (ptr1->key == PIPE)
+		{
+			if (ptr1->next)
+			{
+				ptr2 = ptr1->previous;
+				while (ptr2)
+				{
+					ptr2->pipe = i;
+					ptr2 = ptr2->previous;
+				}
+			}
+			else
+				g_glob.exit_status = SYNTAX_ERROR;
+		}
+		i++;
+		ptr1 = ptr1->next;
+	}
+	ptr1 = *dic;
+	while (ptr1)
+	{
+		ptr3 = ptr1;
+		while (ptr1 && (ptr1->key == CMD || ptr1->key == ARG))
+		{
+			ptr2 = ptr1->next;
+			if (ptr2)
+			{
+				if (ptr2->key == CMD)
+					ptr2->key = ARG;
+			}
+			ptr1 = ptr1->next;
+		}
+		if (ptr1 == ptr3)
+			ptr1 = ptr1->next;
 	}
 }
 
@@ -101,8 +302,6 @@ t_dic	*ft_crea_dic(char *input)
 				ft_addpage_back(&dic, ft_pagenew(GREATER, ">\0"));
 			else if (input[i] && ft_is_delimiter(input[i]) == PIPE)
 				ft_addpage_back(&dic, ft_pagenew(PIPE, "|\0"));
-			else if (input[i] && ft_is_delimiter(input[i]) == FLAG)
-				ft_addpage_back(&dic, ft_pagenew(FLAG, "-\0"));
 		}
 		i += j + 1;
 	}
@@ -123,8 +322,6 @@ int	ft_is_delimiter(char c)
 		return (GREATER);
 	else if (c == '|')
 		return (PIPE);
-	else if (c == '-')
-		return (FLAG);
 	return (0);
 }
 
@@ -136,9 +333,34 @@ t_dic	*ft_pagenew(int key, char *value)
 	if (!head)
 		exit (UNSPECIFIED_ERROR);
 	head->key = key;
+	head->pipe = 0;
 	head->value = value;
 	head->next = NULL;
+	head->previous = NULL;
 	return (head);
+}
+
+void	ft_del_page(t_dic **dic, t_dic *page)
+{
+	t_dic	*ptr;
+	t_dic	*prev;
+	t_dic	*next;
+
+	ptr = *dic;
+	while(ptr)
+	{
+		if (ptr == page)
+		{
+			prev = ptr->previous;
+			next = ptr->next;
+			if (prev)
+				prev->next = next;
+			if (next)
+				next->previous = prev;
+			break;
+		}
+		ptr = ptr->next;
+	}
 }
 
 t_dic	*ft_lastpage(t_dic *lst)
@@ -153,18 +375,26 @@ t_dic	*ft_lastpage(t_dic *lst)
 
 void	ft_addpage_back(t_dic **lst, t_dic *new)
 {
-	t_dic	*ptr;
+	t_dic	*ptr1;
+	t_dic	*ptr2;
 
 	if (*lst)
 	{
-		ptr = ft_lastpage(*lst);
-		ptr->next = new;
+		ptr1 = ft_lastpage(*lst);
+		ptr1->next = new;
+		ptr1 = *lst;
+		ptr2 = *lst;
+		while (ptr1)
+		{
+			ptr1 = ptr1->next;
+			if (ptr1)
+				ptr1->previous = ptr2;
+			ptr2 = ptr1;
+		}
 	}
 	else
 		*lst = new;
 }
-
-
 
 int	main(int ac, char **av, char **env)
 {

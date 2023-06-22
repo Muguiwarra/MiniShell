@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 23:24:08 by nabboune          #+#    #+#             */
-/*   Updated: 2023/06/21 03:14:01 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/06/22 06:27:26 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,18 +35,20 @@
 #define LIMITER 12
 #define APPEND 13
 #define PIPE 14
-#define FLAG 15
 
 // Exit Status
 
 #define SUCCES 0
 #define UNSPECIFIED_ERROR 1
+#define MAXIMUM_HEREDOC 2
 #define CMD_NOT_EXECUTABLE 126
 #define CMD_NOT_FOUND 127
+#define SYNTAX_ERROR 258
 
 typedef struct	s_dic
 {
 	int				key;
+	int				pipe;
 	char			*value;
 	struct s_dic	*next;
 	struct s_dic	*previous;
@@ -65,6 +67,7 @@ typedef struct	s_global
 	char	**env;
 	char	**paths;
 	int		exit_status;
+	int		exit_stat;
 	t_list	*allocations;
 }				t_global;
 
@@ -72,13 +75,19 @@ t_global	g_glob;
 int			ft_is_delimiter(char c);
 void		ft_new_line(int signum);
 void		ft_prompt();
+void		ft_ending_prompt(char *input);
 void		ft_addpage_back(t_dic **lst, t_dic *new);
 t_dic		*ft_pagenew(int key, char *value);
+void		ft_del_page(t_dic **dic, t_dic *page);
 t_dic		*ft_lastpage(t_dic *lst);
 t_dic		*ft_crea_dic(char *input);
+void		ft_check_dic(t_dic *dic);
+void		ft_update_dic(t_dic **dic);
+int			ft_check_exit();
 
 // To Remove : Testing
-// void	ft_exec(t_htable *ht, char **paths, char **env);
+void	ft_exec(char **paths, char **env);
 char **ft_get_paths(char **env);
+void	ft_ending_prompt_exec(char *input);
 
 #endif
