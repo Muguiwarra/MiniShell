@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 23:23:30 by nabboune          #+#    #+#             */
-/*   Updated: 2023/06/22 06:42:31 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/06/23 06:33:49 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	ft_prompt()
 {
 	char	*input;
 	t_dic	*dic;
+	// t_parsing_output	*out;
 
 	while (1)
 	{
@@ -47,6 +48,86 @@ void	ft_prompt()
 		}
 		ft_ending_prompt(input);
 	}
+}
+
+t_parsing_output	*ft_parsing_output(t_dic *dic)
+{
+	t_parsing_output	*out;
+	t_dic				*ptr;
+	int					op;
+	int					i;
+	int					j;
+
+	out = ft_malloc(sizeof(t_parsing_output));
+	i = 2;
+	ptr = dic;
+	while (ptr && ptr->key != PIPE)
+	{
+		op = ft_open_infile(ptr);
+		if (ft_check_exit())
+			continue;
+		ptr = ptr->next;
+	}
+	while(dic)
+	{
+		if (dic->key == CMD)
+		{
+			ptr = dic->next;
+			while (ptr && ptr->key != PIPE)
+			{
+				if (ptr->key == ARG)
+					i++;
+				ptr = ptr->next;
+			}
+			out->cmd = ft_malloc(i * sizeof(char *));
+			if (!out->cmd)
+			{
+				g_glob.exit_status = UNSPECIFIED_ERROR;
+				break ;
+			}
+			j = 0;
+			while (dic && dic->key != PIPE)
+			{
+				if (ptr->key == CMD || ptr->key == ARG)
+				{
+					out->cmd[j] = dic->value;
+					j++;
+				}
+				dic = dic->next;
+			}
+			out->cmd[j] = NULL;
+		}
+		// Fill Out The Nodes with the Infile fd...
+	}
+	return (out);
+}
+
+int		ft_open_infile(t_dic *dic)
+{
+	int	op;
+
+	op = 0;
+	while (dic && dic->key != PIPE)
+	{
+		if (dic->key == INFILE)
+		{
+			op = open(dic->value, O_RDONLY, 0777);
+			if (op == -1)
+			{
+				perror(dic->value);
+				g_glob.exit_status = UNSPECIFIED_ERROR;
+				break ;
+			}
+			if (close(op) == -1)
+			{
+				perror(dic->value);
+				g_glob.exit_status = UNSPECIFIED_ERROR;
+				break ;
+			}
+		}
+		dic = dic->next;
+	}
+	return (op);
 }
 
 void	ft_ending_prompt(char *input)
@@ -129,7 +210,7 @@ void	ft_check_dic(t_dic *dic)
 			if (i != 2)
 				g_glob.exit_status = SYNTAX_ERROR;
 		}
-		else if (dic->key == HEREDOC)					// Have to check why multiple HEREDOCS aren't detected when no SPACE
+		else if (dic->key == HEREDOC)
 		{
 			doc++;
 			if (doc == 17)
@@ -163,7 +244,7 @@ void	ft_update_dic(t_dic **dic)
 					ptr2->key = INFILE;
 				else if (ptr2 && (ptr2->key == DQUOTE || ptr2->key == SQUOTE))
 					ptr2->next->key = INFILE;
-				else if (ptr2 && ptr2->key == LESSER)			// Have to check why multiple HEREDOCS aren't detected when no SPACE
+				else if (ptr2 && ptr2->key == LESSER)
 				{
 					ft_del_page(dic, ptr2);
 					ptr1->key = HEREDOC;
@@ -225,7 +306,9 @@ void	ft_update_dic(t_dic **dic)
 	while (ptr1)
 	{
 		ptr3 = ptr1;
-		while (ptr1 && (ptr1->key == CMD || ptr1->key == ARG))
+		while (ptr1 && (ptr1->key == CMD || ptr1->key == ARG
+				|| ptr1->key == LESSER || ptr1->key == GREATER
+				|| ptr1->key == INFILE || ptr1->key == OUTFILE))
 		{
 			ptr2 = ptr1->next;
 			if (ptr2)
@@ -268,12 +351,18 @@ t_dic	*ft_crea_dic(char *input)
 				while (input[i + j] && !ft_is_delimiter(input[i + j]))
 					j++;
 				ft_addpage_back(&dic, ft_pagenew(CMD, ft_substr(input, i, j)));
+				j--;
 			}
 			else
 			{
 				last_page = ft_lastpage(dic);
 				while (input[i + j] && input[i + j] != last_page->value[0])
 					j++;
+				if (!input[i + j])
+				{
+					g_glob.exit_status = SYNTAX_ERROR;
+					break ;
+				}
 				ft_addpage_back(&dic, ft_pagenew(CMD, ft_substr(input, i, j)));
 				j--;
 			}
@@ -311,7 +400,7 @@ t_dic	*ft_crea_dic(char *input)
 int	ft_is_delimiter(char c)
 {
 	if (c == ' ' || c == '\t' || c == '\n')
-		return (1);
+		return (SPACE);
 	else if (c == '\'')
 		return (SQUOTE);
 	else if (c == '\"')
