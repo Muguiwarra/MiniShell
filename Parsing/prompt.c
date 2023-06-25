@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 23:23:30 by nabboune          #+#    #+#             */
-/*   Updated: 2023/06/24 04:04:24 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/06/25 08:36:00 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	ft_prompt()
 {
+	char	*read;
 	char	*input;
 	t_dic	*dic;
 	// t_parsing_output	*out;
@@ -22,7 +23,8 @@ void	ft_prompt()
 	{
 		g_glob.exit_status = 0;
 		rl_on_new_line();
-		input = readline("MiniShell-0.1$ ");
+		read = readline("MiniShell-0.1$ ");
+		input = ft_rm_end_sp(read);
 
 		// To REMOVE after
 		if (ft_strncmp(input, "exit", 5) == 0)
@@ -41,12 +43,13 @@ void	ft_prompt()
 			ft_ending_prompt(input);
 			continue;
 		}
+		ft_rm_sp(&dic, 0);
 		while (dic)
 		{
 			printf("Present : %p\nKey : %d\nValue : %s\nNext : %p\nPrevious : %p\n\n", dic, dic->key, dic->value, dic->next, dic->previous);
 			dic = dic->next;
 		}
-		ft_ending_prompt(input);
+		ft_ending_prompt(read);
 	}
 }
 
@@ -105,5 +108,7 @@ int	ft_is_delimiter(char c)
 		return (GREATER);
 	else if (c == '|')
 		return (PIPE);
+	else if (c == '$')
+		return (DOLLAR);
 	return (0);
 }

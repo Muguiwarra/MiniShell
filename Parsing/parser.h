@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 23:24:08 by nabboune          #+#    #+#             */
-/*   Updated: 2023/06/24 06:44:55 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/06/25 08:33:40 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@
 #define APPEND 13
 #define PIPE 14
 #define SPACE 15
+#define VAR 16
 
 // Exit Status
 
@@ -84,7 +85,8 @@ t_dic				*ft_crea_dic(char *input);
 void				ft_check_dic(t_dic *dic);
 void				ft_update_dic(t_dic **dic);
 void				ft_less_great(t_dic **dic, t_dic *ptr1, int operation);
-void				ft_rm_sp(t_dic **dic);
+void				ft_rm_sp(t_dic **dic, int i);
+char				*ft_rm_end_sp(char *input);
 int					ft_check_exit();
 int					ft_open_infile(t_dic *dic);
 t_parsing_output	*ft_parsing_output(t_dic *dic);

@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 03:57:10 by nabboune          #+#    #+#             */
-/*   Updated: 2023/06/24 04:43:48 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/06/25 09:18:40 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,14 +83,20 @@ void	ft_addpage_back(t_dic **lst, t_dic *new)
 		*lst = new;
 }
 
-void	ft_rm_sp(t_dic **dic)
+void	ft_rm_sp(t_dic **dic, int i)
 {
 	t_dic	*ptr;
 
 	ptr = *dic;
 	while (ptr)
 	{
-		if (ptr->key == SPACE)
+		if (i == 0 && ptr->key == SPACE)
+		{
+			printf("$$\n");
+			ptr = ptr->next;
+			ft_del_page(dic, ptr->previous);
+		}
+		else if (i == 1 && ptr->key == SPACE)
 		{
 			while (ptr->next && ptr->next->key == SPACE)
 			{
@@ -101,3 +107,30 @@ void	ft_rm_sp(t_dic **dic)
 		ptr = ptr->next;
 	}
 }
+
+char	*ft_rm_end_sp(char *input)
+{
+	char	*output;
+	int		l;
+	int		i;
+
+	i = 0;
+	l = ft_strlen(input) - 1;
+	while(input[l] && (input[l] == ' ' || input[l] == '\t' ||
+		input[l] == '\n' || input[l] == '\v' || input[l] == '\f' ||
+		input[l] == '\r'))
+		l--;
+	output = ft_malloc(sizeof(l));
+	while (i <= l)
+	{
+		output[i] = input[i];
+		i++;
+	}
+	output[i] = '\0';
+	return (output);
+}
+
+// char	*ft_rm_multi_sp(char *input)
+// {
+// 	int
+// }
