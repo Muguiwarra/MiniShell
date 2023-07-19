@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 23:23:30 by nabboune          #+#    #+#             */
-/*   Updated: 2023/07/19 11:05:20 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/07/19 19:22:06 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	ft_prompt()
 {
-	char	*read;
 	char	*input;
 	t_dic	*dic;
 	// t_parsing_output	*out;
@@ -23,8 +22,7 @@ void	ft_prompt()
 	{
 		g_glob.exit_status = 0;
 		rl_on_new_line();
-		read = readline("MiniShell-0.1$ ");
-		input = ft_rm_end_sp(read);
+		input = readline("MiniShell-0.1$ ");
 
 		// To REMOVE after
 		if (ft_strncmp(input, "exit", 5) == 0)
@@ -46,10 +44,10 @@ void	ft_prompt()
 		ft_rm_sp(&dic, 0);
 		while (dic)
 		{
-			printf("Present : %p\nKey : %d\nValue : %s\nNext : %p\nPrevious : %p\n\n", dic, dic->key, dic->value, dic->next, dic->previous);
+			printf("Present : %p\nKey : %d\nValue : %s\nPipe : %d\nNext : %p\nPrevious : %p\n\n", dic, dic->key, dic->value, dic->pipe, dic->next, dic->previous);
 			dic = dic->next;
 		}
-		ft_ending_prompt(read);
+		ft_ending_prompt(input);
 	}
 }
 
@@ -110,5 +108,9 @@ int	ft_is_delimiter(char c)
 		return (PIPE);
 	else if (c == '$')
 		return (DOLLAR);
+	else if (c == '\\')
+		return (BACKSLASH);
+	else if (c == '*')
+		return (ASTERISK);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 23:24:08 by nabboune          #+#    #+#             */
-/*   Updated: 2023/07/19 10:27:55 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/07/19 19:05:05 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@
 #define PIPE 14
 #define SPACE 15
 #define VAR 16
+#define BACKSLASH 17
+#define ASTERISK 18
 
 typedef struct	s_dic
 {
@@ -59,7 +61,7 @@ void				ft_new_line(int signum);
 void				ft_prompt();
 void				ft_ending_prompt(char *input);
 void				ft_addpage_back(t_dic **lst, t_dic *new);
-t_dic				*ft_pagenew(int key, char *value);
+t_dic				*ft_pagenew(int key, char *value, int pipe);
 void				ft_del_page(t_dic **dic, t_dic *page);
 t_dic				*ft_lastpage(t_dic *lst);
 t_dic				*ft_crea_dic(char *input);

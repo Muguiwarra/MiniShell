@@ -6,13 +6,13 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 03:57:10 by nabboune          #+#    #+#             */
-/*   Updated: 2023/07/19 12:00:56 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/07/19 18:43:17 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_dic	*ft_pagenew(int key, char *value)
+t_dic	*ft_pagenew(int key, char *value, int pipe)
 {
 	t_dic	*head;
 
@@ -20,7 +20,7 @@ t_dic	*ft_pagenew(int key, char *value)
 	if (!head)
 		exit (UNSPECIFIED_ERROR);
 	head->key = key;
-	head->pipe = 0;
+	head->pipe = pipe;
 	head->value = value;
 	head->next = NULL;
 	head->previous = NULL;
@@ -42,8 +42,17 @@ void	ft_del_page(t_dic **dic, t_dic *page)
 			next = ptr->next;
 			if (prev)
 				prev->next = next;
+			else
+			{
+				*dic = next;
+				if (next)
+					next->previous = NULL;
+			}
 			if (next)
 				next->previous = prev;
+			else
+				if (prev)
+					prev->next = NULL;
 			break;
 		}
 		ptr = ptr->next;
@@ -88,13 +97,30 @@ void	ft_rm_sp(t_dic **dic, int i)
 	t_dic	*ptr;
 
 	ptr = *dic;
+	while (ptr && ptr->key == SPACE)
+	{
+		if (ptr->next)
+		{
+			ptr = ptr->next;
+			ft_del_page(dic, ptr->previous);
+		}
+		else
+			break;
+	}
 	while (ptr)
 	{
 		if (i == 0 && ptr->key == SPACE)
 		{
-			printf("$$\n");
-			ptr = ptr->next;
-			ft_del_page(dic, ptr->previous);
+			if (ptr->next && ptr->next->key == SPACE)
+			{
+				ptr = ptr->next;
+				ft_del_page(dic, ptr->previous);
+			}
+			else
+			{
+				ft_del_page(dic, ptr);
+				break;
+			}
 		}
 		else if (i == 1 && ptr->key == SPACE)
 		{
@@ -107,30 +133,3 @@ void	ft_rm_sp(t_dic **dic, int i)
 		ptr = ptr->next;
 	}
 }
-
-char	*ft_rm_end_sp(char *input)
-{
-	char	*output;
-	int		l;
-	int		i;
-
-	i = 0;
-	l = ft_strlen(input);
-	while(input[l] && (input[l] == ' ' || input[l] == '\t' ||
-		input[l] == '\n' || input[l] == '\v' || input[l] == '\f' ||
-		input[l] == '\r'))
-		l--;
-	output = ft_malloc(l + 1);
-	while (i < l)
-	{
-		output[i] = input[i];
-		i++;
-	}
-	output[i] = '\0';
-	return (output);
-}
-
-// char	*ft_rm_multi_sp(char *input)
-// {
-// 	int
-// }
