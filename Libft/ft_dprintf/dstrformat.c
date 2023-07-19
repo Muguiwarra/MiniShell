@@ -6,7 +6,7 @@
 /*   By: ibel-har <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 14:01:21 by ibel-har          #+#    #+#             */
-/*   Updated: 2023/07/19 08:06:53 by ibel-har         ###   ########.fr       */
+/*   Updated: 2023/07/19 09:45:19 by ibel-har         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,19 @@ int	dstrformat(int fd, char c, va_list ptr)
 
 	count = 0;
 	if (c == 'c')
-		count += ft_putchar(fd, va_arg(ptr, int));
+		count += ft_dputchar(fd, va_arg(ptr, int));
 	else if (c == 's')
-		count += ft_putstr(fd, va_arg(ptr, char *));
+		count += ft_dputstr(fd, va_arg(ptr, char *));
 	else if (c == 'p')
 	{
-		count += ft_putstr(fd, "0x");
-		count += ft_putptr(fd, va_arg(ptr, unsigned long));
+		count += ft_dputstr(fd, "0x");
+		count += ft_dputptr(fd, va_arg(ptr, unsigned long));
 	}
 	else if (c == 'x' || c == 'X')
-		count += ft_puthex(fd, va_arg(ptr, unsigned int), c);
+		count += ft_dputhex(fd, va_arg(ptr, unsigned int), c);
 	else if (c == 'd' || c == 'i')
-		count += ft_putnbr(fd, va_arg(ptr, int), 0);
+		count += ft_dputnbr(fd, va_arg(ptr, int), 0);
 	else if (c == 'u')
-		count += ft_putnbr(fd, va_arg(ptr, int), 1);
+		count += ft_dputnbr(fd, va_arg(ptr, int), 1);
 	return (count);
 }
