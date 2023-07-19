@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   elem_op_dic.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ibel-har <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 03:57:10 by nabboune          #+#    #+#             */
-/*   Updated: 2023/07/19 09:09:12 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/07/19 09:24:52 by ibel-har         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 t_dic	*ft_pagenew(int key, char *value)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ibel-har <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 17:38:08 by ibel-har          #+#    #+#             */
-/*   Updated: 2023/07/19 09:10:42 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/07/19 09:18:33 by ibel-har         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,6 @@
 # include <stdarg.h>
 # include "../Libft/libft.h"
 
-typedef struct s_env
-{
-	char			*key;
-	char			*value;
-	struct s_env	*next;
-}	t_env;
-
-typedef struct s_global
-{
-	int		exit_status;
-}	t_global;
 
 t_env			*env_new(char *key, char *value);
 void			env_add_back(t_env **env, t_env *new);

@@ -6,11 +6,11 @@
 /*   By: ibel-har <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 12:35:34 by ibel-har          #+#    #+#             */
-/*   Updated: 2023/07/10 16:09:09 by ibel-har         ###   ########.fr       */
+/*   Updated: 2023/07/19 09:20:38 by ibel-har         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "exec.h"
+#include "../minishell.h"
 
 void	delete_env_var(t_env **env, char *key)
 {

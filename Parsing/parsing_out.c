@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_out.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ibel-har <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 04:01:06 by nabboune          #+#    #+#             */
-/*   Updated: 2023/07/19 09:09:25 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/07/19 09:26:05 by ibel-har         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 t_parsing_output	*ft_parsing_output(t_dic *dic)
 {

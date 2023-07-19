@@ -21,7 +21,3 @@ fclean: clean
 
 re: fclean all
 
-push:
-	git add .
-	git commit -m "init"
-	git push

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: nabboune <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: ibel-har <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/15 23:13:53 by nabboune          #+#    #+#              #
-#    Updated: 2023/07/19 09:04:38 by nabboune         ###   ########.fr        #
+#    Updated: 2023/07/19 09:33:42 by ibel-har         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,8 @@ NAME = minishell
 LIBFT = libft.a
 
 CC = cc
+
+MSG = "Auto_Commit"
 
 CFLAGS = -Wall -Wextra -Werror #-fsanitize=address
 
@@ -45,5 +47,10 @@ fclean : clean
 	cd Libft && $(MAKE) fclean && cd .. && $(RM) $(LIBFT) $(NAME)
 
 re : fclean all
+
+push :
+	git add .
+	git commit -m $(MSG)
+	git push
 
 .PHONY : all clean fclean re
