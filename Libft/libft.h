@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 22:26:49 by nabboune          #+#    #+#             */
-/*   Updated: 2023/07/19 08:53:21 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/07/19 10:23:02 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include <unistd.h>
 # include "ft_printf/ft_printf.h"
 # include "get_next_line/get_next_line.h"
-# include "ft_dprintf/ft_dprintf.h"
+# include "../src/src.h"
 
 typedef struct s_list
 {
@@ -43,6 +43,7 @@ int					ft_toupper(int x);
 int					ft_tolower(int x);
 char				*ft_strchr(const char *str, int c);
 char				*ft_strrchr(const char *str, int c);
+int					ft_strcmp(const char *s1, const char *s2);
 int					ft_strncmp(const char *s1, const char *s2, size_t n);
 void				*ft_memchr(const void *str, int c, size_t n);
 int					ft_memcmp(const void *s1, const void *s2, size_t n);
@@ -71,8 +72,5 @@ t_list				*ft_lstlast(t_list *lst);
 void				ft_lstadd_back(t_list **lst, t_list *new);
 void				ft_lstdelone(t_list *lst, void (*del)(void *));
 void				ft_lstclear(t_list **lst, void (*del)(void *));
-
-void				*ft_malloc(size_t size);
-void				ft_collect_garbadge();
 
 #endif

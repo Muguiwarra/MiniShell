@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibel-har <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 23:24:08 by nabboune          #+#    #+#             */
-/*   Updated: 2023/07/19 08:26:03 by ibel-har         ###   ########.fr       */
+/*   Updated: 2023/07/19 10:27:55 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_H
-#define PARSER_H
+# define PARSER_H
 
-#include "../Libft/libft.h"
-#include <signal.h>
-#include <readline/readline.h>
-#include <readline/history.h>
+# include "../Libft/libft.h"
+# include <signal.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 
 // What is writted
 
@@ -38,22 +38,6 @@
 #define SPACE 15
 #define VAR 16
 
-// Exit Status
-
-#define SUCCES 0
-#define UNSPECIFIED_ERROR 1
-#define MAXIMUM_HEREDOC 2
-#define CMD_NOT_EXECUTABLE 126
-#define CMD_NOT_FOUND 127
-#define SYNTAX_ERROR 258
-
-typedef struct	s_env
-{
-	char			*key;
-	char			*value;
-	struct s_env	*next;
-}				t_env;
-
 typedef struct	s_dic
 {
 	int				key;
@@ -70,16 +54,6 @@ typedef struct	s_parsing_output
 	int		fd_outfile;
 }				t_parsing_output;
 
-typedef struct	s_global
-{
-	char	**env;
-	char	**paths;
-	int		exit_status;
-	int		exit_stat;
-	t_list	*allocations;
-}				t_global;
-
-t_global			g_glob;
 int					ft_is_delimiter(char c);
 void				ft_new_line(int signum);
 void				ft_prompt();
@@ -99,8 +73,8 @@ int					ft_open_infile(t_dic *dic);
 t_parsing_output	*ft_parsing_output(t_dic *dic);
 
 // To Remove : Testing
-void	ft_exec(char **paths, char **env);
-char	**ft_get_paths(char **env);
-void	ft_ending_prompt_exec(char *input);
+// void	ft_exec(char **paths, char **env);
+// char	**ft_get_paths(char **env);
+// void	ft_ending_prompt_exec(char *input);
 
 #endif

@@ -6,7 +6,7 @@
 #    By: nabboune <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/26 04:47:10 by nabboune          #+#    #+#              #
-#    Updated: 2023/07/19 08:47:44 by nabboune         ###   ########.fr        #
+#    Updated: 2023/07/19 10:23:10 by nabboune         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,6 @@ SRCS = 	ft_atoi.c \
 		ft_isdigit.c \
 		ft_isprint.c \
 		ft_itoa.c \
-		ft_malloc.c \
 		ft_memchr.c \
 		ft_memcmp.c \
 		ft_memcpy.c \
@@ -42,6 +41,7 @@ SRCS = 	ft_atoi.c \
 		ft_strlcpy.c \
 		ft_strlen.c \
 		ft_strmapi.c \
+		ft_strcmp.c \
 		ft_strncmp.c \
 		ft_strnstr.c \
 		ft_strrchr.c \
@@ -64,14 +64,7 @@ SRCS = 	ft_atoi.c \
 		get_next_line/get_next_line.c \
 		get_next_line/get_next_line_bonus.c \
 		get_next_line/get_next_line_utils.c \
-		get_next_line/get_next_line_utils_bonus.c \
-		ft_dprintf/ft_dputchar.c \
-		ft_dprintf/dstrformat.c \
-		ft_dprintf/ft_dputptr.c \
-		ft_dprintf/ft_dprintf.c \
-		ft_dprintf/ft_dputhex.c \
-		ft_dprintf/ft_dputstr.c \
-		ft_dprintf/ft_dputnbr.c
+		get_next_line/get_next_line_utils_bonus.c
 
 OBJS = $(SRCS:.c=.o)
 

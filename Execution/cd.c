@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibel-har <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 07:55:14 by ibel-har          #+#    #+#             */
-/*   Updated: 2023/07/19 09:19:20 by ibel-har         ###   ########.fr       */
+/*   Updated: 2023/07/19 10:24:52 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void	cd_home(t_env **env, char *path)
 {
 	char	*home;
 
+	(void) path;
 	home = get_t_env(*env, "HOME");
 	if (home == NULL)
 	{
@@ -71,6 +72,7 @@ void	cd_prevwd(t_env **env, char *path)
 {
 	char	*oldpwd;
 
+	(void) path;
 	oldpwd = get_t_env(*env, "OLDPWD");
 	if (oldpwd == NULL)
 	{

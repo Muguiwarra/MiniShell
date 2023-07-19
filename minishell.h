@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 08:57:48 by nabboune          #+#    #+#             */
-/*   Updated: 2023/07/19 09:08:00 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/07/19 10:14:48 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,5 +15,24 @@
 
 # include "Parsing/parser.h"
 # include "Execution/exec.h"
+# include "src/ft_dprintf/ft_dprintf.h"
+
+# define SUCCES 0
+# define UNSPECIFIED_ERROR 1
+# define MAXIMUM_HEREDOC 2
+# define CMD_NOT_EXECUTABLE 126
+# define CMD_NOT_FOUND 127
+# define SYNTAX_ERROR 258
+
+typedef struct	s_global
+{
+	char	**env;
+	char	**paths;
+	int		exit_status;
+	int		exit_stat;
+	t_list	*allocations;
+}				t_global;
+
+t_global			g_glob;
 
 #endif

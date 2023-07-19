@@ -1,25 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Minishell.c                                        :+:      :+:    :+:   */
+/*   src.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/15 23:23:14 by nabboune          #+#    #+#             */
-/*   Updated: 2023/07/19 10:26:59 by nabboune         ###   ########.fr       */
+/*   Created: 2023/07/19 10:14:01 by nabboune          #+#    #+#             */
+/*   Updated: 2023/07/19 10:15:25 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#ifndef SRC_H
+#define SRC_H
 
-int	main(int ac, char **av, char **env)
-{
-	(void) ac;
-	(void) av;
-	g_glob.env = env;
-	// g_glob.paths = ft_get_paths(g_glob.env);
-	signal(SIGINT, &ft_new_line);
-	ft_prompt();
+#include "ft_dprintf/ft_dprintf.h"
 
-	return (0);
-}
+void *ft_malloc(size_t size);
+void ft_collect_garbadge();
+
+#endif

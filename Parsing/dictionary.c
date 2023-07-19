@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dictionary.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibel-har <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 03:53:58 by nabboune          #+#    #+#             */
-/*   Updated: 2023/07/19 09:24:48 by ibel-har         ###   ########.fr       */
+/*   Updated: 2023/07/19 12:39:27 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ t_dic	*ft_crea_dic(char *input)
 				ft_addpage_back(&dic, ft_pagenew(CMD, ft_substr(input, i, j)));
 				j--;
 			}
+			// hna kayne lmochkile !!!
 			else
 			{
 				last_page = ft_lastpage(dic);
@@ -151,6 +152,7 @@ void	ft_update_dic(t_dic **dic)
 void	ft_check_dic(t_dic *dic)
 {
 	int	i;
+	// int	j = 0;
 	int	doc;
 
 	i = 0;
@@ -166,6 +168,7 @@ void	ft_check_dic(t_dic *dic)
 				g_glob.exit_status = SYNTAX_ERROR;
 			while (dic)
 			{
+				printf("{%s}\n", dic->value);
 				if (dic->key == DQUOTE)
 				{
 					i++;
@@ -205,6 +208,7 @@ void	ft_check_dic(t_dic *dic)
 			}
 		}
 		i = 0;
+		// printf("{%p}\n", dic);
 		dic = dic->next;
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   elem_op_dic.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibel-har <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 03:57:10 by nabboune          #+#    #+#             */
-/*   Updated: 2023/07/19 09:24:52 by ibel-har         ###   ########.fr       */
+/*   Updated: 2023/07/19 12:00:56 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,13 +115,13 @@ char	*ft_rm_end_sp(char *input)
 	int		i;
 
 	i = 0;
-	l = ft_strlen(input) - 1;
+	l = ft_strlen(input);
 	while(input[l] && (input[l] == ' ' || input[l] == '\t' ||
 		input[l] == '\n' || input[l] == '\v' || input[l] == '\f' ||
 		input[l] == '\r'))
 		l--;
-	output = ft_malloc(sizeof(l));
-	while (i <= l)
+	output = ft_malloc(l + 1);
+	while (i < l)
 	{
 		output[i] = input[i];
 		i++;

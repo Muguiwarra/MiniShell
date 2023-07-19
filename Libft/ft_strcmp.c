@@ -1,25 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Minishell.c                                        :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/15 23:23:14 by nabboune          #+#    #+#             */
-/*   Updated: 2023/07/19 10:26:59 by nabboune         ###   ########.fr       */
+/*   Created: 2023/07/19 10:22:34 by nabboune          #+#    #+#             */
+/*   Updated: 2023/07/19 10:22:37 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(int ac, char **av, char **env)
+int	ft_strcmp(const char *s1, const char *s2)
 {
-	(void) ac;
-	(void) av;
-	g_glob.env = env;
-	// g_glob.paths = ft_get_paths(g_glob.env);
-	signal(SIGINT, &ft_new_line);
-	ft_prompt();
+	size_t			i;
+	unsigned char	*str1;
+	unsigned char	*str2;
 
+	if (!s1 || !s2)
+		return (-1);
+	str1 = (unsigned char *)s1;
+	str2 = (unsigned char *)s2;
+	i = 0;
+	while ((str1[i] != '\0') || (str2[i] != '\0'))
+	{
+		if ((str1[i] != str2[i]))
+			return (str1[i] - str2[i]);
+		i++;
+	}
 	return (0);
 }

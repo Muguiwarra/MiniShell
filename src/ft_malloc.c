@@ -6,12 +6,11 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 03:04:17 by nabboune          #+#    #+#             */
-/*   Updated: 2023/06/21 03:18:35 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/07/19 10:13:25 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "../Parsing/parser.h"
+#include "../minishell.h"
 
 void	*ft_malloc(size_t size)
 {
