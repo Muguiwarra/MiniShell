@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibel-har <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 19:30:42 by ibel-har          #+#    #+#             */
-/*   Updated: 2023/07/08 18:14:40 by ibel-har         ###   ########.fr       */
+/*   Updated: 2023/07/19 09:08:42 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "exec.h"
+#include "minishell.h"
 
 t_env	*env_new(char *key, char *value)
 {

@@ -1,27 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd_back_bonus.c                             :+:      :+:    :+:   */
+/*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibel-har <ibel-har@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/10 13:03:17 by ibel-har          #+#    #+#             */
-/*   Updated: 2022/11/12 18:24:48 by ibel-har         ###   ########.fr       */
+/*   Created: 2023/07/19 08:57:48 by nabboune          #+#    #+#             */
+/*   Updated: 2023/07/19 09:08:00 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef MINISHELL_H
+# define MINISHELL_H
 
-void	ft_lstadd_back(t_list **lst, t_list *new)
-{
-	t_list	*last;
+# include "Parsing/parser.h"
+# include "Execution/exec.h"
 
-	last = NULL;
-	if (!*lst && new)
-		*lst = new;
-	else
-	{
-		last = ft_lstlast(*lst);
-		last->next = new;
-	}
-}
+#endif

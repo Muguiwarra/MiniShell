@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   export_print.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibel-har <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 11:37:52 by ibel-har          #+#    #+#             */
-/*   Updated: 2023/07/10 09:22:22 by ibel-har         ###   ########.fr       */
+/*   Updated: 2023/07/19 09:08:52 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "exec.h"
+#include "minishell.h"
 
 t_env	*cp_env(t_env *env)
 {

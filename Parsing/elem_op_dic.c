@@ -6,11 +6,11 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 03:57:10 by nabboune          #+#    #+#             */
-/*   Updated: 2023/06/25 09:18:40 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/07/19 09:09:12 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "minishell.h"
 
 t_dic	*ft_pagenew(int key, char *value)
 {

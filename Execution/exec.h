@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibel-har <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 17:38:08 by ibel-har          #+#    #+#             */
-/*   Updated: 2023/07/10 19:50:50 by ibel-har         ###   ########.fr       */
+/*   Updated: 2023/07/19 09:10:42 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXEC_H
 # define EXEC_H
+
 # include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
@@ -19,7 +20,7 @@
 # include <fcntl.h>
 # include <limits.h>
 # include <stdarg.h>
-# include "libft/libft.h"
+# include "../Libft/libft.h"
 
 typedef struct s_env
 {

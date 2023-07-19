@@ -6,11 +6,11 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 04:04:06 by nabboune          #+#    #+#             */
-/*   Updated: 2023/06/24 04:04:35 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/07/19 09:09:19 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "minishell.h"
 
 int		ft_open_infile(t_dic *dic)
 {

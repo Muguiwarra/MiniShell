@@ -6,11 +6,11 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/25 06:26:17 by nabboune          #+#    #+#             */
-/*   Updated: 2023/06/25 07:22:02 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/07/19 09:09:15 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "minishell.h"
 
 char	*ft_export(char *var)
 {

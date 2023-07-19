@@ -6,7 +6,7 @@
 #    By: nabboune <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/15 23:13:53 by nabboune          #+#    #+#              #
-#    Updated: 2023/06/24 04:05:33 by nabboune         ###   ########.fr        #
+#    Updated: 2023/07/19 09:04:38 by nabboune         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ SRCS =	Minishell.c \
 		Parsing/elem_op_dic.c \
 		Parsing/dictionary.c \
 		Parsing/parsing_out.c \
-		Parsing/testing.c
+		#Parsing/testing.c
 
 OBJS = $(SRCS:.c=.o)
 
