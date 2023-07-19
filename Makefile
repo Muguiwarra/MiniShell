@@ -6,7 +6,7 @@
 #    By: ibel-har <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/15 23:13:53 by nabboune          #+#    #+#              #
-#    Updated: 2023/07/19 09:33:42 by ibel-har         ###   ########.fr        #
+#    Updated: 2023/07/19 09:36:56 by ibel-har         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,8 +15,6 @@ NAME = minishell
 LIBFT = libft.a
 
 CC = cc
-
-MSG = "Auto_Commit"
 
 CFLAGS = -Wall -Wextra -Werror #-fsanitize=address
 
