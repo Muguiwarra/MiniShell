@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 03:53:58 by nabboune          #+#    #+#             */
-/*   Updated: 2023/06/24 06:49:48 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/06/25 09:20:35 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,15 @@ t_dic	*ft_crea_dic(char *input)
 				ft_addpage_back(&dic, ft_pagenew(GREATER, ">\0"));
 			else if (input[i] && ft_is_delimiter(input[i]) == PIPE)
 				ft_addpage_back(&dic, ft_pagenew(PIPE, "|\0"));
+			else if (input[i] && ft_is_delimiter(input[i]) == DOLLAR && !ft_is_delimiter(input[i + 1]))
+			{
+				// NEED TO CHECK ! why if multiple spaces are next to dollar
+				// the spaces don't get removed after calling the fct ft_rm_sp() !!
+				while (input[i + j + 1] && !ft_is_delimiter(input[i + j + 1]))
+					j++;
+				ft_addpage_back(&dic, ft_pagenew(DOLLAR, "$\0"));
+				ft_addpage_back(&dic, ft_pagenew(VAR, ft_substr(input, i + 1, j)));
+			}
 		}
 		i += j + 1;
 	}
@@ -88,13 +97,17 @@ void	ft_update_dic(t_dic **dic)
 	t_dic	*ptr2;
 	t_dic	*ptr3;
 
-	ft_rm_sp(dic);
+	ft_rm_sp(dic, 1);
 	ptr1 = *dic;
 	i = 1;
 	while (ptr1)
 	{
 		if (ptr1->key == LESSER)
+		{
+			if (ptr1->next && ptr1->next->key == GREATER)
+				ft_del_page(dic, ptr1->next);
 			ft_less_great(dic, ptr1, LESSER);
+		}
 		else if (ptr1->key == GREATER)
 			ft_less_great(dic, ptr1, GREATER);
 		else if (ptr1->key == PIPE)
@@ -200,23 +213,12 @@ void	ft_less_great(t_dic **dic, t_dic *ptr1, int operation)
 {
 	t_dic	*ptr2;
 
-	if (ptr1->next)
+	ptr2 = ptr1->next;
+	if (ptr2)
 	{
-		ptr2 = ptr1->next;
-		if (ptr2 && ptr2->key == SPACE)
-		{
+		while (ptr2 && ptr2->key == SPACE)
 			ptr2 = ptr2->next;
-			if (!ptr2 || (ptr2 && ptr2->key != CMD))
-				g_glob.exit_status = SYNTAX_ERROR;
-			else
-			{
-				if (operation == LESSER)
-					ptr2->key = INFILE;
-				else
-					ptr2->key = OUTFILE;
-			}
-		}
-		else if (ptr2 && ptr2->key == CMD)
+		if (ptr2 && ptr2->key == CMD)
 		{
 			if (operation == LESSER)
 				ptr2->key = INFILE;
@@ -230,7 +232,7 @@ void	ft_less_great(t_dic **dic, t_dic *ptr1, int operation)
 			else
 				ptr2->next->key = OUTFILE;
 		}
-		if (ptr2 && ptr2->key == operation)
+		else if (ptr2 && ptr2->key == operation)
 		{
 			while (ptr2->next && ptr2->next->key == SPACE)
 			{
