@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 23:24:08 by nabboune          #+#    #+#             */
-/*   Updated: 2023/07/20 12:37:34 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/07/20 20:08:30 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,12 @@ int					ft_check_exit();
 int					ft_open_infile(t_dic *dic);
 
 int					ft_pipes(t_dic *dic);
-int					ft_infile(t_dic *dic, int in);
 int					ft_nb_infiles(t_dic *dic, int pipe);
+int					ft_nb_outfiles(t_dic *dic, int pipe);
+int					ft_nb_cmd(t_dic *dic, int pipe);
+int					ft_infile(t_dic *dic, int in, int pipe);
+int					ft_outfile(t_dic *dic, int out, int pipe);
+char				**ft_getcmd(t_dic *dic, int nb_cmd, int pipe);
 t_parsing_output	*ft_parse_out(t_dic *dic);
 
 // To Remove : Testing

@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 23:23:30 by nabboune          #+#    #+#             */
-/*   Updated: 2023/07/20 08:59:54 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/07/20 20:00:17 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,11 @@ void	ft_prompt()
 		}
 		ft_rm_sp(&dic, 0);
 		out = ft_parse_out(dic);
-		while (dic)
-		{
-			printf("Present : %p\nKey : %d\nValue : %s\nPipe : %d\nNext : %p\nPrevious : %p\n\n", dic, dic->key, dic->value, dic->pipe, dic->next, dic->previous);
-			dic = dic->next;
-		}
+		// while (dic)
+		// {
+		// 	printf("Present : %p\nKey : %d\nValue : %s\nPipe : %d\nNext : %p\nPrevious : %p\n\n", dic, dic->key, dic->value, dic->pipe, dic->next, dic->previous);
+		// 	dic = dic->next;
+		// }
 		ft_ending_prompt(input);
 	}
 }
