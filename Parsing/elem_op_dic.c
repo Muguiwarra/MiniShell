@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 03:57:10 by nabboune          #+#    #+#             */
-/*   Updated: 2023/07/19 18:43:17 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/07/20 12:32:40 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,20 @@ t_dic	*ft_pagenew(int key, char *value, int pipe)
 	head->value = value;
 	head->next = NULL;
 	head->previous = NULL;
+	return (head);
+}
+
+t_parsing_output	*ft_newpipe(int in, int out, char **cmd)
+{
+	t_parsing_output	*head;
+
+	head = ft_malloc(sizeof(t_parsing_output));
+	if (!head)
+		exit (UNSPECIFIED_ERROR);
+	head->fd_infile = in;
+	head->fd_outfile = out;
+	head->cmd = cmd;
+	head->next = NULL;
 	return (head);
 }
 
@@ -69,6 +83,16 @@ t_dic	*ft_lastpage(t_dic *lst)
 	return (lst);
 }
 
+t_parsing_output	*ft_lastpipe(t_parsing_output *lst)
+{
+	if (lst)
+	{
+		while (lst->next)
+			lst = lst->next;
+	}
+	return (lst);
+}
+
 void	ft_addpage_back(t_dic **lst, t_dic *new)
 {
 	t_dic	*ptr1;
@@ -87,6 +111,19 @@ void	ft_addpage_back(t_dic **lst, t_dic *new)
 				ptr1->previous = ptr2;
 			ptr2 = ptr1;
 		}
+	}
+	else
+		*lst = new;
+}
+
+void	ft_addpipe_back(t_parsing_output **lst, t_parsing_output *new)
+{
+	t_parsing_output	*ptr1;
+
+	if (*lst)
+	{
+		ptr1 = ft_lastpipe(*lst);
+		ptr1->next = new;
 	}
 	else
 		*lst = new;

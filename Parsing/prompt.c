@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 23:23:30 by nabboune          #+#    #+#             */
-/*   Updated: 2023/07/19 19:22:06 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/07/20 08:59:54 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	ft_prompt()
 {
 	char	*input;
 	t_dic	*dic;
-	// t_parsing_output	*out;
+	t_parsing_output	*out;
 
 	while (1)
 	{
@@ -42,6 +42,7 @@ void	ft_prompt()
 			continue;
 		}
 		ft_rm_sp(&dic, 0);
+		out = ft_parse_out(dic);
 		while (dic)
 		{
 			printf("Present : %p\nKey : %d\nValue : %s\nPipe : %d\nNext : %p\nPrevious : %p\n\n", dic, dic->key, dic->value, dic->pipe, dic->next, dic->previous);

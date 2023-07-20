@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 19:21:21 by nabboune          #+#    #+#             */
-/*   Updated: 2023/07/19 22:05:31 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/07/20 12:38:34 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	ft_pipes(t_dic *dic)
 	return (ptr->pipe + 1);
 }
 
-int	ft_infiles(t_dic *dic, int pipe)
+int	ft_nb_infiles(t_dic *dic, int pipe)
 {
 	int	i;
 
@@ -39,45 +39,66 @@ int	ft_infiles(t_dic *dic, int pipe)
 	return (i);
 }
 
-t_parsing_output	ft_parse_out(t_dic *dic)
+int	ft_infile(t_dic *dic, int in)
 {
-	t_dic	*ptr;
-	int		fd_in;
-	int		*in;
-	int		i;
-	int		pipe;
+	int		fd_infile;
 	int		p;
+	int		i;
 
-	ptr = dic;
-	pipe = ft_pipes(dic);
-	i = 0;
+	fd_infile = 0;
 	p = 0;
-	in = ft_malloc(sizeof(int) * pipe);
-	while (p < pipe)
-		in[i++] = ft_infiles(dic, p++);
 	i = 0;
-	p = 0;
-	while (ptr)
+	while (dic)
 	{
-		while (ptr && ptr->pipe == p)
+		while (dic && dic->pipe == p)
 		{
-			if (ptr->key == INFILE)
+			if (dic->key == INFILE)
 			{
-				fd_in = open(ptr->value, O_RDONLY);
-				if (fd_in == -1)
+				fd_infile = open(dic->value, O_RDONLY);
+				if (fd_infile == -1)
 				{
-					// ft_dprintf(2, "MiniShell : %s : No such file or directory", ptr->value);
-					perror("MiniShell : ");
+					perror(ft_strjoin("MiniShell : ", dic->value));
 					p++;
 					g_glob.exit_status = UNSPECIFIED_ERROR;
 					break ;
 				}
 				i++;
-				if (i != in[p]);
-					if (close(fd_in) == -1)
+				if (i != in)
+				{
+					if (close(fd_infile) == -1)
+					{
 						perror("MiniShell : ");
+						g_glob.exit_status = UNSPECIFIED_ERROR;
+						break ;
+					}
+				}
 			}
-			ptr = ptr->next;
+			dic = dic->next;
 		}
+		p++;
+		if (dic)
+			dic = dic->next;
 	}
+	return (fd_infile);
+}
+
+t_parsing_output	*ft_parse_out(t_dic *dic)
+{
+	int					in;
+	int					pipe;
+	int					p;
+	t_dic				*ptr;
+	t_parsing_output	*out;
+
+	ptr = dic;
+	pipe = ft_pipes(dic);
+	p = 0;
+	out = NULL;
+	while (p < pipe)
+	{
+		in = ft_nb_infiles(dic, p++);
+		ft_addpipe_back(&out, ft_newpipe(ft_infile(dic, in), 0, NULL));
+		printf("{%d}\n", out->fd_infile);
+	}
+	return (out);
 }

@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 23:24:08 by nabboune          #+#    #+#             */
-/*   Updated: 2023/07/19 19:05:05 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/07/20 12:37:34 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,19 +51,26 @@ typedef struct	s_dic
 
 typedef struct	s_parsing_output
 {
-	char	**cmd;
-	int		fd_infile;
-	int		fd_outfile;
+	char						**cmd;
+	int							fd_infile;
+	int							fd_outfile;
+	struct	s_parsing_output	*next;
 }				t_parsing_output;
 
 int					ft_is_delimiter(char c);
 void				ft_new_line(int signum);
 void				ft_prompt();
 void				ft_ending_prompt(char *input);
+
 void				ft_addpage_back(t_dic **lst, t_dic *new);
 t_dic				*ft_pagenew(int key, char *value, int pipe);
 void				ft_del_page(t_dic **dic, t_dic *page);
 t_dic				*ft_lastpage(t_dic *lst);
+
+t_parsing_output	*ft_newpipe(int in, int out, char **cmd);
+t_parsing_output	*ft_lastpipe(t_parsing_output *lst);
+void				ft_addpipe_back(t_parsing_output **lst, t_parsing_output *new);
+
 t_dic				*ft_crea_dic(char *input);
 void				ft_check_dic(t_dic *dic);
 void				ft_update_dic(t_dic **dic);
@@ -72,7 +79,11 @@ void				ft_rm_sp(t_dic **dic, int i);
 char				*ft_rm_end_sp(char *input);
 int					ft_check_exit();
 int					ft_open_infile(t_dic *dic);
-t_parsing_output	*ft_parsing_output(t_dic *dic);
+
+int					ft_pipes(t_dic *dic);
+int					ft_infile(t_dic *dic, int in);
+int					ft_nb_infiles(t_dic *dic, int pipe);
+t_parsing_output	*ft_parse_out(t_dic *dic);
 
 // To Remove : Testing
 // void	ft_exec(char **paths, char **env);
