@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 03:53:58 by nabboune          #+#    #+#             */
-/*   Updated: 2023/07/19 20:19:31 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/07/21 00:05:05 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,10 @@ t_dic	*ft_crea_dic(char *input)
 	open = 0;
 	pipe = 0;
 	dic = NULL;
+	while(input[i] && ft_is_delimiter(input[i]) == SPACE)
+		i++;
+	if (!input[i])
+		return (NULL);
 	while (input[i])
 	{
 		j = 0;
@@ -111,8 +115,8 @@ int		ft_skip_char(char c)
 void	ft_update_dic(t_dic **dic)
 {
 	t_dic	*ptr1;
-	t_dic	*ptr2;
-	t_dic	*ptr3;
+	// t_dic	*ptr2;
+	// t_dic	*ptr3;
 
 	ft_rm_sp(dic, 1);
 	ptr1 = *dic;
@@ -133,25 +137,25 @@ void	ft_update_dic(t_dic **dic)
 		}
 		ptr1 = ptr1->next;
 	}
-	ptr1 = *dic;
-	while (ptr1)
-	{
-		ptr3 = ptr1;
-		while (ptr1 && (ptr1->key == CMD || ptr1->key == ARG
-				|| ptr1->key == LESSER || ptr1->key == GREATER
-				|| ptr1->key == INFILE || ptr1->key == OUTFILE))
-		{
-			ptr2 = ptr1->next;
-			if (ptr2)
-			{
-				if (ptr2->key == CMD)
-					ptr2->key = ARG;
-			}
-			ptr1 = ptr1->next;
-		}
-		if (ptr1 == ptr3)
-			ptr1 = ptr1->next;
-	}
+	// ptr1 = *dic;
+	// while (ptr1)
+	// {
+	// 	ptr3 = ptr1;
+	// 	while (ptr1 && (ptr1->key == CMD || ptr1->key == ARG
+	// 			|| ptr1->key == LESSER || ptr1->key == GREATER
+	// 			|| ptr1->key == INFILE || ptr1->key == OUTFILE))
+	// 	{
+	// 		ptr2 = ptr1->next;
+	// 		if (ptr2)
+	// 		{
+	// 			if (ptr2->key == CMD)
+	// 				ptr2->key = ARG;
+	// 		}
+	// 		ptr1 = ptr1->next;
+	// 	}
+	// 	if (ptr1 == ptr3)
+	// 		ptr1 = ptr1->next;
+	// }
 }
 
 void	ft_check_dic(t_dic *dic)
@@ -215,6 +219,8 @@ void	ft_check_dic(t_dic *dic)
 	}
 }
 
+// SEGEV when "<<<" or ">>>" !!!!!
+
 void	ft_less_great(t_dic **dic, t_dic *ptr1, int operation)
 {
 	t_dic	*ptr2;
@@ -245,10 +251,15 @@ void	ft_less_great(t_dic **dic, t_dic *ptr1, int operation)
 				ft_del_page(dic, ptr2);
 				ptr2 = ptr2->next;
 			}
-			if (ptr2->next && ptr2->next->key != CMD)
+			if (ptr2->next && (ptr2->next->key == LESSER || ptr2->next->key == GREATER))
 				g_glob.exit_status = SYNTAX_ERROR;
 			else
 			{
+				if (ptr2->next->key == DQUOTE || ptr2->next->key == SQUOTE)
+				{
+					ft_del_page(dic, ptr2->next);
+					ft_del_page(dic, ptr2->next->next);
+				}
 				ft_del_page(dic, ptr2);
 				if (operation == LESSER)
 					ptr1->key = HEREDOC;

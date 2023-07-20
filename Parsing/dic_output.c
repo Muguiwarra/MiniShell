@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 19:21:21 by nabboune          #+#    #+#             */
-/*   Updated: 2023/07/20 20:08:41 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/07/20 22:36:50 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,6 @@ char	**ft_getcmd(t_dic *dic, int nb_cmd, int pipe)
 
 	cmd = ft_malloc((nb_cmd + 1) * sizeof(char *));
 	i = 0;
-	cmd[i] = NULL;
 	while (dic)
 	{
 		while (dic && dic->pipe != pipe)
@@ -176,8 +175,6 @@ char	**ft_getcmd(t_dic *dic, int nb_cmd, int pipe)
 	return (cmd);
 }
 
-//SEGEV if Space only
-
 t_parsing_output	*ft_parse_out(t_dic *dic)
 {
 	int					pipe;
@@ -185,7 +182,9 @@ t_parsing_output	*ft_parse_out(t_dic *dic)
 	t_dic				*ptr;
 	t_parsing_output	*output;
 
+	// Start : To Remove After
 	int					i;
+	// End : To Remove After
 
 	ptr = dic;
 	pipe = ft_pipes(dic);
@@ -196,6 +195,8 @@ t_parsing_output	*ft_parse_out(t_dic *dic)
 		ft_addpipe_back(&output, ft_newpipe(ft_infile(dic, ft_nb_infiles(dic, p), p), ft_outfile(dic, ft_nb_outfiles(dic, p), p), ft_getcmd(dic, ft_nb_cmd(dic, p), p)));
 		p++;
 	}
+
+	// Start : To Remove After
 	while (output)
 	{
 		printf("{in : %d}\n", output->fd_infile);
@@ -206,5 +207,7 @@ t_parsing_output	*ft_parse_out(t_dic *dic)
 		printf("\n");
 		output = output->next;
 	}
+	// End : To Remove After
+
 	return (output);
 }
