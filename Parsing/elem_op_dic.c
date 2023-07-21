@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 03:57:10 by nabboune          #+#    #+#             */
-/*   Updated: 2023/07/20 12:32:40 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/07/21 21:21:06 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,11 @@ t_dic	*ft_pagenew(int key, char *value, int pipe)
 {
 	t_dic	*head;
 
-	head = ft_malloc(sizeof(t_dic));
+	head = ft_malloc(sizeof(t_dic), 1);
 	if (!head)
 		exit (UNSPECIFIED_ERROR);
 	head->key = key;
+	head->special = 0;
 	head->pipe = pipe;
 	head->value = value;
 	head->next = NULL;
@@ -31,7 +32,7 @@ t_parsing_output	*ft_newpipe(int in, int out, char **cmd)
 {
 	t_parsing_output	*head;
 
-	head = ft_malloc(sizeof(t_parsing_output));
+	head = ft_malloc(sizeof(t_parsing_output), 1);
 	if (!head)
 		exit (UNSPECIFIED_ERROR);
 	head->fd_infile = in;
@@ -47,6 +48,11 @@ void	ft_del_page(t_dic **dic, t_dic *page)
 	t_dic	*prev;
 	t_dic	*next;
 
+	if (*dic == page)
+	{
+		*dic = (*dic)->next;
+		(*dic)->previous = NULL;
+	}
 	ptr = *dic;
 	while(ptr)
 	{

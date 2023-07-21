@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 19:21:21 by nabboune          #+#    #+#             */
-/*   Updated: 2023/07/20 22:36:50 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/07/21 17:40:28 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int	ft_infile(t_dic *dic, int in, int pipe)
 				fd_infile = open(dic->value, O_RDONLY, 0644);
 				if (fd_infile == -1)
 				{
-					perror(ft_strjoin("MiniShell : ", dic->value));
+					perror(ft_strjoin("MiniShell : ", dic->value, 1));
 					g_glob.exit_status = UNSPECIFIED_ERROR;
 					break ;
 				}
@@ -122,7 +122,7 @@ int	ft_outfile(t_dic *dic, int out, int pipe)
 				fd_outfile = open(dic->value, O_CREAT | O_RDWR, 0644);
 				if (fd_outfile == -1)
 				{
-					perror(ft_strjoin("MiniShell : ", dic->value));
+					perror(ft_strjoin("MiniShell : ", dic->value, 1));
 					g_glob.exit_status = UNSPECIFIED_ERROR;
 					break ;
 				}
@@ -150,7 +150,7 @@ char	**ft_getcmd(t_dic *dic, int nb_cmd, int pipe)
 	char	**cmd;
 	int		i;
 
-	cmd = ft_malloc((nb_cmd + 1) * sizeof(char *));
+	cmd = ft_malloc((nb_cmd + 1) * sizeof(char *), 1);
 	i = 0;
 	while (dic)
 	{

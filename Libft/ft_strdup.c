@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 17:11:55 by nabboune          #+#    #+#             */
-/*   Updated: 2023/06/21 03:03:08 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/07/21 17:33:49 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*ft_strdup(const char *s1)
 	size_t	i;
 
 	i = 0;
-	ptr = (char *)ft_malloc(ft_strlen(s1) + 1);
+	ptr = (char *)ft_malloc(ft_strlen(s1) + 1, 0);
 	if (!ptr)
 		return (0);
 	while (i < ft_strlen(s1))

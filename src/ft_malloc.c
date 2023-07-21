@@ -6,13 +6,13 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 03:04:17 by nabboune          #+#    #+#             */
-/*   Updated: 2023/07/19 10:13:25 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/07/21 17:25:53 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	*ft_malloc(size_t size)
+void	*ft_malloc(size_t size, int i)
 {
 	void	*ptr;
 	t_list	*obj;
@@ -20,12 +20,15 @@ void	*ft_malloc(size_t size)
 	ptr = malloc(size);
 	if (!ptr)
 		exit(UNSPECIFIED_ERROR);
-	obj = malloc(sizeof(t_list));
-	if (!obj)
-		exit(UNSPECIFIED_ERROR);
-	obj->content = ptr;
-	obj->next = g_glob.allocations;
-	g_glob.allocations = obj;
+	if (i == 1)
+	{
+		obj = malloc(sizeof(t_list));
+		if (!obj)
+			exit(UNSPECIFIED_ERROR);
+		obj->content = ptr;
+		obj->next = g_glob.allocations;
+		g_glob.allocations = obj;
+	}
 	return(ptr);
 }
 

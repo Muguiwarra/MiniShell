@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibel-har <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 19:24:57 by ibel-har          #+#    #+#             */
-/*   Updated: 2023/07/19 09:20:01 by ibel-har         ###   ########.fr       */
+/*   Updated: 2023/07/21 17:37:27 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ char	**split_var(char *str)
 			break ;
 		i++;
 	}
-	var = (char **)malloc(sizeof(char *) * 3);
-	var[0] = ft_substr(str, 0, i);
+	var = (char **)ft_malloc(sizeof(char *) * 3, 0);
+	var[0] = ft_substr(str, 0, i, 0);
 	if (i == (int)ft_strlen(str))
 	{
 		if (str[i - 1] == '=')
@@ -48,7 +48,7 @@ char	**split_var(char *str)
 			var[1] = NULL;
 	}
 	else
-		var[1] = ft_substr(str, i + 1, ft_strlen(str));
+		var[1] = ft_substr(str, i + 1, ft_strlen(str), 0);
 	var[2] = NULL;
 	return (var);
 }
@@ -85,3 +85,8 @@ void	env_print(t_env *env)
 		env = env->next;
 	}
 }
+/*
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	don't forget the default uninitialized env
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+*/

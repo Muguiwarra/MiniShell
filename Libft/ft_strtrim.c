@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 13:38:38 by nabboune          #+#    #+#             */
-/*   Updated: 2022/10/25 23:41:37 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/07/21 17:37:51 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,5 @@ char	*ft_strtrim(char const *s1, char const *set)
 			break ;
 		j--;
 	}
-	return (ft_substr(s1, i, j - i + 1));
+	return (ft_substr(s1, i, j - i + 1, 1));
 }

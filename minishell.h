@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 08:57:48 by nabboune          #+#    #+#             */
-/*   Updated: 2023/07/19 21:42:34 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/07/21 15:16:05 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 
 typedef struct	s_global
 {
-	char	**env;
+	t_env	*env;
 	char	**paths;
 	int		exit_status;
 	int		exit_stat;

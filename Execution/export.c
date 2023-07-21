@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibel-har <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 10:36:04 by ibel-har          #+#    #+#             */
-/*   Updated: 2023/07/19 09:20:17 by ibel-har         ###   ########.fr       */
+/*   Updated: 2023/07/21 17:39:42 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	var_export(t_env **env, char *key, char *value, int j)
 			}
 			else if (tmp->value && j == 1)
 			{
-				tmp_val = ft_strjoin(tmp->value, value);
+				tmp_val = ft_strjoin(tmp->value, value, 0);
 				free(tmp->value);
 				tmp->value = tmp_val;
 			}
@@ -79,7 +79,7 @@ void	ft_export(t_env **env, char **args)
 		// don't forget to exit and update the exit status
 		else if (pars == 2 && var[1] != NULL)
 		{
-			tmp = ft_substr(var[0], 0, ft_strlen(var[0]) - 1);
+			tmp = ft_substr(var[0], 0, ft_strlen(var[0]) - 1, 0);
 			var_export(env, tmp, var[1], 1);
 			free(tmp);
 		}

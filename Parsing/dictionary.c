@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 03:53:58 by nabboune          #+#    #+#             */
-/*   Updated: 2023/07/21 00:05:05 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/07/21 21:30:58 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ t_dic	*ft_crea_dic(char *input)
 				g_glob.exit_status = SYNTAX_ERROR;
 				break ;
 			}
-			ft_addpage_back(&dic, ft_pagenew(CMD, ft_substr(input, i, j), pipe));
+			ft_addpage_back(&dic, ft_pagenew(CMD, ft_substr(input, i, j, 1), pipe));
 			open = 0;
 			j--;
 		}
@@ -50,7 +50,7 @@ t_dic	*ft_crea_dic(char *input)
 		{
 				while (input[i + j] && !ft_is_delimiter(input[i + j]))
 					j++;
-				ft_addpage_back(&dic, ft_pagenew(CMD, ft_substr(input, i, j), pipe));
+				ft_addpage_back(&dic, ft_pagenew(CMD, ft_substr(input, i, j, 1), pipe));
 				j--;
 		}
 		else if (input[i + j] && ft_is_delimiter(input[i + j]))
@@ -87,7 +87,7 @@ t_dic	*ft_crea_dic(char *input)
 				if (j == 0)
 					ft_addpage_back(&dic, ft_pagenew(VAR, NULL, pipe));
 				else
-					ft_addpage_back(&dic, ft_pagenew(VAR, ft_substr(input, i + 1, j), pipe));
+					ft_addpage_back(&dic, ft_pagenew(VAR, ft_substr(input, i + 1, j, 1), pipe));
 			}
 			else if (input[i] && ft_is_delimiter(input[i]) == SPACE)
 				ft_addpage_back(&dic, ft_pagenew(SPACE, " ", pipe));
@@ -95,28 +95,15 @@ t_dic	*ft_crea_dic(char *input)
 				ft_addpage_back(&dic, ft_pagenew(LESSER, "<\0", pipe));
 			else if (input[i] && ft_is_delimiter(input[i]) == GREATER)
 				ft_addpage_back(&dic, ft_pagenew(GREATER, ">\0", pipe));
-			else if (input[i] && ft_is_delimiter(input[i]) == BACKSLASH)
-				ft_addpage_back(&dic, ft_pagenew(BACKSLASH, "\\\0", pipe));
-			else if (input[i] && ft_is_delimiter(input[i]) == ASTERISK)
-				ft_addpage_back(&dic, ft_pagenew(ASTERISK, "*\0", pipe));
 		}
 		i += j + 1;
 	}
 	return(dic);
 }
 
-int		ft_skip_char(char c)
-{
-	if (c == '\\' || c == '>' || c == '*')
-		return (1);
-	return (0);
-}
-
 void	ft_update_dic(t_dic **dic)
 {
 	t_dic	*ptr1;
-	// t_dic	*ptr2;
-	// t_dic	*ptr3;
 
 	ft_rm_sp(dic, 1);
 	ptr1 = *dic;
@@ -124,7 +111,7 @@ void	ft_update_dic(t_dic **dic)
 	{
 		if (ptr1->key == LESSER)
 		{
-			if (ptr1->next && ft_skip_char(ptr1->next->value[0]))
+			if (ptr1->next && ptr1->next->key == GREATER)
 				ft_del_page(dic, ptr1->next);
 			ft_less_great(dic, ptr1, LESSER);
 		}
@@ -137,25 +124,6 @@ void	ft_update_dic(t_dic **dic)
 		}
 		ptr1 = ptr1->next;
 	}
-	// ptr1 = *dic;
-	// while (ptr1)
-	// {
-	// 	ptr3 = ptr1;
-	// 	while (ptr1 && (ptr1->key == CMD || ptr1->key == ARG
-	// 			|| ptr1->key == LESSER || ptr1->key == GREATER
-	// 			|| ptr1->key == INFILE || ptr1->key == OUTFILE))
-	// 	{
-	// 		ptr2 = ptr1->next;
-	// 		if (ptr2)
-	// 		{
-	// 			if (ptr2->key == CMD)
-	// 				ptr2->key = ARG;
-	// 		}
-	// 		ptr1 = ptr1->next;
-	// 	}
-	// 	if (ptr1 == ptr3)
-	// 		ptr1 = ptr1->next;
-	// }
 }
 
 void	ft_check_dic(t_dic *dic)
@@ -219,8 +187,6 @@ void	ft_check_dic(t_dic *dic)
 	}
 }
 
-// SEGEV when "<<<" or ">>>" !!!!!
-
 void	ft_less_great(t_dic **dic, t_dic *ptr1, int operation)
 {
 	t_dic	*ptr2;
@@ -251,9 +217,7 @@ void	ft_less_great(t_dic **dic, t_dic *ptr1, int operation)
 				ft_del_page(dic, ptr2);
 				ptr2 = ptr2->next;
 			}
-			if (ptr2->next && (ptr2->next->key == LESSER || ptr2->next->key == GREATER))
-				g_glob.exit_status = SYNTAX_ERROR;
-			else
+			if (ptr2->next && ptr2->next->key != LESSER && ptr2->next->key != GREATER)
 			{
 				if (ptr2->next->key == DQUOTE || ptr2->next->key == SQUOTE)
 				{
@@ -264,7 +228,7 @@ void	ft_less_great(t_dic **dic, t_dic *ptr1, int operation)
 				if (operation == LESSER)
 					ptr1->key = HEREDOC;
 				else
-					ptr2->key = APPEND;
+					ptr1->key = APPEND;
 				ptr2 = ptr1->next;
 				if (ptr2)
 				{
@@ -276,6 +240,8 @@ void	ft_less_great(t_dic **dic, t_dic *ptr1, int operation)
 				else
 					g_glob.exit_status = SYNTAX_ERROR;
 			}
+			else
+				g_glob.exit_status = SYNTAX_ERROR;
 		}
 		else
 			g_glob.exit_status = SYNTAX_ERROR;
@@ -283,3 +249,37 @@ void	ft_less_great(t_dic **dic, t_dic *ptr1, int operation)
 	else
 		g_glob.exit_status = SYNTAX_ERROR;
 }
+
+void	ft_new_update_dic(t_dic **dic)
+{
+	t_dic	*ptr;
+
+	ptr = *dic;
+	if (ptr->key == SPACE || ptr->key == DQUOTE || ptr->key == SQUOTE
+		|| ptr->key == DOLLAR || ptr->key == LESSER || ptr->key == GREATER
+		|| ptr->key == APPEND)
+	{
+		if (ptr->key == DQUOTE || ptr->key == SQUOTE || ptr->key == APPEND)
+			ptr->next->special = ptr->key;
+		ft_del_page(dic, ptr);
+	}
+	ptr = *dic;
+	while (ptr)
+	{
+		if (ptr->key == SPACE || ptr->key == DQUOTE || ptr->key == SQUOTE
+			|| ptr->key == DOLLAR || ptr->key == LESSER || ptr->key == GREATER
+			|| ptr->key == APPEND)
+		{
+			if (ptr->key == DQUOTE || ptr->key == SQUOTE || ptr->key == APPEND)
+				ptr->next->special = ptr->key;
+			ft_del_page(dic, ptr);
+		}
+		ptr = ptr->next;
+	}
+}
+
+/*
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	Why do I get SYNTAX ERROR in <<"" cat
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+*/

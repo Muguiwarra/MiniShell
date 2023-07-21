@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 23:24:08 by nabboune          #+#    #+#             */
-/*   Updated: 2023/07/20 20:08:30 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/07/21 18:11:49 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@
 // What is writted
 
 #define CMD 0
-#define ARG 1
+// #define ARG 1
 #define INFILE 2
 #define OUTFILE 3
 #define SQUOTE 4
 #define DQUOTE 5
-#define SSTRING 6
-#define DSTRING 7
+// #define SSTRING 6
+// #define DSTRING 7
 #define DOLLAR 8
 #define LESSER 9
 #define GREATER 10
@@ -37,12 +37,11 @@
 #define PIPE 14
 #define SPACE 15
 #define VAR 16
-#define BACKSLASH 17
-#define ASTERISK 18
 
 typedef struct	s_dic
 {
 	int				key;
+	int				special;
 	int				pipe;
 	char			*value;
 	struct s_dic	*next;
@@ -74,9 +73,9 @@ void				ft_addpipe_back(t_parsing_output **lst, t_parsing_output *new);
 t_dic				*ft_crea_dic(char *input);
 void				ft_check_dic(t_dic *dic);
 void				ft_update_dic(t_dic **dic);
+void				ft_new_update_dic(t_dic **dic);
 void				ft_less_great(t_dic **dic, t_dic *ptr1, int operation);
 void				ft_rm_sp(t_dic **dic, int i);
-char				*ft_rm_end_sp(char *input);
 int					ft_check_exit();
 int					ft_open_infile(t_dic *dic);
 

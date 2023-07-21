@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibel-har <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 19:30:42 by ibel-har          #+#    #+#             */
-/*   Updated: 2023/07/19 09:19:59 by ibel-har         ###   ########.fr       */
+/*   Updated: 2023/07/21 17:30:21 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_env	*env_new(char *key, char *value)
 {
 	t_env	*new;
 
-	new = (t_env *)malloc(sizeof(t_env));
+	new = (t_env *)ft_malloc(sizeof(t_env), 0);
 	if (!new)
 		return (NULL);
 	if (!key)
