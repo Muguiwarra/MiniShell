@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 03:57:10 by nabboune          #+#    #+#             */
-/*   Updated: 2023/07/21 21:21:06 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/07/22 00:31:23 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ void	ft_addpipe_back(t_parsing_output **lst, t_parsing_output *new)
 		*lst = new;
 }
 
-void	ft_rm_sp(t_dic **dic, int i)
+void	ft_rm_sp(t_dic **dic)
 {
 	t_dic	*ptr;
 
@@ -152,20 +152,7 @@ void	ft_rm_sp(t_dic **dic, int i)
 	}
 	while (ptr)
 	{
-		if (i == 0 && ptr->key == SPACE)
-		{
-			if (ptr->next && ptr->next->key == SPACE)
-			{
-				ptr = ptr->next;
-				ft_del_page(dic, ptr->previous);
-			}
-			else
-			{
-				ft_del_page(dic, ptr);
-				break;
-			}
-		}
-		else if (i == 1 && ptr->key == SPACE)
+		if (ptr->key == SPACE)
 		{
 			while (ptr->next && ptr->next->key == SPACE)
 			{

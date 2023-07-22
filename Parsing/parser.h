@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 23:24:08 by nabboune          #+#    #+#             */
-/*   Updated: 2023/07/21 18:11:49 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/07/22 00:31:48 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void				ft_check_dic(t_dic *dic);
 void				ft_update_dic(t_dic **dic);
 void				ft_new_update_dic(t_dic **dic);
 void				ft_less_great(t_dic **dic, t_dic *ptr1, int operation);
-void				ft_rm_sp(t_dic **dic, int i);
+void				ft_rm_sp(t_dic **dic);
 int					ft_check_exit();
 int					ft_open_infile(t_dic *dic);
 

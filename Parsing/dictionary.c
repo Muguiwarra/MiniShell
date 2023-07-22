@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 03:53:58 by nabboune          #+#    #+#             */
-/*   Updated: 2023/07/21 21:30:58 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/07/22 02:37:02 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,10 @@ t_dic	*ft_crea_dic(char *input)
 		}
 		else if (input[i + j] && !ft_is_delimiter(input[i + j]))
 		{
-				while (input[i + j] && !ft_is_delimiter(input[i + j]))
-					j++;
-				ft_addpage_back(&dic, ft_pagenew(CMD, ft_substr(input, i, j, 1), pipe));
-				j--;
+			while (input[i + j] && !ft_is_delimiter(input[i + j]))
+				j++;
+			ft_addpage_back(&dic, ft_pagenew(CMD, ft_substr(input, i, j, 1), pipe));
+			j--;
 		}
 		else if (input[i + j] && ft_is_delimiter(input[i + j]))
 		{
@@ -105,7 +105,7 @@ void	ft_update_dic(t_dic **dic)
 {
 	t_dic	*ptr1;
 
-	ft_rm_sp(dic, 1);
+	ft_rm_sp(dic);
 	ptr1 = *dic;
 	while (ptr1)
 	{
@@ -131,10 +131,10 @@ void	ft_check_dic(t_dic *dic)
 	int	i;
 	int	doc;
 
-	i = 0;
 	doc = 0;
 	while (dic)
 	{
+		i = 0;
 		if (dic->key == DQUOTE)
 		{
 			i++;
@@ -182,8 +182,8 @@ void	ft_check_dic(t_dic *dic)
 				break ;
 			}
 		}
-		i = 0;
-		dic = dic->next;
+		if (dic)
+			dic = dic->next;
 	}
 }
 
