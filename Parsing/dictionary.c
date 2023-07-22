@@ -6,23 +6,92 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 03:53:58 by nabboune          #+#    #+#             */
-/*   Updated: 2023/07/22 02:37:02 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/07/22 20:04:20 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+int	ft_open_quotes(t_dic **dic, char *input, int pipe, int i)
+{
+	int		j;
+	t_dic	*last_page;
+
+	j = 0;
+	last_page = ft_lastpage(*dic);
+	while (input[i + j] && input[i + j] != last_page->value[0])
+		j++;
+	if (!input[i + j])
+	{
+		g_glob.exit_status = SYNTAX_ERROR;
+		return (-1);
+	}
+	ft_addpage_back(dic, ft_pagenew(CMD, ft_substr(input, i, j, 1), pipe));
+	ft_addpage_back(dic, ft_pagenew(last_page->key, last_page->value, pipe));
+	g_glob.open = 0;
+	return (j);
+}
+
+void	ft_squote_dquote(t_dic **dic, char *input, int pipe, int i)
+{
+	if (input[i] && ft_is_delimiter(input[i]) == SQUOTE)
+	{
+		if (g_glob.open == 0)
+			g_glob.open = 1;
+		else
+			g_glob.open = 0;
+		ft_addpage_back(dic, ft_pagenew(SQUOTE, "\'\0", pipe));
+	}
+	else if (input[i] && ft_is_delimiter(input[i]) == DQUOTE)
+	{
+		if (g_glob.open == 0)
+			g_glob.open = 1;
+		else
+			g_glob.open = 0;
+		ft_addpage_back(dic, ft_pagenew(DQUOTE, "\"\0", pipe));
+	}
+}
+
+int	ft_dollar(t_dic **dic, char *input, int pipe, int i)
+{
+	int	j;
+
+	j = 0;
+	if ((input[i + 1] && ft_is_delimiter(input[i + 1])) || !input[i + 1]) // Ache had rwina hna....
+	{
+		if (ft_is_delimiter(input[i + 1]) == SPACE)
+			ft_addpage_back(dic, ft_pagenew(CMD, "$\0", pipe));
+		else if (ft_is_delimiter(input[i + 1]) == DQUOTE || ft_is_delimiter(input[i + 1]) == SQUOTE)
+		{
+			g_glob.exit_status = SYNTAX_ERROR;
+			return (-1);
+		}
+		else
+		{
+			g_glob.exit_status = SYNTAX_ERROR;
+			return (-1);
+		}
+	}
+	else if (input[i + 1] && !ft_is_delimiter(input[i + 1]))
+	{
+		while (input[i + j + 1] && !ft_is_delimiter(input[i + j + 1]))
+			j++;
+		ft_addpage_back(dic, ft_pagenew(DOLLAR, "$\0", pipe));
+		ft_addpage_back(dic, ft_pagenew(CMD, ft_expand(ft_substr(input, i + 1, j, 1)), pipe));
+	}
+	return (j);
+}
+
 t_dic	*ft_crea_dic(char *input)
 {
 	int		i;
 	int		j;
-	int		open;
+	// int		open;
 	int		pipe;
-	t_dic	*last_page;
 	t_dic	*dic;
 
 	i = 0;
-	open = 0;
+	g_glob.open = 0;
 	pipe = 0;
 	dic = NULL;
 	while(input[i] && ft_is_delimiter(input[i]) == SPACE)
@@ -32,19 +101,11 @@ t_dic	*ft_crea_dic(char *input)
 	while (input[i])
 	{
 		j = 0;
-		if (input[i + j] && open == 1)
+		if (input[i + j] && g_glob.open == 1)
 		{
-			last_page = ft_lastpage(dic);
-			while (input[i + j] && input[i + j] != last_page->value[0])
-				j++;
-			if (!input[i + j])
-			{
-				g_glob.exit_status = SYNTAX_ERROR;
+			j = ft_open_quotes(&dic, input, pipe, i);
+			if (j == -1)
 				break ;
-			}
-			ft_addpage_back(&dic, ft_pagenew(CMD, ft_substr(input, i, j, 1), pipe));
-			open = 0;
-			j--;
 		}
 		else if (input[i + j] && !ft_is_delimiter(input[i + j]))
 		{
@@ -55,39 +116,15 @@ t_dic	*ft_crea_dic(char *input)
 		}
 		else if (input[i + j] && ft_is_delimiter(input[i + j]))
 		{
-			if (input[i] && ft_is_delimiter(input[i]) == SQUOTE)
-			{
-				if (open == 0)
-					open = 1;
-				else
-					open = 0;
-				ft_addpage_back(&dic, ft_pagenew(SQUOTE, "\'\0", pipe));
-			}
-			else if (input[i] && ft_is_delimiter(input[i]) == DQUOTE)
-			{
-				if (open == 0)
-					open = 1;
-				else
-					open = 0;
-				ft_addpage_back(&dic, ft_pagenew(DQUOTE, "\"\0", pipe));
-			}
+			if (input[i] && (ft_is_delimiter(input[i]) == SQUOTE || ft_is_delimiter(input[i]) == DQUOTE))
+				ft_squote_dquote(&dic, input, pipe, i);
 			else if (input[i] && ft_is_delimiter(input[i]) == PIPE)
-			{
-				ft_addpage_back(&dic, ft_pagenew(PIPE, "|\0", pipe));
-				pipe++;
-			}
+				ft_addpage_back(&dic, ft_pagenew(PIPE, "|\0", pipe++));
 			else if (input[i] && ft_is_delimiter(input[i]) == DOLLAR)
 			{
-				if (!ft_is_delimiter(input[i + 1]))
-				{
-					while (input[i + j + 1] && !ft_is_delimiter(input[i + j + 1]))
-						j++;
-				}
-				ft_addpage_back(&dic, ft_pagenew(DOLLAR, "$\0", pipe));
-				if (j == 0)
-					ft_addpage_back(&dic, ft_pagenew(VAR, NULL, pipe));
-				else
-					ft_addpage_back(&dic, ft_pagenew(VAR, ft_substr(input, i + 1, j, 1), pipe));
+				j = ft_dollar(&dic, input, pipe, i);
+				if (j == -1)
+					break ;
 			}
 			else if (input[i] && ft_is_delimiter(input[i]) == SPACE)
 				ft_addpage_back(&dic, ft_pagenew(SPACE, " ", pipe));
@@ -138,6 +175,7 @@ void	ft_check_dic(t_dic *dic)
 		if (dic->key == DQUOTE)
 		{
 			i++;
+			printf("$$\n");
 			if (dic->next)
 				dic = dic->next;
 			else
@@ -271,7 +309,8 @@ void	ft_new_update_dic(t_dic **dic)
 			|| ptr->key == APPEND)
 		{
 			if (ptr->key == DQUOTE || ptr->key == SQUOTE || ptr->key == APPEND)
-				ptr->next->special = ptr->key;
+				if (ptr->next)
+					ptr->next->special = ptr->key;
 			ft_del_page(dic, ptr);
 		}
 		ptr = ptr->next;
