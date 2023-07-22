@@ -1,36 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_substr.c                                        :+:      :+:    :+:   */
+/*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ibel-har <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/10 12:37:56 by nabboune          #+#    #+#             */
-/*   Updated: 2023/07/22 22:46:46 by ibel-har         ###   ########.fr       */
+/*   Created: 2023/03/22 02:08:53 by ibel-har          #+#    #+#             */
+/*   Updated: 2023/03/22 02:28:56 by ibel-har         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "pipex.h"
 
-char	*ft_substr(char const *s, unsigned int start, size_t len, int i)
+void	exec_cmd(char *cmd, char **envp)
 {
-	char	*ptr;
-	size_t	slen;
+	char	**cmd_arr;
 
-	if (!s)
-		return (0);
-	slen = ft_strlen(s);
-	if (start > slen)
-		return (ft_strdup(""));
-	if (len <= slen - start)
-		ptr = (char *)ft_malloc(len + 1, i);
+	if (*cmd == '\0' || ft_strncmp(cmd, " ", ft_strlen(cmd)) == 0)
+		cmd_err_msg(cmd);
+	cmd_arr = cmd_split(cmd, envp);
+	if (!ft_strchr(cmd_arr[0], '/') || (ft_strchr(cmd_arr[0], '/')
+			&& access(cmd_arr[0], X_OK) == -1))
+		cmd_err_msg(cmd_arr[0]);
 	else
 	{
-		ptr = (char *)ft_malloc(slen - start + 1, i);
-		len = slen - start;
+		if (execve(cmd_arr[0], cmd_arr, envp) == -1)
+			cmd_err_msg(cmd_arr[0]);
 	}
-	if (!ptr)
-		return (0);
-	ft_strlcpy(ptr, (s + start), (len + 1));
-	return (ptr);
 }
