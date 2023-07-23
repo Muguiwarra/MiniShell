@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 19:21:21 by nabboune          #+#    #+#             */
-/*   Updated: 2023/07/21 17:40:28 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/07/23 19:44:53 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,9 +202,10 @@ t_parsing_output	*ft_parse_out(t_dic *dic)
 		printf("{in : %d}\n", output->fd_infile);
 		printf("{out : %d}\n", output->fd_outfile);
 		i = 0;
+		printf("{");
 		while (output->cmd[i])
-			printf("{%s }", output->cmd[i++]);
-		printf("\n");
+			printf("%s,", output->cmd[i++]);
+		printf("}\n");
 		output = output->next;
 	}
 	// End : To Remove After

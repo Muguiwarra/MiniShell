@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 23:24:08 by nabboune          #+#    #+#             */
-/*   Updated: 2023/07/23 02:55:57 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/07/23 17:03:17 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ int					ft_open_infile(t_dic *dic);
 
 char				*ft_expand(char *var);
 char				*ft_replace_str(char *original, char *new, int start, int end);
+void				ft_update_00(t_dic **dic);
 
 int					ft_pipes(t_dic *dic);
 int					ft_nb_infiles(t_dic *dic, int pipe);
