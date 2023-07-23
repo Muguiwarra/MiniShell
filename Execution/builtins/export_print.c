@@ -6,11 +6,11 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 11:37:52 by ibel-har          #+#    #+#             */
-/*   Updated: 2023/07/21 17:30:46 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/07/23 15:29:54 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
 
 t_env	*cp_env(t_env *env)
 {

@@ -6,11 +6,11 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 18:33:28 by ibel-har          #+#    #+#             */
-/*   Updated: 2023/07/19 10:25:24 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/07/23 15:29:51 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
 
 
 // remember the global variable exit status

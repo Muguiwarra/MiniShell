@@ -6,11 +6,11 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 19:24:57 by ibel-har          #+#    #+#             */
-/*   Updated: 2023/07/21 17:37:27 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/07/23 15:29:49 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
 
 void	free_array(char **var)
 {

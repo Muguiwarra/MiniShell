@@ -6,7 +6,7 @@
 #    By: nabboune <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/15 23:13:53 by nabboune          #+#    #+#              #
-#    Updated: 2023/07/22 19:55:48 by nabboune         ###   ########.fr        #
+#    Updated: 2023/07/23 15:29:22 by nabboune         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,15 +36,15 @@ SRCS =	Minishell.c \
 		Parsing/elem_op_dic.c \
 		Parsing/dictionary.c \
 		Parsing/dic_output.c \
-		Execution/cd.c \
-		Execution/echo.c \
-		Execution/env.c \
-		Execution/env_utils.c \
-		Execution/exit.c \
-		Execution/export.c \
-		Execution/export_print.c \
-		Execution/pwd.c \
-		Execution/unset.c
+		Execution/builtins/cd.c \
+		Execution/builtins/echo.c \
+		Execution/builtins/env.c \
+		Execution/builtins/env_utils.c \
+		Execution/builtins/exit.c \
+		Execution/builtins/export.c \
+		Execution/builtins/export_print.c \
+		Execution/builtins/pwd.c \
+		Execution/builtins/unset.c
 
 OBJS = $(SRCS:.c=.o)
 

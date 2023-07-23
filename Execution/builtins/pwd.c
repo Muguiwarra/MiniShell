@@ -6,11 +6,11 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:04:27 by ibel-har          #+#    #+#             */
-/*   Updated: 2023/07/21 17:31:07 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/07/23 15:29:58 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
 
 void	pwd(void)
 {

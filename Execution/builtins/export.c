@@ -6,11 +6,11 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 10:36:04 by ibel-har          #+#    #+#             */
-/*   Updated: 2023/07/21 17:39:42 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/07/23 15:29:56 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
 
 int	env_var_parse(char *str)
 {
