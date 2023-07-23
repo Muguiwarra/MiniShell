@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 03:53:58 by nabboune          #+#    #+#             */
-/*   Updated: 2023/07/22 20:04:20 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/07/23 03:55:40 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ t_dic	*ft_crea_dic(char *input)
 {
 	int		i;
 	int		j;
-	// int		open;
 	int		pipe;
 	t_dic	*dic;
 
@@ -141,6 +140,10 @@ t_dic	*ft_crea_dic(char *input)
 void	ft_update_dic(t_dic **dic)
 {
 	t_dic	*ptr1;
+	char	*var;
+	int		i;
+	int		j;
+	// int		k;
 
 	ft_rm_sp(dic);
 	ptr1 = *dic;
@@ -158,6 +161,31 @@ void	ft_update_dic(t_dic **dic)
 		{
 			if (!ptr1->next || !ptr1->previous)
 				g_glob.exit_status = SYNTAX_ERROR;
+		}
+		else if (ptr1->key == DQUOTE || ptr1->key == INFILE || ptr1->key == OUTFILE)
+		{
+			i = 0;
+			if (ptr1->next)
+			{
+				while (ptr1->next->value[i])
+				{
+					j = 0;
+					if (ptr1->next->value[i] == '$')
+					{
+						while (ptr1->next->value[i + j + 1] && ft_is_delimiter(ptr1->next->value[i + j + 1]) != SPACE && ft_is_delimiter(ptr1->next->value[i + j + 1]) != DQUOTE)
+							j++;
+						var  = ft_substr(ptr1->next->value, i + 1, j, 1);
+						ptr1->next->value = ft_replace_str(ptr1->next->value, ft_expand(var), i, i + j);
+						printf("{%s}\n", ptr1->next->value);
+					}
+					if (j != 0)
+						i += j;
+					else
+						i++;
+				}
+			}
+
+
 		}
 		ptr1 = ptr1->next;
 	}
@@ -234,7 +262,16 @@ void	ft_less_great(t_dic **dic, t_dic *ptr1, int operation)
 	{
 		while (ptr2 && ptr2->key == SPACE)
 			ptr2 = ptr2->next;
-		if (ptr2 && ptr2->key == CMD)
+
+		if (ptr2 && ptr2->key == DOLLAR)
+		{
+			if (ptr2->next)
+			{
+				ptr2 = ptr2->next;
+				ft_del_page(dic, ptr2->previous);
+			}
+		}
+		if (ptr2 && (ptr2->key == CMD || ptr2->key == DOLLAR))
 		{
 			if (operation == LESSER)
 				ptr2->key = INFILE;
@@ -316,9 +353,3 @@ void	ft_new_update_dic(t_dic **dic)
 		ptr = ptr->next;
 	}
 }
-
-/*
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	Why do I get SYNTAX ERROR in <<"" cat
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-*/
