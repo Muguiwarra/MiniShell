@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 23:23:30 by nabboune          #+#    #+#             */
-/*   Updated: 2023/07/23 18:03:21 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/07/24 04:45:42 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,14 @@ void	ft_prompt()
 			ft_ending_prompt(input);
 			continue;
 		}
-		// ft_update_00(&dic);
 		// while (dic)
 		// {
 		// 	printf("Present : %p\nKey : %d\nValue : %s\nPipe : %d\nSpecial : %d\nNext : %p\nPrevious : %p\n\n", dic, dic->key, dic->value, dic->pipe, dic->special, dic->next, dic->previous);
 		// 	dic = dic->next;
 		// }
 		// continue;
-		ft_update_dic(&dic);
+		ft_update_00(&dic);
+		ft_update_01(&dic);
 		if (ft_check_exit())
 		{
 			ft_ending_prompt(input);
@@ -153,34 +153,3 @@ char	*ft_replace_str(char *original, char *new, int start, int end)
 	result[j] = '\0';
 	return (result);
 }
-
-// void	ft_update_00(t_dic **dic)
-// {
-// 	t_dic	*ptr;
-
-// 	ptr = *dic;
-// 	if (ptr->key == DQUOTE || ptr->key == SQUOTE)
-// 	{
-// 		ptr->next->special = ptr->key;
-// 		ptr = ptr->next;
-// 		ft_del_page(dic, ptr->previous);
-// 		ft_del_page(dic, ptr->next);
-// 	}
-// 	while (ptr)
-// 	{
-// 		if (ptr->key == DQUOTE || ptr->key == SQUOTE)
-// 		{
-// 			ptr->previous->value = ft_strjoin(ptr->previous->value, ptr->next->value, 1);
-// 			ptr = ptr->next->next;
-// 		}
-// 		else if (ptr->special == DQUOTE || ptr->special == SQUOTE)
-// 		{
-// 			if (ptr->next && ptr->next->key != SPACE && ptr->next->key != LESSER
-// 				&& ptr->next->key != GREATER && ptr->next->key != PIPE)
-// 			{
-// 				ptr
-// 			}
-// 		}
-// 		ptr = ptr->next;
-// 	}
-// }

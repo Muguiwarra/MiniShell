@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:44:15 by nabboune          #+#    #+#             */
-/*   Updated: 2023/07/22 19:51:07 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/07/24 04:51:45 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,17 @@ char	*ft_expand(char *var)
 	env = g_glob.env;
 	while (env)
 	{
+		if (strcmp(env->key, var) == -1)
+			return (NULL);
 		if (strcmp(env->key, var) == 0)
 			return (env->value);
 		env = env->next;
 	}
 	return (NULL);
 }
+
+/*
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	Need To Treat The Case If There Is No Variable With That Name
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+*/

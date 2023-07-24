@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 03:53:58 by nabboune          #+#    #+#             */
-/*   Updated: 2023/07/23 16:16:33 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/07/24 04:55:32 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ t_dic	*ft_crea_dic(char *input)
 	return(dic);
 }
 
-void	ft_update_dic(t_dic **dic)
+void	ft_update_00(t_dic **dic)
 {
 	t_dic	*ptr1;
 	char	*var;
@@ -145,7 +145,7 @@ void	ft_update_dic(t_dic **dic)
 	int		j;
 	// int		k;
 
-	ft_rm_sp(dic);
+	ft_rm_multi_sp(dic);
 	ptr1 = *dic;
 	while (ptr1)
 	{
@@ -172,8 +172,10 @@ void	ft_update_dic(t_dic **dic)
 					j = 0;
 					if (ptr1->next->value[i] == '$')
 					{
-						while (ptr1->next->value[i + j + 1] && ft_is_delimiter(ptr1->next->value[i + j + 1]) != SPACE && ft_is_delimiter(ptr1->next->value[i + j + 1]) != DQUOTE)
+						while (ptr1->next->value[i + j + 1] && ft_is_delimiter(ptr1->next->value[i + j + 1]) != SPACE
+							&& ft_is_delimiter(ptr1->next->value[i + j + 1]) != DQUOTE)
 							j++;
+						printf("==>%d\n", j);
 						var  = ft_substr(ptr1->next->value, i + 1, j, 1);
 						ptr1->next->value = ft_replace_str(ptr1->next->value, ft_expand(var), i, i + j);
 						printf("{%s}\n", ptr1->next->value);
@@ -203,7 +205,7 @@ void	ft_check_dic(t_dic *dic)
 		if (dic->key == DQUOTE)
 		{
 			i++;
-			printf("$$\n");
+			// printf("$$\n");
 			if (dic->next)
 				dic = dic->next;
 			else
@@ -349,6 +351,70 @@ void	ft_new_update_dic(t_dic **dic)
 				if (ptr->next)
 					ptr->next->special = ptr->key;
 			ft_del_page(dic, ptr);
+		}
+		ptr = ptr->next;
+	}
+}
+
+void	ft_update_01(t_dic **dic)
+{
+	t_dic	*ptr;
+
+	ptr = *dic;
+	if (ptr->key == DQUOTE || ptr->key == SQUOTE)
+	{
+		ptr->next->special = ptr->key;
+		ptr = ptr->next;
+		ft_del_page(dic, ptr->previous);
+		ft_del_page(dic, ptr->next);
+		if (ptr->next && ptr->next->key == CMD)
+		{
+			ptr->next->value = ft_strjoin(ptr->value, ptr->next->value, 1);
+			ptr = ptr->next;
+			ft_del_page(dic, ptr->previous);
+		}
+		else if (ptr->next && (ptr->next->key == DQUOTE || ptr->next->key == SQUOTE))
+		{
+			ptr->next->next->value = ft_strjoin(ptr->value, ptr->next->next->value, 1);
+			ptr = ptr->next->next;
+			ft_del_page(dic, ptr->previous->previous);
+			ft_del_page(dic, ptr->previous);
+			ft_del_page(dic, ptr->next);
+		}
+		while (ptr->next && ptr->next->key == CMD)
+		{
+			ptr->next->value = ft_strjoin(ptr->value, ptr->next->value, 1);
+			ptr = ptr->next;
+			ft_del_page(dic, ptr->previous);
+		}
+		while (ptr->next && (ptr->next->key == DQUOTE || ptr->next->key == SQUOTE))
+		{
+			ptr->next->next->value = ft_strjoin(ptr->value, ptr->next->next->value, 1);
+			ptr = ptr->next->next;
+			ft_del_page(dic, ptr->previous->previous);
+			ft_del_page(dic, ptr->previous);
+			ft_del_page(dic, ptr->next);
+		}
+	}
+	while (ptr)
+	{
+		if (ptr->key == DQUOTE || ptr->key == SQUOTE)
+		{
+			if (ptr->previous && ptr->previous->key == CMD)
+			{
+				ptr->next->value = ft_strjoin(ptr->previous->value, ptr->next->value, 1);
+				ptr = ptr->next;
+				ft_del_page(dic, ptr->previous->previous);
+				ft_del_page(dic, ptr->previous);
+				ft_del_page(dic, ptr->next);
+				continue;
+			}
+		}
+		else if (ptr->key == CMD && ptr->next && ptr->next->key == CMD)
+		{
+			ptr->next->value = ft_strjoin(ptr->value, ptr->next->value, 1);
+			ptr = ptr->next;
+			ft_del_page(dic, ptr->previous);
 		}
 		ptr = ptr->next;
 	}

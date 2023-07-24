@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 23:24:08 by nabboune          #+#    #+#             */
-/*   Updated: 2023/07/23 17:03:17 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/07/23 23:00:13 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,16 +73,16 @@ void				ft_addpipe_back(t_parsing_output **lst, t_parsing_output *new);
 t_dic				*ft_crea_dic(char *input);
 int					ft_open_quotes(t_dic **dic, char *input, int pipe, int i);
 void				ft_check_dic(t_dic *dic);
-void				ft_update_dic(t_dic **dic);
+void				ft_update_00(t_dic **dic);
 void				ft_new_update_dic(t_dic **dic);
 void				ft_less_great(t_dic **dic, t_dic *ptr1, int operation);
-void				ft_rm_sp(t_dic **dic);
+void				ft_rm_multi_sp(t_dic **dic);
 int					ft_check_exit();
 int					ft_open_infile(t_dic *dic);
 
 char				*ft_expand(char *var);
 char				*ft_replace_str(char *original, char *new, int start, int end);
-void				ft_update_00(t_dic **dic);
+void				ft_update_01(t_dic **dic);
 
 int					ft_pipes(t_dic *dic);
 int					ft_nb_infiles(t_dic *dic, int pipe);

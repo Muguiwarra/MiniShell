@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 03:57:10 by nabboune          #+#    #+#             */
-/*   Updated: 2023/07/22 00:31:23 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/07/23 22:14:26 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ void	ft_addpipe_back(t_parsing_output **lst, t_parsing_output *new)
 		*lst = new;
 }
 
-void	ft_rm_sp(t_dic **dic)
+void	ft_rm_multi_sp(t_dic **dic)
 {
 	t_dic	*ptr;
 
