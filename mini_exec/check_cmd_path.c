@@ -6,11 +6,11 @@
 /*   By: ibel-har <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 17:54:12 by ibel-har          #+#    #+#             */
-/*   Updated: 2023/03/21 17:34:05 by ibel-har         ###   ########.fr       */
+/*   Updated: 2023/07/27 22:00:39 by ibel-har         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "exec.h"
 
 char	*check_path(char *cmd, char *path_str)
 {

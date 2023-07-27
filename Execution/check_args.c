@@ -6,36 +6,57 @@
 /*   By: ibel-har <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 18:24:25 by ibel-har          #+#    #+#             */
-/*   Updated: 2023/03/22 02:28:41 by ibel-har         ###   ########.fr       */
+/*   Updated: 2023/07/27 22:00:39 by ibel-har         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "exec.h"
 
-void	check_input_file(char **argv, t_vars *vars)
+void	check_infile(char **argv, t_vars *vars)
 {
-	vars->infile = open(argv[1], O_RDONLY);
-	if (vars->infile == -1)
-		perror(argv[1]);
-	vars->count = 2;
+	if (!ft_strcmp(argv[1], "here_doc"))
+	{
+		vars->count = 3;
+		vars->infile = -1;
+	}
+	else
+	{
+		vars->infile = open(argv[1], O_RDONLY);
+		if (vars->infile == -1)
+			perror(argv[1]);
+		vars->count = 2;
+	}
 }
 
-void	check_output_file(char **argv, t_vars *vars)
+void	check_outfile(char **argv, t_vars *vars)
 {
-	vars->outfile = open(argv[vars->argc - 1], O_WRONLY | O_CREAT
-			| O_TRUNC, 0644);
-	if (vars->outfile == -1)
+	if (!ft_strcmp(argv[1], "here_doc"))
 	{
-		perror(argv[vars->argc - 1]);
-		exit(1);
+		vars->outfile = open(argv[vars->argc - 1], O_WRONLY | O_CREAT
+				| O_APPEND, 0644);
+		if (vars->outfile == -1)
+		{
+			perror(argv[vars->argc - 1]);
+			exit(1);
+		}
+	}
+	else
+	{
+		vars->outfile = open(argv[vars->argc - 1], O_WRONLY | O_CREAT
+				| O_TRUNC, 0644);
+		if (vars->outfile == -1)
+		{
+			perror(argv[vars->argc - 1]);
+			exit(1);
+		}
 	}
 }
 
 void	check_args(int argc, char **argv, t_vars *vars)
 {
-	if (argc != 5)
-		arg_err_msg();
+	if (argc < 5)
+		arg_err_msg_multi();
 	vars->argc = argc;
 	vars->argv = argv;
-	check_input_file(argv, vars);
+	check_infile(argv, vars);
 }
