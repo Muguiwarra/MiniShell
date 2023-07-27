@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 03:53:58 by nabboune          #+#    #+#             */
-/*   Updated: 2023/07/24 05:01:30 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/07/27 04:51:08 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,21 +55,20 @@ void	ft_squote_dquote(t_dic **dic, char *input, int pipe, int i)
 int	ft_dollar(t_dic **dic, char *input, int pipe, int i)
 {
 	int	j;
+	int	k;
 
 	j = 0;
-	if ((input[i + 1] && ft_is_delimiter(input[i + 1])) || !input[i + 1]) // Ache had rwina hna....
+	k = 1;
+	if ((input[i + 1] && ft_is_delimiter(input[i + 1])) || !input[i + 1])
 	{
 		if (ft_is_delimiter(input[i + 1]) == SPACE)
 			ft_addpage_back(dic, ft_pagenew(CMD, "$\0", pipe));
 		else if (ft_is_delimiter(input[i + 1]) == DQUOTE || ft_is_delimiter(input[i + 1]) == SQUOTE)
-		{
-			g_glob.exit_status = SYNTAX_ERROR;
 			return (-1);
-		}
 		else
 		{
 			g_glob.exit_status = SYNTAX_ERROR;
-			return (-1);
+			return (-2);
 		}
 	}
 	else if (input[i + 1] && !ft_is_delimiter(input[i + 1]))
@@ -123,6 +122,11 @@ t_dic	*ft_crea_dic(char *input)
 			{
 				j = ft_dollar(&dic, input, pipe, i);
 				if (j == -1)
+				{
+					i++;
+					continue;
+				}
+				else if (j == -2)
 					break ;
 			}
 			else if (input[i] && ft_is_delimiter(input[i]) == SPACE)
@@ -140,10 +144,9 @@ t_dic	*ft_crea_dic(char *input)
 void	ft_update_00(t_dic **dic)
 {
 	t_dic	*ptr1;
-	char	*var;
-	int		i;
-	int		j;
-	// int		k;
+	// char	*var;
+	// int		i;
+	// int		j;
 
 	ft_rm_multi_sp(dic);
 	ptr1 = *dic;
@@ -161,36 +164,6 @@ void	ft_update_00(t_dic **dic)
 		{
 			if (!ptr1->next || !ptr1->previous)
 				g_glob.exit_status = SYNTAX_ERROR;
-		}
-		else if (ptr1->key == DQUOTE || ptr1->key == INFILE || ptr1->key == OUTFILE)
-		{
-			i = 0;
-			if (ptr1->next)
-			{
-				while (ptr1->next->value[i])
-				{
-					j = 0;
-					if (ptr1->next->value[i] == '$')
-					{
-						while (ptr1->next->value[i + j + 1] && ft_is_delimiter(ptr1->next->value[i + j + 1]) != SPACE
-							&& ft_is_delimiter(ptr1->next->value[i + j + 1]) != DQUOTE)
-							j++;
-						printf("==>%d\n", j);
-						var  = ft_substr(ptr1->next->value, i + 1, j, 1);
-						ptr1->next->value = ft_replace_str(ptr1->next->value, ft_expand(var), i, i + j);
-						printf("{%s}\n", ptr1->next->value);
-					}
-					if (j != 0)
-						i += j;
-					else
-						i++;
-				}
-			}
-/*
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	SEGEV if : ""$USER...
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-*/
 		}
 		ptr1 = ptr1->next;
 	}
@@ -364,41 +337,6 @@ void	ft_update_01(t_dic **dic)
 	t_dic	*ptr;
 
 	ptr = *dic;
-	if (ptr->key == DQUOTE || ptr->key == SQUOTE)
-	{
-		ptr->next->special = ptr->key;
-		ptr = ptr->next;
-		ft_del_page(dic, ptr->previous);
-		ft_del_page(dic, ptr->next);
-		if (ptr->next && ptr->next->key == CMD)
-		{
-			ptr->next->value = ft_strjoin(ptr->value, ptr->next->value, 1);
-			ptr = ptr->next;
-			ft_del_page(dic, ptr->previous);
-		}
-		else if (ptr->next && (ptr->next->key == DQUOTE || ptr->next->key == SQUOTE))
-		{
-			ptr->next->next->value = ft_strjoin(ptr->value, ptr->next->next->value, 1);
-			ptr = ptr->next->next;
-			ft_del_page(dic, ptr->previous->previous);
-			ft_del_page(dic, ptr->previous);
-			ft_del_page(dic, ptr->next);
-		}
-		while (ptr->next && ptr->next->key == CMD)
-		{
-			ptr->next->value = ft_strjoin(ptr->value, ptr->next->value, 1);
-			ptr = ptr->next;
-			ft_del_page(dic, ptr->previous);
-		}
-		while (ptr->next && (ptr->next->key == DQUOTE || ptr->next->key == SQUOTE))
-		{
-			ptr->next->next->value = ft_strjoin(ptr->value, ptr->next->next->value, 1);
-			ptr = ptr->next->next;
-			ft_del_page(dic, ptr->previous->previous);
-			ft_del_page(dic, ptr->previous);
-			ft_del_page(dic, ptr->next);
-		}
-	}
 	while (ptr)
 	{
 		if (ptr->key == DQUOTE || ptr->key == SQUOTE)
@@ -407,9 +345,9 @@ void	ft_update_01(t_dic **dic)
 			{
 				ptr->next->value = ft_strjoin(ptr->previous->value, ptr->next->value, 1);
 				ptr = ptr->next;
-				ft_del_page(dic, ptr->previous->previous);
-				ft_del_page(dic, ptr->previous);
-				ft_del_page(dic, ptr->next);
+				// ft_del_page(dic, ptr->previous->previous);
+				// ft_del_page(dic, ptr->previous);
+				// ft_del_page(dic, ptr->next);
 				continue;
 			}
 		}
@@ -417,7 +355,82 @@ void	ft_update_01(t_dic **dic)
 		{
 			ptr->next->value = ft_strjoin(ptr->value, ptr->next->value, 1);
 			ptr = ptr->next;
-			ft_del_page(dic, ptr->previous);
+			// ft_del_page(dic, ptr->previous);
+		}
+		else if (ptr->key == CMD && ptr->next && ptr->next->key == DOLLAR)
+		{
+			ptr->next->next->value = ft_strjoin(ptr->value, ptr->next->next->value, 1);
+			ptr = ptr->next->next;
+			// ft_del_page(dic, ptr->previous->previous);
+			// ft_del_page(dic, ptr->previous);
+		}
+		ptr = ptr->next;
+	}
+}
+
+void	ft_update_02(t_dic **dic)
+{
+	t_dic	*ptr;
+	char	*var;
+	int		i;
+	int		j;
+
+	ptr = *dic;
+	while (ptr)
+	{
+		if (ptr->key == INFILE || ptr->key == OUTFILE)
+		{
+			i = 0;
+			if (ptr->next)
+			{
+				while (ptr->next->value[i])
+				{
+					j = 0;
+					if (ptr->next->value[i] == '$')
+					{
+						while (ptr->next->value[i + j + 1] && ft_is_delimiter(ptr->next->value[i + j + 1]) != SPACE
+							&& ft_is_delimiter(ptr->next->value[i + j + 1]) != DQUOTE)
+							j++;
+						var  = ft_substr(ptr->next->value, i + 1, j, 1);
+						ptr->next->value = ft_replace_str(ptr->next->value, ft_expand(var), i, i + j);
+					}
+					if (j != 0)
+						i += j;
+					else
+						i++;
+				}
+			}
+			printf("\n");
+		}
+		else if (ptr->key == DQUOTE)
+		{
+			i = 0;
+			printf("*\n");
+			if (ptr->next)
+			{
+				while (ptr->next->value[i])
+				{
+					j = 0;
+					printf("*\n");
+					if (ptr->next->value[i] == '$')
+					{
+						printf("*\n");
+						while (ptr->next->value[i + j + 1] && ft_is_delimiter(ptr->next->value[i + j + 1]) != SPACE
+							&& ft_is_delimiter(ptr->next->value[i + j + 1]) != DQUOTE)
+							j++;
+						printf("==>%d\n", j);
+						var  = ft_substr(ptr->next->value, i + 1, j, 1);
+						ptr->next->value = ft_replace_str(ptr->next->value, ft_expand(var), i, i + j);
+						printf("{%s}\n", ptr->next->value);
+					}
+					if (j != 0)
+						i += j;
+					else
+						i++;
+				}
+			}
+			printf("\n");
+			ptr = ptr->next;
 		}
 		ptr = ptr->next;
 	}
