@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 03:53:58 by nabboune          #+#    #+#             */
-/*   Updated: 2023/07/27 20:37:24 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/07/27 23:13:06 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -251,21 +251,7 @@ void	ft_less_great(t_dic **dic, t_dic *ptr1, int operation)
 				ft_del_page(dic, ptr2->previous);
 			}
 		}
-		if (ptr2 && (ptr2->key == CMD || ptr2->key == DOLLAR))
-		{
-			if (operation == LESSER)
-				ptr2->key = INFILE;
-			else
-				ptr2->key = OUTFILE;
-		}
-		else if (ptr2 && (ptr2->key == DQUOTE || ptr2->key == SQUOTE))
-		{
-			if (operation == LESSER)
-				ptr2->next->key = INFILE;
-			else
-				ptr2->next->key = OUTFILE;
-		}
-		else if (ptr2 && ptr2->key == operation)
+		if (ptr2 && ptr2->key == operation)
 		{
 			while (ptr2->next && ptr2->next->key == SPACE)
 			{
@@ -297,6 +283,52 @@ void	ft_less_great(t_dic **dic, t_dic *ptr1, int operation)
 			}
 			else
 				g_glob.exit_status = SYNTAX_ERROR;
+		}
+		else if (ptr2 && (ptr2->key == CMD || ptr2->key == DOLLAR
+				|| ptr2->key == DQUOTE || ptr2->key == SQUOTE))
+		{
+			// NEED TO MERGE THE VARIABLE AND DELETE THE DOLLAR SIGN IN THE FILENAME !!!
+			while (ptr2 && (ptr2->key == CMD || ptr2->key == DOLLAR
+					|| ptr2->key == DQUOTE || ptr2->key == SQUOTE))
+			{
+				printf("##\n");
+				if (ptr2 && (ptr2->key == CMD || ptr2->key == DOLLAR))
+				{
+					printf("@@\n");
+					if (ptr2->previous && (ptr2->previous->key == INFILE || ptr2->previous->key == OUTFILE))
+					{
+						ptr2->value = ft_strjoin(ptr2->previous->value, ptr2->value, 1);
+						ft_del_page(dic, ptr2->previous);
+					}
+					if (operation == LESSER)
+						ptr2->key = INFILE;
+					else
+						ptr2->key = OUTFILE;
+				}
+				else if (ptr2 && (ptr2->key == DQUOTE || ptr2->key == SQUOTE))
+				{
+					printf("$$\n");
+					if (ptr2->previous && (ptr2->previous->key == INFILE || ptr2->previous->key == OUTFILE))
+					{
+						ptr2->next->value = ft_strjoin(ptr2->previous->value, ptr2->next->value, 1);
+						ptr2 = ptr2->next;
+						ft_del_page(dic, ptr2->previous->previous);
+						ft_del_page(dic, ptr2->previous);
+						ft_del_page(dic, ptr2->next);
+					}
+					else
+					{
+						ptr2 = ptr2->next;
+						ft_del_page(dic, ptr2->previous);
+						ft_del_page(dic, ptr2->next);
+					}
+					if (operation == LESSER)
+						ptr2->key = INFILE;
+					else
+						ptr2->key = OUTFILE;
+				}
+				ptr2 = ptr2->next;
+			}
 		}
 		else
 			g_glob.exit_status = SYNTAX_ERROR;
