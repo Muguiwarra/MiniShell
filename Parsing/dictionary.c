@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 03:53:58 by nabboune          #+#    #+#             */
-/*   Updated: 2023/07/27 04:51:08 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/07/27 20:37:24 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	ft_dollar(t_dic **dic, char *input, int pipe, int i)
 	k = 1;
 	if ((input[i + 1] && ft_is_delimiter(input[i + 1])) || !input[i + 1])
 	{
-		if (ft_is_delimiter(input[i + 1]) == SPACE)
+		if (ft_is_delimiter(input[i + 1]) == SPACE || !input[i + 1])
 			ft_addpage_back(dic, ft_pagenew(CMD, "$\0", pipe));
 		else if (ft_is_delimiter(input[i + 1]) == DQUOTE || ft_is_delimiter(input[i + 1]) == SQUOTE)
 			return (-1);
@@ -141,12 +141,15 @@ t_dic	*ft_crea_dic(char *input)
 	return(dic);
 }
 
+/*
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		Need To Treat the case if the infile has been declared in a combination of CMD and QUOTES
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+*/
+
 void	ft_update_00(t_dic **dic)
 {
 	t_dic	*ptr1;
-	// char	*var;
-	// int		i;
-	// int		j;
 
 	ft_rm_multi_sp(dic);
 	ptr1 = *dic;
@@ -181,7 +184,6 @@ void	ft_check_dic(t_dic *dic)
 		if (dic->key == DQUOTE)
 		{
 			i++;
-			// printf("$$\n");
 			if (dic->next)
 				dic = dic->next;
 			else
@@ -332,43 +334,77 @@ void	ft_new_update_dic(t_dic **dic)
 	}
 }
 
-void	ft_update_01(t_dic **dic)
+void	ft_update_02(t_dic **dic)
 {
 	t_dic	*ptr;
 
 	ptr = *dic;
+	if (ptr->key == DQUOTE || ptr->key == SQUOTE)
+	{
+		ptr->next->special = ptr->key;
+		ptr = ptr->next;
+		ft_del_page(dic, ptr->previous);
+		ft_del_page(dic, ptr->next);
+		if (ptr->next && ptr->next->key == CMD)
+		{
+			ptr->next->value = ft_strjoin(ptr->value, ptr->next->value, 1);
+			ptr = ptr->next;
+			ft_del_page(dic, ptr->previous);
+		}
+		else if (ptr->next && (ptr->next->key == DQUOTE || ptr->next->key == SQUOTE))
+		{
+			ptr->next->next->value = ft_strjoin(ptr->value, ptr->next->next->value, 1);
+			ptr = ptr->next->next;
+			ft_del_page(dic, ptr->previous->previous);
+			ft_del_page(dic, ptr->previous);
+			ft_del_page(dic, ptr->next);
+		}
+		while (ptr->next && ptr->next->key == CMD)
+		{
+			ptr->next->value = ft_strjoin(ptr->value, ptr->next->value, 1);
+			ptr = ptr->next;
+			ft_del_page(dic, ptr->previous);
+		}
+		while (ptr->next && ptr->next->key == DOLLAR)
+		{
+			ptr->next->next->value = ft_strjoin(ptr->value, ptr->next->next->value, 1);
+			ptr = ptr->next->next;
+			ft_del_page(dic, ptr->previous->previous);
+			ft_del_page(dic, ptr->previous);
+		}
+		while (ptr->next && (ptr->next->key == DQUOTE || ptr->next->key == SQUOTE))
+		{
+			ptr->next->next->value = ft_strjoin(ptr->value, ptr->next->next->value, 1);
+			ptr = ptr->next->next;
+			ft_del_page(dic, ptr->previous->previous);
+			ft_del_page(dic, ptr->previous);
+			ft_del_page(dic, ptr->next);
+		}
+	}
 	while (ptr)
 	{
 		if (ptr->key == DQUOTE || ptr->key == SQUOTE)
 		{
 			if (ptr->previous && ptr->previous->key == CMD)
-			{
 				ptr->next->value = ft_strjoin(ptr->previous->value, ptr->next->value, 1);
-				ptr = ptr->next;
-				// ft_del_page(dic, ptr->previous->previous);
-				// ft_del_page(dic, ptr->previous);
-				// ft_del_page(dic, ptr->next);
-				continue;
-			}
-		}
-		else if (ptr->key == CMD && ptr->next && ptr->next->key == CMD)
-		{
-			ptr->next->value = ft_strjoin(ptr->value, ptr->next->value, 1);
 			ptr = ptr->next;
-			// ft_del_page(dic, ptr->previous);
+			ft_del_page(dic, ptr->previous->previous);
+			ft_del_page(dic, ptr->previous);
+			ft_del_page(dic, ptr->next);
+			continue;
 		}
-		else if (ptr->key == CMD && ptr->next && ptr->next->key == DOLLAR)
+		else if (ptr->key == DOLLAR && ptr->previous && ptr->previous->key == CMD)
 		{
-			ptr->next->next->value = ft_strjoin(ptr->value, ptr->next->next->value, 1);
-			ptr = ptr->next->next;
-			// ft_del_page(dic, ptr->previous->previous);
-			// ft_del_page(dic, ptr->previous);
+			ptr->next->value = ft_strjoin(ptr->previous->value, ptr->next->value, 1);
+			ptr = ptr->next;
+			ft_del_page(dic, ptr->previous->previous);
+			ft_del_page(dic, ptr->previous);
 		}
 		ptr = ptr->next;
 	}
 }
 
-void	ft_update_02(t_dic **dic)
+void	ft_update_01(t_dic **dic)
 {
 	t_dic	*ptr;
 	char	*var;
@@ -400,37 +436,32 @@ void	ft_update_02(t_dic **dic)
 						i++;
 				}
 			}
-			printf("\n");
 		}
 		else if (ptr->key == DQUOTE)
 		{
 			i = 0;
-			printf("*\n");
-			if (ptr->next)
+			if (ptr->next && ptr->next->key == CMD)
 			{
 				while (ptr->next->value[i])
 				{
 					j = 0;
-					printf("*\n");
-					if (ptr->next->value[i] == '$')
+					if (ptr->next->value[i] == '$' && ptr->next->value[i + 1])
 					{
-						printf("*\n");
 						while (ptr->next->value[i + j + 1] && ft_is_delimiter(ptr->next->value[i + j + 1]) != SPACE
-							&& ft_is_delimiter(ptr->next->value[i + j + 1]) != DQUOTE)
+							&& ptr->next->value[i + j + 1] != '\"' && ptr->next->value[i + j + 1] != '\''
+							&& ptr->next->value[i + j + 1] != '$' && ptr->next->value[i + j + 1] != '<'
+							&& ptr->next->value[i + j + 1] != '>')
 							j++;
-						printf("==>%d\n", j);
 						var  = ft_substr(ptr->next->value, i + 1, j, 1);
 						ptr->next->value = ft_replace_str(ptr->next->value, ft_expand(var), i, i + j);
-						printf("{%s}\n", ptr->next->value);
 					}
 					if (j != 0)
 						i += j;
 					else
 						i++;
 				}
+				ptr = ptr->next;
 			}
-			printf("\n");
-			ptr = ptr->next;
 		}
 		ptr = ptr->next;
 	}
