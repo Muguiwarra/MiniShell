@@ -6,7 +6,7 @@
 /*   By: ibel-har <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 23:24:08 by nabboune          #+#    #+#             */
-/*   Updated: 2023/07/23 16:31:53 by ibel-har         ###   ########.fr       */
+/*   Updated: 2023/07/27 21:59:08 by ibel-har         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,6 @@ typedef struct	s_parsout
 	int					fd_infile;
 	int					fd_outfile;
 	struct	s_parsout	*next;
-}				t_parsout;
+}				t_parsing_output;
 
 #endif

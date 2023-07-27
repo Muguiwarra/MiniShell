@@ -6,7 +6,7 @@
 /*   By: ibel-har <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 17:38:08 by ibel-har          #+#    #+#             */
-/*   Updated: 2023/07/22 23:05:16 by ibel-har         ###   ########.fr       */
+/*   Updated: 2023/07/27 22:06:43 by ibel-har         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <fcntl.h>
 # include <limits.h>
 # include <stdarg.h>
+# include "../Parsing/parser.h"
 # include "../Libft/libft.h"
 
 typedef struct	s_env
@@ -29,17 +30,13 @@ typedef struct	s_env
 	struct s_env	*next;
 }				t_env;
 
-
 typedef struct vars
 {
-	char	**argv;
 	int		pid;
 	int		fd[2];
 	int		std_in;
-	int		argc;
+	int		std_out;
 	int		count;
-	int		infile;
-	int		outfile;
 }	t_vars;
 
 // ************************************************************************** //
@@ -66,20 +63,17 @@ void			free_array(char **var);
 // execution
 // ************************************************************************** //
 
-
-char	**cmd_split(char *cmd, char **envp);
+char	**cmd_split(char **cmd, char **envp);
 char	*add_char(char *str, char dlm, char to_add);
-void	check_args(int argc, char **argv, t_vars *vars);
-void	check_input_file(char **argv, t_vars *vars);
-void	check_output_file(char **argv, t_vars *vars);
-void	run_ps(char *cmd, t_vars *vars, char **envp);
-void	fd_redirect_c(int *fd, t_vars *vars);
-void	fd_redirect_p(int *fd, t_vars *vars);
-void	exec_cmd(char *cmd, char **envp);
-void	check_infile(char **argv, t_vars *vars);
-void	check_outfile(char **argv, t_vars *vars);
-void	check_args_bonus(int argc, char **argv, t_vars *vars);
-void	here_doc(char **argv, t_vars *vars);
+// void	check_args(int argc, char **argv, t_vars *vars);
+// void	check_infile(char **argv, t_vars *vars);
+// void	check_outfile(char **argv, t_vars *vars);
+void	here_doc(char *dlm, t_vars *vars);
+void	run_ps(t_parsing_output *cmd, t_vars *vars, char **envp);
+void	input_rdir(t_parsing_output *cmd, t_vars *vars);
+void	output_rdir(t_parsing_output *cmd, t_vars *vars);
+void	ft_dup2(int fd, int std_fd);
+void	exec_cmd(char **cmd, char **envp);
 
 // ERROR HANDLING
 
@@ -89,9 +83,19 @@ void	cmd_err_msg(char *cmd);
 void	arg_err_msg(void);
 void	arg_err_msg_multi(void);
 
+// ENVIRONMENT
 
+char	**env_arr(t_env *env);
+void	env_clear(t_env **env);
+void	free_array(char **var);
+char	**split_var(char *str);
 
+// ERROR HANDLING
 
-
+void	pfd_err_msg(char *pfd);
+void	file_err_msg(char *file);
+void	cmd_err_msg(char *cmd);
+void	arg_err_msg(void);
+void	arg_err_msg_multi(void);
 
 #endif

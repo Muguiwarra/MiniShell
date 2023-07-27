@@ -1,53 +1,49 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   here_doc.c                                         :+:      :+:    :+:   */
+/*   env_to_arr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ibel-har <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/20 22:07:25 by ibel-har          #+#    #+#             */
+/*   Created: 2023/07/25 16:18:17 by ibel-har          #+#    #+#             */
 /*   Updated: 2023/07/27 22:00:39 by ibel-har         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
 
-void	her_doc_c(char *dlm, int heredoc)
+int	env_size(t_env *env)
 {
-	char	*line;
+	int		len;
+	t_env	*tmp;
 
-	while (1)
+	len = 0;
+	tmp = env;
+	while (tmp)
 	{
-		line = readline("herdoc> ");
-		if (!ft_strcmp(line, dlm))
-		{
-			free(line);
-			close(heredoc);
-			exit(0);
-		}
-		ft_putendl_fd(line, heredoc);
+		len++;
+		tmp = tmp->next;
 	}
+	return (len);
 }
 
-void	here_doc(char *dlm, t_vars *vars)
+char	**env_arr(t_env *env)
 {
-	int	status;
-	int	heredoc;
+	char	**arr;
+	char	*tmp;
+	int		i;
 
-	vars->pid = fork();
-	if (vars->pid == -1)
-		pfd_err_msg("Fork");
-	if (vars->pid == 0)
+	arr = (char **)malloc(sizeof(char *) * (env_size(env) + 1));
+	i = 0;
+	while (env)
 	{
-		heredoc = open("./heredoc", O_CREAT | O_WRONLY | O_TRUNC, 0666);
-		her_doc_c(dlm, heredoc);
+		arr[i] = ft_strjoin(env->key, "=");
+		tmp = arr[i];
+		arr[i] = ft_strjoin(arr[i], env->value);
+		free(tmp);
+		env = env->next;
+		i++;
 	}
-	else
-	{
-		wait(&status);
-		heredoc = open("./heredoc", O_RDONLY);
-		if (dup2(heredoc, 0) == -1)
-			pfd_err_msg("Dup2");
-		close(heredoc);
-	}
+	arr[i] = NULL;
+	return (arr);
 }

@@ -6,18 +6,18 @@
 /*   By: ibel-har <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 02:08:53 by ibel-har          #+#    #+#             */
-/*   Updated: 2023/03/22 02:28:56 by ibel-har         ###   ########.fr       */
+/*   Updated: 2023/07/27 22:00:39 by ibel-har         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "exec.h"
 
-void	exec_cmd(char *cmd, char **envp)
+void	exec_cmd(char **cmd, char **envp)
 {
 	char	**cmd_arr;
 
-	if (*cmd == '\0' || ft_strncmp(cmd, " ", ft_strlen(cmd)) == 0)
-		cmd_err_msg(cmd);
+	if (*cmd == '\0' || !ft_strcmp(*cmd, " "))
+		cmd_err_msg(*cmd);
 	cmd_arr = cmd_split(cmd, envp);
 	if (!ft_strchr(cmd_arr[0], '/') || (ft_strchr(cmd_arr[0], '/')
 			&& access(cmd_arr[0], X_OK) == -1))

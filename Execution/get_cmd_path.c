@@ -1,11 +1,11 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_cmd_path.c                                   :+:      :+:    :+:   */
+/*   get_cmd_path.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ibel-har <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/26 17:54:12 by ibel-har          #+#    #+#             */
+/*   Created: 2023/07/26 20:28:40 by ibel-har          #+#    #+#             */
 /*   Updated: 2023/07/27 22:00:39 by ibel-har         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -54,24 +54,24 @@ char	*ft_get_env(char **envp, char *var)
 	return (NULL);
 }
 
-char	**cmd_split(char *cmd, char **envp)
+char	**cmd_split(char **cmd, char **envp)
 {
-	char	**cmd_arr;
+	// char	**cmd_arr;
 	char	*tmp;
 	char	*path_str;
 	char	*path;
 
-	cmd_arr = ft_split(cmd, ' ');
+	// cmd_arr = ft_split(cmd, ' ');
 	if (!ft_get_env(envp, "PATH="))
-		return (cmd_arr);
-	if (!ft_strchr(cmd_arr[0], '/'))
+		return (cmd);
+	if (!ft_strchr(cmd[0], '/'))
 	{
 		path_str = add_char(ft_get_env(envp, "PATH="), ':', '.');
-		path = check_path(cmd_arr[0], path_str);
-		tmp = cmd_arr[0];
-		cmd_arr[0] = path;
+		path = check_path(cmd[0], path_str);
+		tmp = cmd[0];
+		cmd[0] = path;
 		ft_free(&tmp);
 		ft_free(&path_str);
 	}
-	return (cmd_arr);
+	return (cmd);
 }
