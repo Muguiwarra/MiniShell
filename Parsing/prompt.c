@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 23:23:30 by nabboune          #+#    #+#             */
-/*   Updated: 2023/07/28 03:51:14 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/07/28 21:51:19 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ void	ft_prompt()
 		ft_new_update_dic(&dic);
 		// ft_rm_sp(&dic, 0);
 		out = ft_parse_out(dic);
+		execute(out, env_arr(g_glob.env));
 		ft_ending_prompt(input);
 	}
 }

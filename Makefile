@@ -6,7 +6,7 @@
 #    By: nabboune <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/15 23:13:53 by nabboune          #+#    #+#              #
-#    Updated: 2023/07/27 23:05:49 by nabboune         ###   ########.fr        #
+#    Updated: 2023/07/28 22:54:10 by nabboune         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,16 @@ SRCS =	Minishell.c \
 		Execution/builtins/export.c \
 		Execution/builtins/export_print.c \
 		Execution/builtins/pwd.c \
-		Execution/builtins/unset.c
+		Execution/builtins/unset.c \
+		Execution/pipex.c\
+		Execution/add_char.c\
+		Execution/get_cmd_path.c\
+		Execution/err_msg.c\
+		Execution/exec_cmd.c\
+		Execution/here_doc.c\
+		Execution/env_to_arr.c\
+		Execution/run_ps.c\
+		Execution/t.c
 
 OBJS = $(SRCS:.c=.o)
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibel-har <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 17:38:08 by ibel-har          #+#    #+#             */
-/*   Updated: 2023/07/27 22:06:43 by ibel-har         ###   ########.fr       */
+/*   Updated: 2023/07/28 22:51:30 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void			export_print(t_env *env);
 void			var_export(t_env **env, char *key, char *value, int j);
 void			ft_export(t_env **env, char **args);
 int				env_var_parse(char *str);
-void			free_array(char **var);
+// void			free_array(char **var);
 
 // ************************************************************************** //
 // execution
@@ -74,6 +74,7 @@ void	input_rdir(t_parsing_output *cmd, t_vars *vars);
 void	output_rdir(t_parsing_output *cmd, t_vars *vars);
 void	ft_dup2(int fd, int std_fd);
 void	exec_cmd(char **cmd, char **envp);
+int		execute(t_parsing_output *cmds, char **envp);
 
 // ERROR HANDLING
 

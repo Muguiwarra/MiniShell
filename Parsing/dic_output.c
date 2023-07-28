@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 19:21:21 by nabboune          #+#    #+#             */
-/*   Updated: 2023/07/28 03:54:26 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/07/28 21:45:29 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,7 +183,7 @@ t_parsing_output	*ft_parse_out(t_dic *dic)
 	t_parsing_output	*output;
 
 	// Start : To Remove After
-	int					i;
+	// int					i;
 	// End : To Remove After
 
 	ptr = dic;
@@ -197,17 +197,17 @@ t_parsing_output	*ft_parse_out(t_dic *dic)
 	}
 
 	// Start : To Remove After
-	while (output)
-	{
-		printf("{in : %d}\n", output->fd_infile);
-		printf("{out : %d}\n", output->fd_outfile);
-		i = 0;
-		printf("{");
-		while (output->cmd[i])
-			printf("%s,", output->cmd[i++]);
-		printf("}\n");
-		output = output->next;
-	}
+	// while (output)
+	// {
+	// 	printf("{in : %d}\n", output->fd_infile);
+	// 	printf("{out : %d}\n", output->fd_outfile);
+	// 	i = 0;
+	// 	printf("{");
+	// 	while (output->cmd[i])
+	// 		printf("%s,", output->cmd[i++]);
+	// 	printf("}\n");
+	// 	output = output->next;
+	// }
 	// End : To Remove After
 
 	return (output);

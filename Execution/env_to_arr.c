@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_to_arr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibel-har <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 16:18:17 by ibel-har          #+#    #+#             */
-/*   Updated: 2023/07/27 22:00:39 by ibel-har         ###   ########.fr       */
+/*   Updated: 2023/07/28 22:54:34 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,9 @@ char	**env_arr(t_env *env)
 	i = 0;
 	while (env)
 	{
-		arr[i] = ft_strjoin(env->key, "=");
+		arr[i] = ft_strjoin(env->key, "=", 0);
 		tmp = arr[i];
-		arr[i] = ft_strjoin(arr[i], env->value);
+		arr[i] = ft_strjoin(arr[i], env->value, 0);
 		free(tmp);
 		env = env->next;
 		i++;
