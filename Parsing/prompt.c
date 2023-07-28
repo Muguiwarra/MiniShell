@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 23:23:30 by nabboune          #+#    #+#             */
-/*   Updated: 2023/07/27 19:41:44 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/07/28 03:51:14 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,6 +147,8 @@ char	*ft_replace_str(char *original, char *new, int start, int end)
 
 	i = 0;
 	j = 0;
+	if (!new)
+		return (original);
 	ln = ft_strlen(new);
 	lo = ft_strlen(original);
 	result = ft_malloc(lo - end + start + ln + 2, 1);

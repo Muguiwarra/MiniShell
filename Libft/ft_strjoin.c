@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 14:25:57 by nabboune          #+#    #+#             */
-/*   Updated: 2023/07/26 23:36:59 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/07/28 03:55:02 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ char	*ft_strjoin(char const *s1, char const *s2, int k)
 
 	if (!s1)
 		return ((char *)s2);
+	if (!s2)
+		return ((char *)s1);
 	ls1 = ft_strlen(s1);
 	ls2 = ft_strlen(s2);
 	i = ls1;

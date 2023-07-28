@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 03:53:58 by nabboune          #+#    #+#             */
-/*   Updated: 2023/07/27 23:13:06 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/07/28 03:40:58 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,12 +141,6 @@ t_dic	*ft_crea_dic(char *input)
 	return(dic);
 }
 
-/*
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		Need To Treat the case if the infile has been declared in a combination of CMD and QUOTES
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-*/
-
 void	ft_update_00(t_dic **dic)
 {
 	t_dic	*ptr1;
@@ -236,6 +230,9 @@ void	ft_check_dic(t_dic *dic)
 void	ft_less_great(t_dic **dic, t_dic *ptr1, int operation)
 {
 	t_dic	*ptr2;
+	char	*var;
+	int		i;
+	int		j;
 
 	ptr2 = ptr1->next;
 	if (ptr2)
@@ -287,7 +284,28 @@ void	ft_less_great(t_dic **dic, t_dic *ptr1, int operation)
 		else if (ptr2 && (ptr2->key == CMD || ptr2->key == DOLLAR
 				|| ptr2->key == DQUOTE || ptr2->key == SQUOTE))
 		{
-			// NEED TO MERGE THE VARIABLE AND DELETE THE DOLLAR SIGN IN THE FILENAME !!!
+
+			if (ptr2->key == DQUOTE)
+			{
+				i = 0;
+				while (ptr2->next->value[i])
+				{
+					j = 0;
+					if (ptr2->next->value[i] == '$')
+					{
+						while (ptr2->next->value[i + j + 1] && ft_is_delimiter(ptr2->next->value[i + j + 1]) != SPACE
+							&& ft_is_delimiter(ptr2->next->value[i + j + 1]) != DQUOTE)
+							j++;
+						var = ft_substr(ptr2->next->value, i + 1, j, 1);
+						ptr2->next->value = ft_replace_str(ptr2->next->value, ft_expand(var), i, i + j);
+					}
+					if (j != 0)
+						i += j;
+					else
+						i++;
+				}
+			}
+
 			while (ptr2 && (ptr2->key == CMD || ptr2->key == DOLLAR
 					|| ptr2->key == DQUOTE || ptr2->key == SQUOTE))
 			{
@@ -295,6 +313,11 @@ void	ft_less_great(t_dic **dic, t_dic *ptr1, int operation)
 				if (ptr2 && (ptr2->key == CMD || ptr2->key == DOLLAR))
 				{
 					printf("@@\n");
+					if (ptr2->key == DOLLAR)
+					{
+						ptr2 = ptr2->next;
+						ft_del_page(dic, ptr2->previous);
+					}
 					if (ptr2->previous && (ptr2->previous->key == INFILE || ptr2->previous->key == OUTFILE))
 					{
 						ptr2->value = ft_strjoin(ptr2->previous->value, ptr2->value, 1);
@@ -484,7 +507,7 @@ void	ft_update_01(t_dic **dic)
 							&& ptr->next->value[i + j + 1] != '$' && ptr->next->value[i + j + 1] != '<'
 							&& ptr->next->value[i + j + 1] != '>')
 							j++;
-						var  = ft_substr(ptr->next->value, i + 1, j, 1);
+						var = ft_substr(ptr->next->value, i + 1, j, 1);
 						ptr->next->value = ft_replace_str(ptr->next->value, ft_expand(var), i, i + j);
 					}
 					if (j != 0)
@@ -498,3 +521,9 @@ void	ft_update_01(t_dic **dic)
 		ptr = ptr->next;
 	}
 }
+
+/*
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+								Why It SEGEV When The Var Isn't Expandble i.e null.
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+*/
