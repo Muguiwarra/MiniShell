@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 23:23:30 by nabboune          #+#    #+#             */
-/*   Updated: 2023/07/28 21:51:19 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/07/29 03:44:19 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,10 +130,6 @@ int	ft_is_delimiter(char c)
 		return (PIPE);
 	else if (c == '$')
 		return (DOLLAR);
-	// else if (c == '\\')
-	// 	return (BACKSLASH);
-	// else if (c == '*')
-	// 	return (ASTERISK);
 	return (0);
 }
 
@@ -148,8 +144,6 @@ char	*ft_replace_str(char *original, char *new, int start, int end)
 
 	i = 0;
 	j = 0;
-	if (!new)
-		return (original);
 	ln = ft_strlen(new);
 	lo = ft_strlen(original);
 	result = ft_malloc(lo - end + start + ln + 2, 1);
@@ -159,9 +153,12 @@ char	*ft_replace_str(char *original, char *new, int start, int end)
 			result[j++] = original[i++];
 		else
 		{
-			k = 0;
-			while (new[k])
-				result[j++] = new[k++];
+			if (ln != 0)
+			{
+				k = 0;
+				while (new[k])
+					result[j++] = new[k++];
+			}
 			i = end + 1;
 		}
 	}

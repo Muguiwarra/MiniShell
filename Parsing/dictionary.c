@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 03:53:58 by nabboune          #+#    #+#             */
-/*   Updated: 2023/07/28 03:58:42 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/07/29 04:37:36 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -477,13 +477,18 @@ void	ft_update_01(t_dic **dic)
 				while (ptr->next->value[i])
 				{
 					j = 0;
-					if (ptr->next->value[i] == '$')
+					if (ptr->next->value[i] == '$' && ptr->next->value[i + j + 1])
 					{
-						while (ptr->next->value[i + j + 1] && ft_is_delimiter(ptr->next->value[i + j + 1]) != SPACE
-							&& ft_is_delimiter(ptr->next->value[i + j + 1]) != DQUOTE)
-							j++;
-						var  = ft_substr(ptr->next->value, i + 1, j, 1);
-						ptr->next->value = ft_replace_str(ptr->next->value, ft_expand(var), i, i + j);
+						if (ptr->next->value[i + j + 1] == '?')
+							ptr->next->value = ft_replace_str(ptr->next->value, ft_expand("?\0"), i, i + 1);
+						else
+						{
+							while (ptr->next->value[i + j + 1] && ft_is_delimiter(ptr->next->value[i + j + 1]) != SPACE
+								&& ft_is_delimiter(ptr->next->value[i + j + 1]) != DQUOTE)
+								j++;
+							var  = ft_substr(ptr->next->value, i + 1, j, 1);
+							ptr->next->value = ft_replace_str(ptr->next->value, ft_expand(var), i, i + j);
+						}
 					}
 					if (j != 0)
 						i += j;
@@ -497,23 +502,26 @@ void	ft_update_01(t_dic **dic)
 			i = 0;
 			if (ptr->next && ptr->next->key == CMD)
 			{
-				while (ptr->next->value[i])
+				while (ptr->next->value && ptr->next->value[i])
 				{
 					j = 0;
-					if (ptr->next->value[i] == '$' && ptr->next->value[i + 1])
+					if (ptr->next->value[i] == '$' && ptr->next->value[i + 1] && ptr->next->value[i + 1] != '$')
 					{
-						while (ptr->next->value[i + j + 1] && ft_is_delimiter(ptr->next->value[i + j + 1]) != SPACE
-							&& ptr->next->value[i + j + 1] != '\"' && ptr->next->value[i + j + 1] != '\''
-							&& ptr->next->value[i + j + 1] != '$' && ptr->next->value[i + j + 1] != '<'
-							&& ptr->next->value[i + j + 1] != '>')
-							j++;
-						var = ft_substr(ptr->next->value, i + 1, j, 1);
-						ptr->next->value = ft_replace_str(ptr->next->value, ft_expand(var), i, i + j);
+						if (ptr->next->value[i + j + 1] == '?')
+							ptr->next->value = ft_replace_str(ptr->next->value, ft_expand("?\0"), i, i + 1);
+						else
+						{
+							while (ptr->next->value[i + j + 1] && ft_is_delimiter(ptr->next->value[i + j + 1]) != SPACE
+								&& ptr->next->value[i + j + 1] != '\"' && ptr->next->value[i + j + 1] != '\''
+								&& ptr->next->value[i + j + 1] != '$' && ptr->next->value[i + j + 1] != '<'
+								&& ptr->next->value[i + j + 1] != '>')
+								j++;
+							var = ft_substr(ptr->next->value, i + 1, j, 1);
+							ptr->next->value = ft_replace_str(ptr->next->value, ft_expand(var), i, i + j);
+						}
+						continue;
 					}
-					if (j != 0)
-						i += j;
-					else
-						i++;
+					i++;
 				}
 				ptr = ptr->next;
 			}
@@ -521,10 +529,3 @@ void	ft_update_01(t_dic **dic)
 		ptr = ptr->next;
 	}
 }
-
-/*
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-								Why It SEGEV When The Var Isn't Expandble i.e null.
-								$tr == $tr !!!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-*/
