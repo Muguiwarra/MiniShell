@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 19:21:21 by nabboune          #+#    #+#             */
-/*   Updated: 2023/07/29 01:02:20 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/07/29 19:44:01 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,14 @@ int	ft_outfile(t_dic *dic, int out, int pipe)
 		{
 			if (dic->key == OUTFILE)
 			{
-				fd_outfile = open(dic->value, O_CREAT | O_RDWR, 0644);
+				if (dic->special == APPEND)
+				{
+					fd_outfile = open(dic->value, O_APPEND | O_RDWR, 0644);
+					if (fd_outfile == -1)
+						fd_outfile = open(dic->value, O_CREAT | O_RDWR, 0644);
+				}
+				else
+					fd_outfile = open(dic->value, O_CREAT | O_RDWR, 0644);
 				if (fd_outfile == -1)
 				{
 					perror(ft_strjoin("MiniShell : ", dic->value, 1));
@@ -144,6 +151,8 @@ int	ft_outfile(t_dic *dic, int out, int pipe)
 	}
 	return (fd_outfile);
 }
+
+
 
 char	**ft_getcmd(t_dic *dic, int nb_cmd, int pipe)
 {
@@ -182,10 +191,6 @@ t_parsing_output	*ft_parse_out(t_dic *dic)
 	t_dic				*ptr;
 	t_parsing_output	*output;
 
-	// Start : To Remove After
-	// int					i;
-	// End : To Remove After
-
 	ptr = dic;
 	pipe = ft_pipes(dic);
 	p = 0;
@@ -195,20 +200,6 @@ t_parsing_output	*ft_parse_out(t_dic *dic)
 		ft_addpipe_back(&output, ft_newpipe(ft_infile(dic, ft_nb_infiles(dic, p), p), ft_outfile(dic, ft_nb_outfiles(dic, p), p), ft_getcmd(dic, ft_nb_cmd(dic, p), p)));
 		p++;
 	}
-
-	// Start : To Remove After
-	// while (output)
-	// {
-	// 	printf("{in : %d}\n", output->fd_infile);
-	// 	printf("{out : %d}\n", output->fd_outfile);
-	// 	i = 0;
-	// 	printf("{");
-	// 	while (output->cmd[i])
-	// 		printf("%s,", output->cmd[i++]);
-	// 	printf("}\n");
-	// 	output = output->next;
-	// }
-	// End : To Remove After
-
 	return (output);
 }
+
