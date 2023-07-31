@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 03:04:17 by nabboune          #+#    #+#             */
-/*   Updated: 2023/07/21 17:25:53 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/07/31 06:37:44 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ void	*ft_malloc(size_t size, int i)
 		obj->next = g_glob.allocations;
 		g_glob.allocations = obj;
 	}
-	return(ptr);
+	return (ptr);
 }
 
-void	ft_collect_garbadge()
+void	ft_collect_garbadge(void)
 {
 	t_list	*ptr;
 	t_list	*temp;

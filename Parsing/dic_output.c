@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 19:21:21 by nabboune          #+#    #+#             */
-/*   Updated: 2023/07/29 19:44:01 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/07/31 06:24:45 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,8 @@ int	ft_nb_cmd(t_dic *dic, int pipe)
 
 int	ft_infile(t_dic *dic, int in, int pipe)
 {
-	int		fd_infile;
-	int		i;
+	int	fd_infile;
+	int	i;
 
 	fd_infile = 0;
 	i = 0;
@@ -98,6 +98,16 @@ int	ft_infile(t_dic *dic, int in, int pipe)
 					}
 				}
 			}
+			else if (dic->key == HEREDOC)
+			{
+				fd_infile = here_doc(dic->next->value);
+				if (fd_infile == -1)
+				{
+					perror(ft_strjoin("MiniShell : ", dic->value, 1));
+					g_glob.exit_status = UNSPECIFIED_ERROR;
+					break ;
+				}
+			}
 			dic = dic->next;
 		}
 		if (dic)
@@ -108,8 +118,8 @@ int	ft_infile(t_dic *dic, int in, int pipe)
 
 int	ft_outfile(t_dic *dic, int out, int pipe)
 {
-	int		fd_outfile;
-	int		i;
+	int	fd_outfile;
+	int	i;
 
 	fd_outfile = 1;
 	i = 0;
@@ -152,8 +162,6 @@ int	ft_outfile(t_dic *dic, int out, int pipe)
 	return (fd_outfile);
 }
 
-
-
 char	**ft_getcmd(t_dic *dic, int nb_cmd, int pipe)
 {
 	char	**cmd;
@@ -163,8 +171,6 @@ char	**ft_getcmd(t_dic *dic, int nb_cmd, int pipe)
 	i = 0;
 	while (dic)
 	{
-		while (dic && dic->pipe != pipe)
-			dic = dic->next;
 		while (dic && dic->pipe == pipe)
 		{
 			while (dic && (dic->key == CMD || dic->key == SPACE))
@@ -197,9 +203,10 @@ t_parsing_output	*ft_parse_out(t_dic *dic)
 	output = NULL;
 	while (p < pipe)
 	{
-		ft_addpipe_back(&output, ft_newpipe(ft_infile(dic, ft_nb_infiles(dic, p), p), ft_outfile(dic, ft_nb_outfiles(dic, p), p), ft_getcmd(dic, ft_nb_cmd(dic, p), p)));
+		ft_addpipe_back(&output, ft_newpipe(ft_infile(dic, ft_nb_infiles(dic,
+							p), p), ft_outfile(dic, ft_nb_outfiles(dic, p), p),
+					ft_getcmd(dic, ft_nb_cmd(dic, p), p)));
 		p++;
 	}
 	return (output);
 }
-

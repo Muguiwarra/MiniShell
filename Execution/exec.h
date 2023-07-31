@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 17:38:08 by ibel-har          #+#    #+#             */
-/*   Updated: 2023/07/28 22:51:30 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/07/29 22:56:07 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ char	*add_char(char *str, char dlm, char to_add);
 // void	check_args(int argc, char **argv, t_vars *vars);
 // void	check_infile(char **argv, t_vars *vars);
 // void	check_outfile(char **argv, t_vars *vars);
-void	here_doc(char *dlm, t_vars *vars);
+int		here_doc(char *dlm);
 void	run_ps(t_parsing_output *cmd, t_vars *vars, char **envp);
 void	input_rdir(t_parsing_output *cmd, t_vars *vars);
 void	output_rdir(t_parsing_output *cmd, t_vars *vars);

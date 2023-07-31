@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 14:25:57 by nabboune          #+#    #+#             */
-/*   Updated: 2023/07/28 03:55:02 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/07/31 06:27:21 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,7 @@ char	*ft_strjoin(char const *s1, char const *s2, int k)
 		return (0);
 	ft_strlcpy(ptr, s1, ls1 + 1);
 	while (i < ls1 + ls2)
-	{
-		ptr[i] = s2[j];
-		i++;
-		j++;
-	}
+		ptr[i++] = s2[j++];
 	ptr[i] = '\0';
 	return (ptr);
 }

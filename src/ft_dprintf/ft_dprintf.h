@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 22:52:31 by ibel-har          #+#    #+#             */
-/*   Updated: 2023/07/19 08:52:35 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/07/31 06:38:16 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <string.h>
 # include <unistd.h>
 
-int		ft_dprintf(int fd ,const char *formatter, ...);
+int		ft_dprintf(int fd, const char *formatter, ...);
 int		ft_dputstr(int fd, char *str);
 int		ft_dputhex(int fd, unsigned int nb, char ca_se);
 int		ft_dputptr(int fd, unsigned long nb);

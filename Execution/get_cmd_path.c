@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 20:28:40 by ibel-har          #+#    #+#             */
-/*   Updated: 2023/07/28 22:52:25 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/07/31 05:23:57 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	*check_path(char *cmd, char *path_str)
 		if (access(cmd_path, X_OK) == -1)
 		{
 			free(cmd_path);
-			cmd_path = 	NULL;
+			cmd_path = NULL;
 		}
 		else
 		{
@@ -61,18 +61,18 @@ char	*ft_get_env(char **envp, char *var)
 
 char	**cmd_split(char **cmd, char **envp)
 {
-	// char	**cmd_arr;
 	char	*tmp;
 	char	*path_str;
 	char	*path;
 
-	// cmd_arr = ft_split(cmd, ' ');
 	if (!ft_get_env(envp, "PATH="))
 		return (cmd);
-	if (!ft_strchr(cmd[0], '/'))
+	if (!ft_strchr(cmd[0], '/') && *cmd[0] != '\0')
 	{
 		path_str = add_char(ft_get_env(envp, "PATH="), ':', '.');
 		path = check_path(cmd[0], path_str);
+		if (!ft_strcmp(path, cmd[0]) && !ft_strchr(cmd[0], '/'))
+			return (free(path_str), cmd);
 		tmp = cmd[0];
 		cmd[0] = path;
 		free(tmp);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibel-har <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 02:08:53 by ibel-har          #+#    #+#             */
-/*   Updated: 2023/07/27 22:00:39 by ibel-har         ###   ########.fr       */
+/*   Updated: 2023/07/30 22:58:02 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void	exec_cmd(char **cmd, char **envp)
 {
 	char	**cmd_arr;
 
+	if (!cmd)
+		cmd_err_msg(" ");
 	if (*cmd == '\0' || !ft_strcmp(*cmd, " "))
 		cmd_err_msg(*cmd);
 	cmd_arr = cmd_split(cmd, envp);

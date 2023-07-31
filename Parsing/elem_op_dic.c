@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 03:57:10 by nabboune          #+#    #+#             */
-/*   Updated: 2023/07/23 22:14:26 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/07/31 05:29:26 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_dic	*ft_pagenew(int key, char *value, int pipe)
 
 	head = ft_malloc(sizeof(t_dic), 1);
 	if (!head)
-		exit (UNSPECIFIED_ERROR);
+		exit(UNSPECIFIED_ERROR);
 	head->key = key;
 	head->special = 0;
 	head->pipe = pipe;
@@ -34,7 +34,7 @@ t_parsing_output	*ft_newpipe(int in, int out, char **cmd)
 
 	head = ft_malloc(sizeof(t_parsing_output), 1);
 	if (!head)
-		exit (UNSPECIFIED_ERROR);
+		exit(UNSPECIFIED_ERROR);
 	head->fd_infile = in;
 	head->fd_outfile = out;
 	head->cmd = cmd;
@@ -54,7 +54,7 @@ void	ft_del_page(t_dic **dic, t_dic *page)
 		(*dic)->previous = NULL;
 	}
 	ptr = *dic;
-	while(ptr)
+	while (ptr)
 	{
 		if (ptr == page)
 		{
@@ -70,10 +70,9 @@ void	ft_del_page(t_dic **dic, t_dic *page)
 			}
 			if (next)
 				next->previous = prev;
-			else
-				if (prev)
-					prev->next = NULL;
-			break;
+			else if (prev)
+				prev->next = NULL;
+			break ;
 		}
 		ptr = ptr->next;
 	}
@@ -148,7 +147,7 @@ void	ft_rm_multi_sp(t_dic **dic)
 			ft_del_page(dic, ptr->previous);
 		}
 		else
-			break;
+			break ;
 	}
 	while (ptr)
 	{
