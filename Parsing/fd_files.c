@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 02:42:53 by nabboune          #+#    #+#             */
-/*   Updated: 2023/08/01 02:43:30 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/08/01 16:51:29 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_infile_fd(t_dic *dic, int in, int *i)
 	fd_infile = 0;
 	fd_infile = open(dic->value, O_RDONLY, 0644);
 	if (fd_infile == -1)
-		return(ft_file_err(dic), 0);
+		return(ft_file_err(dic), -1);
 	(*i)++;
 	if (*i != in)
 		if (close(fd_infile) == -1)

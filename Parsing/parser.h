@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 23:24:08 by nabboune          #+#    #+#             */
-/*   Updated: 2023/08/01 06:29:10 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/08/01 17:43:46 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct s_iterators
 {
 	int	i;
 	int	j;
+	int	doc;
 }		t_iterators;
 
 typedef struct s_dic
@@ -88,6 +89,7 @@ int							ft_del_no_del(t_dic **dic, char *input, t_iterators *itr, int *pipe);
 t_dic						*ft_crea_dic(char *input);
 int							ft_open_quotes(t_dic **dic, char *input, int pipe,
 								int i);
+void						ft_check_quotes(t_dic **dic, int *i);
 void						ft_check_dic(t_dic *dic);
 void						ft_update_00(t_dic **dic);
 void						ft_update_01(t_dic **dic);

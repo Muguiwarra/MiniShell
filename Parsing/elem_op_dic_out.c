@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 00:53:07 by nabboune          #+#    #+#             */
-/*   Updated: 2023/08/01 02:41:38 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/08/01 16:53:52 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_file_err(t_dic *dic)
 {
-	perror(ft_strjoin("MiniShell : ", dic->value, 1));
+	ft_dprintf(2,"Minishell-0.1: %s: %s\n", dic->value, strerror(errno));
 	g_glob.exit_status = UNSPECIFIED_ERROR;
 }
 

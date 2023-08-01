@@ -6,170 +6,126 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 03:53:58 by nabboune          #+#    #+#             */
-/*   Updated: 2023/08/01 06:30:08 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/08/01 19:30:11 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_check_dic(t_dic *dic)
-{
-	int	i;
-	int	doc;
+/*
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+			echo ""hi ==> " hi"
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+*/
 
-	doc = 0;
-	while (dic)
+void	ft_pre_less_great(t_dic **dic, t_dic **ptr2)
+{
+	while (*ptr2 && (*ptr2)->key == SPACE)
+		*ptr2 = (*ptr2)->next;
+	if (*ptr2 && (*ptr2)->key == DOLLAR)
+	{
+		if ((*ptr2)->next)
+		{
+			*ptr2 = (*ptr2)->next;
+			ft_del_page(dic, (*ptr2)->previous);
+		}
+	}
+}
+
+void	ft_limiter_outfile(t_dic **ptr2, int operation)
+{
+	if (operation == LESSER)
+		(*ptr2)->key = LIMITER;
+	else
+		(*ptr2)->key = OUTFILE;
+}
+
+void	ft_del_move(t_dic **dic, t_dic **ptr2)
+{
+	ft_del_page(dic, *ptr2);
+	*ptr2 = (*ptr2)->next;
+}
+
+void	ft_op_less_great(t_dic **dic, t_dic **ptr2, t_dic **ptr1, int operation)
+{
+	while ((*ptr2)->next && (*ptr2)->next->key == SPACE)
+		ft_del_move(dic, ptr2);
+	if ((*ptr2)->next && (*ptr2)->next->key != LESSER
+		&& (*ptr2)->next->key != GREATER)
+	{
+		if ((*ptr2)->next->key == DQUOTE || (*ptr2)->next->key == SQUOTE)
+		{
+			ft_del_page(dic, (*ptr2)->next);
+			ft_del_page(dic, (*ptr2)->next->next);
+		}
+		ft_del_page(dic, *ptr2);
+		if (operation == LESSER)
+			(*ptr1)->key = HEREDOC;
+		else
+			(*ptr1)->key = APPEND;
+		*ptr2 = (*ptr1)->next;
+		if (*ptr2)
+			ft_limiter_outfile(ptr2, operation);
+		else
+			g_glob.exit_status = SYNTAX_ERROR;
+	}
+	else
+		g_glob.exit_status = SYNTAX_ERROR;
+}
+
+int		ft_op_dquote_cond(t_dic **ptr2, int i, int j)
+{
+	if ((*ptr2)->next->value[i + j + 1]
+		&& ft_is_delimiter((*ptr2)->next->value[i + j
+			+ 1]) != SPACE
+		&& ft_is_delimiter((*ptr2)->next->value[i + j
+			+ 1]) != DQUOTE)
+		return (1);
+	return (0);
+}
+
+void	ft_op_dquote(t_dic **ptr2)
+{
+	char	*var;
+	int		i;
+	int		j;
+
+	if ((*ptr2)->key == DQUOTE)
 	{
 		i = 0;
-		if (dic->key == DQUOTE)
+		while ((*ptr2)->next->value[i])
 		{
-			i++;
-			if (dic->next)
-				dic = dic->next;
+			j = 0;
+			if ((*ptr2)->next->value[i] == '$')
+			{
+				while (ft_op_dquote_cond(ptr2, i, j))
+					j++;
+				var = ft_substr((*ptr2)->next->value, i + 1, j, 1);
+				(*ptr2)->next->value = ft_replace_str((*ptr2)->next->value,
+						ft_expand(var), i, i + j);
+			}
+			if (j != 0)
+				i += j;
 			else
-				g_glob.exit_status = SYNTAX_ERROR;
-			while (dic)
-			{
-				if (dic->key == DQUOTE)
-				{
-					i++;
-					break ;
-				}
-				dic = dic->next;
-			}
-			if (i != 2)
-				g_glob.exit_status = SYNTAX_ERROR;
+				i++;
 		}
-		else if (dic->key == SQUOTE)
-		{
-			i++;
-			if (dic->next)
-				dic = dic->next;
-			else
-				g_glob.exit_status = SYNTAX_ERROR;
-			while (dic)
-			{
-				if (dic->key == SQUOTE)
-				{
-					i++;
-					break ;
-				}
-				dic = dic->next;
-			}
-			if (i != 2)
-				g_glob.exit_status = SYNTAX_ERROR;
-		}
-		else if (dic->key == HEREDOC)
-		{
-			doc++;
-			if (doc == 17)
-			{
-				g_glob.exit_status = MAXIMUM_HEREDOC;
-				break ;
-			}
-		}
-		else if (dic->key == LESSER || dic->key == GREATER)
-		{
-			dic = dic->next;
-			if (dic && dic->key == SPACE)
-			{
-				while (dic && dic->key == SPACE)
-					dic = dic->next;
-				if (dic && (dic->key == LESSER || dic->key == GREATER))
-				{
-					g_glob.exit_status = SYNTAX_ERROR;
-					break ;
-				}
-			}
-		}
-		if (dic)
-			dic = dic->next;
 	}
 }
 
 void	ft_less_great(t_dic **dic, t_dic *ptr1, int operation)
 {
 	t_dic	*ptr2;
-	char	*var;
-	int		i;
-	int		j;
 
 	ptr2 = ptr1->next;
 	if (ptr2)
 	{
-		while (ptr2 && ptr2->key == SPACE)
-			ptr2 = ptr2->next;
-		if (ptr2 && ptr2->key == DOLLAR)
-		{
-			if (ptr2->next)
-			{
-				ptr2 = ptr2->next;
-				ft_del_page(dic, ptr2->previous);
-			}
-		}
+		ft_pre_less_great(dic, &ptr2);
 		if (ptr2 && ptr2->key == operation)
-		{
-			while (ptr2->next && ptr2->next->key == SPACE)
-			{
-				ft_del_page(dic, ptr2);
-				ptr2 = ptr2->next;
-			}
-			if (ptr2->next && ptr2->next->key != LESSER
-				&& ptr2->next->key != GREATER)
-			{
-				if (ptr2->next->key == DQUOTE || ptr2->next->key == SQUOTE)
-				{
-					ft_del_page(dic, ptr2->next);
-					ft_del_page(dic, ptr2->next->next);
-				}
-				ft_del_page(dic, ptr2);
-				if (operation == LESSER)
-					ptr1->key = HEREDOC;
-				else
-					ptr1->key = APPEND;
-				ptr2 = ptr1->next;
-				if (ptr2)
-				{
-					if (operation == LESSER)
-						ptr2->key = LIMITER;
-					else
-						ptr2->key = OUTFILE;
-				}
-				else
-					g_glob.exit_status = SYNTAX_ERROR;
-			}
-			else
-				g_glob.exit_status = SYNTAX_ERROR;
-		}
+			ft_op_less_great(dic, &ptr2, &ptr1, operation);
 		else if (ptr2 && (ptr2->key == CMD || ptr2->key == DOLLAR
 					|| ptr2->key == DQUOTE || ptr2->key == SQUOTE))
 		{
-			if (ptr2->key == DQUOTE)
-			{
-				i = 0;
-				while (ptr2->next->value[i])
-				{
-					j = 0;
-					if (ptr2->next->value[i] == '$')
-					{
-						while (ptr2->next->value[i + j + 1]
-							&& ft_is_delimiter(ptr2->next->value[i + j
-								+ 1]) != SPACE
-							&& ft_is_delimiter(ptr2->next->value[i + j
-								+ 1]) != DQUOTE)
-							j++;
-						var = ft_substr(ptr2->next->value, i + 1, j, 1);
-						ptr2->next->value = ft_replace_str(ptr2->next->value,
-															ft_expand(var),
-															i,
-															i + j);
-					}
-					if (j != 0)
-						i += j;
-					else
-						i++;
-				}
-			}
+			ft_op_dquote(&ptr2);
 			while (ptr2 && (ptr2->key == CMD || ptr2->key == DOLLAR
 					|| ptr2->key == DQUOTE || ptr2->key == SQUOTE))
 			{
