@@ -6,66 +6,11 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 19:21:21 by nabboune          #+#    #+#             */
-/*   Updated: 2023/07/31 06:24:45 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/08/01 02:44:23 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-int	ft_pipes(t_dic *dic)
-{
-	t_dic	*ptr;
-
-	ptr = dic;
-	while (dic)
-	{
-		ptr = dic;
-		dic = dic->next;
-	}
-	return (ptr->pipe + 1);
-}
-
-int	ft_nb_infiles(t_dic *dic, int pipe)
-{
-	int	i;
-
-	i = 0;
-	while (dic)
-	{
-		if (dic->pipe == pipe && dic->key == INFILE)
-			i++;
-		dic = dic->next;
-	}
-	return (i);
-}
-
-int	ft_nb_outfiles(t_dic *dic, int pipe)
-{
-	int	i;
-
-	i = 0;
-	while (dic)
-	{
-		if (dic->pipe == pipe && dic->key == OUTFILE)
-			i++;
-		dic = dic->next;
-	}
-	return (i);
-}
-
-int	ft_nb_cmd(t_dic *dic, int pipe)
-{
-	int	i;
-
-	i = 0;
-	while (dic)
-	{
-		if (dic->pipe == pipe && dic->key == CMD)
-			i++;
-		dic = dic->next;
-	}
-	return (i);
-}
 
 int	ft_infile(t_dic *dic, int in, int pipe)
 {
@@ -74,44 +19,19 @@ int	ft_infile(t_dic *dic, int in, int pipe)
 
 	fd_infile = 0;
 	i = 0;
-	while (dic)
+	while (dic && dic->pipe != pipe)
+		dic = dic->next;
+	while (dic && dic->pipe == pipe)
 	{
-		while (dic && dic->pipe == pipe)
+		if (dic->key == INFILE)
+			fd_infile = ft_infile_fd(dic, in, &i);
+		else if (dic->key == HEREDOC)
 		{
-			if (dic->key == INFILE)
-			{
-				fd_infile = open(dic->value, O_RDONLY, 0644);
-				if (fd_infile == -1)
-				{
-					perror(ft_strjoin("MiniShell : ", dic->value, 1));
-					g_glob.exit_status = UNSPECIFIED_ERROR;
-					break ;
-				}
-				i++;
-				if (i != in)
-				{
-					if (close(fd_infile) == -1)
-					{
-						perror("MiniShell : ");
-						g_glob.exit_status = UNSPECIFIED_ERROR;
-						break ;
-					}
-				}
-			}
-			else if (dic->key == HEREDOC)
-			{
-				fd_infile = here_doc(dic->next->value);
-				if (fd_infile == -1)
-				{
-					perror(ft_strjoin("MiniShell : ", dic->value, 1));
-					g_glob.exit_status = UNSPECIFIED_ERROR;
-					break ;
-				}
-			}
-			dic = dic->next;
+			fd_infile = here_doc(dic->next->value);
+			if (fd_infile == -1)
+				return(ft_file_err(dic), fd_infile);
 		}
-		if (dic)
-			dic = dic->next;
+		dic = dic->next;
 	}
 	return (fd_infile);
 }
@@ -123,41 +43,13 @@ int	ft_outfile(t_dic *dic, int out, int pipe)
 
 	fd_outfile = 1;
 	i = 0;
-	while (dic)
+	while (dic && dic->pipe != pipe)
+		dic = dic->next;
+	while (dic && dic->pipe == pipe)
 	{
-		while (dic && dic->pipe == pipe)
-		{
-			if (dic->key == OUTFILE)
-			{
-				if (dic->special == APPEND)
-				{
-					fd_outfile = open(dic->value, O_APPEND | O_RDWR, 0644);
-					if (fd_outfile == -1)
-						fd_outfile = open(dic->value, O_CREAT | O_RDWR, 0644);
-				}
-				else
-					fd_outfile = open(dic->value, O_CREAT | O_RDWR, 0644);
-				if (fd_outfile == -1)
-				{
-					perror(ft_strjoin("MiniShell : ", dic->value, 1));
-					g_glob.exit_status = UNSPECIFIED_ERROR;
-					break ;
-				}
-				i++;
-				if (i != out)
-				{
-					if (close(fd_outfile) == -1)
-					{
-						perror("MiniShell : ");
-						g_glob.exit_status = UNSPECIFIED_ERROR;
-						break ;
-					}
-				}
-			}
-			dic = dic->next;
-		}
-		if (dic)
-			dic = dic->next;
+		if (dic->key == OUTFILE)
+			fd_outfile = ft_outfile_fd(dic, out, &i);
+		dic = dic->next;
 	}
 	return (fd_outfile);
 }

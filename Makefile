@@ -6,7 +6,7 @@
 #    By: nabboune <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/15 23:13:53 by nabboune          #+#    #+#              #
-#    Updated: 2023/07/31 02:23:02 by nabboune         ###   ########.fr        #
+#    Updated: 2023/08/01 06:27:36 by nabboune         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,8 +34,13 @@ SRCS =	Minishell.c \
 		Parsing/prompt.c \
 		Parsing/expand.c \
 		Parsing/elem_op_dic.c \
+		Parsing/pre_dic.c \
+		Parsing/crea_dic.c \
 		Parsing/dictionary.c \
+		Parsing/update_dic.c \
+		Parsing/elem_op_dic_out.c \
 		Parsing/dic_output.c \
+		Parsing/fd_files.c \
 		Execution/builtins/cd.c \
 		Execution/builtins/echo.c \
 		Execution/builtins/env.c \
