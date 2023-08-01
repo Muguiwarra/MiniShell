@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 17:38:08 by ibel-har          #+#    #+#             */
-/*   Updated: 2023/07/29 22:56:07 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/08/01 16:31:46 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <stdlib.h>
 # include <string.h>
 # include <fcntl.h>
+# include <errno.h>
 # include <limits.h>
 # include <stdarg.h>
 # include "../Parsing/parser.h"

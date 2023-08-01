@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 23:23:30 by nabboune          #+#    #+#             */
-/*   Updated: 2023/08/01 06:23:45 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/08/01 19:38:52 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,6 @@ void	ft_prompt(void)
 			ft_ending_prompt(input);
 			continue ;
 		}
-		// while (dic)
-		// {
-		// 	printf("Present : %p\nKey : %d\nValue : %s\nPipe : %d\nSpecial : %d\nNext : %p\nPrevious : %p\n\n", dic, dic->key, dic->value, dic->pipe, dic->special, dic->next, dic->previous);
-		// 	dic = dic->next;
-		// }
-		// continue;
 		if (ft_check_exit())
 		{
 			ft_ending_prompt(input);
@@ -48,6 +42,12 @@ void	ft_prompt(void)
 			continue ;
 		}
 		ft_update_00(&dic);
+		ft_check_dic(dic);
+		if (ft_check_exit())
+		{
+			ft_ending_prompt(input);
+			continue ;
+		}
 		ft_update_01(&dic);
 		if (ft_check_exit())
 		{
@@ -62,6 +62,16 @@ void	ft_prompt(void)
 		}
 		ft_update_03(&dic);
 		out = ft_parse_out(dic);
+		// int	o = 0;
+		// while (out)
+		// {
+		// 	printf("inflile : {%d}\noutfile : {%d}\n cmd : \n{", out->fd_infile, out->fd_outfile);
+		// 	while (out->cmd[o])
+		// 		printf("%s, ", out->cmd[o++]);
+		// 	printf("}\n");
+		// 	out = out->next;
+		// }
+		// continue;
 		execute(out, env_arr(g_glob.env));
 		ft_ending_prompt(input);
 	}
@@ -79,27 +89,27 @@ int	ft_check_exit(void)
 {
 	if (g_glob.exit_status == UNSPECIFIED_ERROR)
 	{
-		ft_printf("minishell: Unspecified error !\n");
+		ft_dprintf(2,"Minishell-0.1: Unspecified error !\n");
 		return (1);
 	}
 	else if (g_glob.exit_status == CMD_NOT_EXECUTABLE)
 	{
-		ft_printf("minishell: Command not executable !\n");
+		ft_dprintf(2, "minishell-0.1: Command not executable !\n");
 		return (1);
 	}
 	else if (g_glob.exit_status == CMD_NOT_FOUND)
 	{
-		ft_printf("minishell: Command not found !\n");
+		ft_dprintf(2, "minishell-0.1: Command not found !\n");
 		return (1);
 	}
 	else if (g_glob.exit_status == SYNTAX_ERROR)
 	{
-		ft_printf("minishell: Syntax ERROR !\n");
+		ft_dprintf(2, "minishell-0.1: Syntax ERROR !\n");
 		return (1);
 	}
 	else if (g_glob.exit_status == MAXIMUM_HEREDOC)
 	{
-		ft_printf("minishell: Maximum HEREDOC OPENED !\n");
+		ft_dprintf(2, "minishell-0.1: Maximum HEREDOC OPENED !\n");
 		return (1);
 	}
 	return (0);

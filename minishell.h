@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 08:57:48 by nabboune          #+#    #+#             */
-/*   Updated: 2023/08/01 03:40:54 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/08/01 16:31:53 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # define CMD_NOT_EXECUTABLE 126
 # define CMD_NOT_FOUND 127
 # define SYNTAX_ERROR 258
+// # define PROMPT ""
 
 typedef struct	s_global
 {
