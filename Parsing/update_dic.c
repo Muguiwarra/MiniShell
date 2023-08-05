@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 03:15:24 by nabboune          #+#    #+#             */
-/*   Updated: 2023/08/01 03:16:59 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/08/05 03:08:04 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,51 @@ void	ft_update_00(t_dic **dic)
 	}
 }
 
+void	ft_update_01(t_dic **dic)
+{
+	char		*var;
+	t_dic		*ptr;
+	t_iterators	itr;
+
+	ptr = *dic;
+	var = NULL;
+	while (ptr)
+	{
+		if (ptr->key == INFILE || ptr->key == OUTFILE)
+			ft_update_01_in_out(&ptr, var, &itr);
+		else if (ptr->key == DQUOTE)
+			ft_update_01_dquote(&ptr, var, &itr);
+		ptr = ptr->next;
+	}
+}
+
+void	ft_update_02(t_dic **dic)
+{
+	t_dic	*ptr;
+
+	ptr = *dic;
+	ft_pre_update_02(dic, &ptr);
+	while (ptr)
+	{
+		if (ptr->key == DQUOTE || ptr->key == SQUOTE)
+		{
+			ft_update_02_quotes(dic, &ptr);
+			continue;
+		}
+		else if (ptr->key == DOLLAR && ptr->previous
+				&& ptr->previous->key == CMD)
+			ft_update_02_dolcmd(dic, &ptr);
+		else if (ptr->key == CMD && ptr->previous && ptr->previous->key == CMD)
+		{
+			ptr->value = ft_strjoin(ptr->previous->value, ptr->value, 1);
+			ft_del_page(dic, ptr->previous);
+			ptr = ptr->next;
+			continue;
+		}
+		ptr = ptr->next;
+	}
+}
+
 void	ft_update_03(t_dic **dic)
 {
 	t_dic	*ptr;
@@ -64,4 +109,33 @@ void	ft_update_03(t_dic **dic)
 		}
 		ptr = ptr->next;
 	}
+}
+
+char	*ft_replace_str(char *original, char *new, int start, int end)
+{
+	char	*result;
+	t_iterators itr;
+
+	itr.i = 0;
+	itr.j = 0;
+	itr.ln = ft_strlen(new);
+	itr.lo = ft_strlen(original);
+	result = ft_malloc(itr.lo - end + start + itr.ln + 2, 1);
+	while (original[itr.i])
+	{
+		if (itr.i != start)
+			result[itr.j++] = original[itr.i++];
+		else
+		{
+			if (itr.ln != 0)
+			{
+				itr.k = 0;
+				while (new[itr.k])
+					result[itr.j++] = new[itr.k++];
+			}
+			itr.i = end + 1;
+		}
+	}
+	result[itr.j] = '\0';
+	return (result);
 }

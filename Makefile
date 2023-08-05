@@ -6,7 +6,7 @@
 #    By: nabboune <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/15 23:13:53 by nabboune          #+#    #+#              #
-#    Updated: 2023/08/01 19:47:32 by nabboune         ###   ########.fr        #
+#    Updated: 2023/08/05 02:58:40 by nabboune         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,11 +33,16 @@ SRCS =	Minishell.c \
 		src/ft_malloc.c \
 		Parsing/prompt.c \
 		Parsing/expand.c \
-		Parsing/elem_op_dic.c \
+		Parsing/elem_op_dic_00.c \
+		Parsing/elem_op_dic_01.c \
 		Parsing/pre_dic.c \
 		Parsing/crea_dic.c \
 		Parsing/check_dic.c \
-		Parsing/dictionary.c \
+		Parsing/less_great_00.c \
+		Parsing/less_great_01.c \
+		Parsing/update_01_helpers.c \
+		Parsing/update_02_helpers.c \
+		Parsing/get_limiter.c \
 		Parsing/update_dic.c \
 		Parsing/elem_op_dic_out.c \
 		Parsing/dic_output.c \

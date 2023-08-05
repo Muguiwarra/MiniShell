@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 23:24:08 by nabboune          #+#    #+#             */
-/*   Updated: 2023/08/01 17:43:46 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/08/05 03:01:23 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,10 @@ typedef struct s_iterators
 {
 	int	i;
 	int	j;
+	int	k;
+	int	l;
+	int	lo;
+	int	ln;
 	int	doc;
 }		t_iterators;
 
@@ -90,18 +94,41 @@ t_dic						*ft_crea_dic(char *input);
 int							ft_open_quotes(t_dic **dic, char *input, int pipe,
 								int i);
 void						ft_check_quotes(t_dic **dic, int *i);
+void						ft_check_operation(t_dic **dic);
+void						ft_check_pipes(t_dic **dic);
 void						ft_check_dic(t_dic *dic);
+void						ft_delete_pages(t_dic **dic, t_dic *ptr, int i, int j);
 void						ft_update_00(t_dic **dic);
+void						ft_update_01_in_out_core(t_dic **ptr, char *var, t_iterators *itr);
+void						ft_update_01_in_out(t_dic **ptr, char *var, t_iterators *itr);
+void						ft_update_01_dquote_core(t_dic **ptr, char *var, t_iterators *itr);
+void						ft_update_01_dquote(t_dic **ptr, char *var, t_iterators *itr);
 void						ft_update_01(t_dic **dic);
+void						ft_prepre_update_02(t_dic **dic, t_dic **ptr);
+void						ft_pre_update_02(t_dic **dic, t_dic **ptr);
+void						ft_update_02_quotes(t_dic **dic, t_dic **ptr);
+void						ft_update_02_dolcmd(t_dic **dic, t_dic **ptr);
 void						ft_update_02(t_dic **dic);
 void						ft_update_03(t_dic **dic);
+void						ft_op_dquote(t_dic **ptr2);
+void						ft_op_cmd_dollar(t_dic **dic, t_dic **ptr2, int operation);
+void						ft_op_quotes(t_dic **dic, t_dic **ptr2, int operation);
+void						ft_less_great(t_dic **dic, t_dic *ptr1, int operation);
+void						ft_pre_less_great(t_dic **dic, t_dic **ptr2);
+void						ft_limiter_outfile(t_dic **ptr2, int operation);
+void						ft_del_move(t_dic **dic, t_dic **ptr2);
+void						ft_op_less_great(t_dic **dic, t_dic **ptr2, t_dic **ptr1, int operation);
+int							ft_op_dquote_cond(t_dic **ptr2, int i, int j);
+void						ft_del_page_core(t_dic **dic, t_dic *ptr);
+void						ft_delete_pages(t_dic **dic, t_dic *ptr, int i, int j);
+
 void						ft_less_great(t_dic **dic, t_dic *ptr1,
 								int operation);
 void						ft_rm_multi_sp(t_dic **dic);
 int							ft_check_exit(void);
+void						ft_get_limiter_core(char *input, char **val, int *i, t_iterators *itr);
 int							ft_get_limiter(t_dic **dic, char *input, int i,
 								int pipe);
-// int							ft_open_infile(t_dic *dic);
 void						ft_squote_dquote(t_dic **dic, char *input, int pipe, int i);
 int							ft_dollar(t_dic **dic, char *input, int pipe, int i);
 

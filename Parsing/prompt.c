@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 23:23:30 by nabboune          #+#    #+#             */
-/*   Updated: 2023/08/01 19:38:52 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/08/05 03:07:49 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,16 +62,6 @@ void	ft_prompt(void)
 		}
 		ft_update_03(&dic);
 		out = ft_parse_out(dic);
-		// int	o = 0;
-		// while (out)
-		// {
-		// 	printf("inflile : {%d}\noutfile : {%d}\n cmd : \n{", out->fd_infile, out->fd_outfile);
-		// 	while (out->cmd[o])
-		// 		printf("%s, ", out->cmd[o++]);
-		// 	printf("}\n");
-		// 	out = out->next;
-		// }
-		// continue;
 		execute(out, env_arr(g_glob.env));
 		ft_ending_prompt(input);
 	}
@@ -87,29 +77,22 @@ void	ft_ending_prompt(char *input)
 
 int	ft_check_exit(void)
 {
-	if (g_glob.exit_status == UNSPECIFIED_ERROR)
+	if (g_glob.exit_status == UNSPECIFIED_ERROR
+		|| g_glob.exit_status == CMD_NOT_EXECUTABLE
+		|| g_glob.exit_status == CMD_NOT_FOUND
+		|| g_glob.exit_status == SYNTAX_ERROR
+		|| g_glob.exit_status == MAXIMUM_HEREDOC)
 	{
-		ft_dprintf(2,"Minishell-0.1: Unspecified error !\n");
-		return (1);
-	}
-	else if (g_glob.exit_status == CMD_NOT_EXECUTABLE)
-	{
-		ft_dprintf(2, "minishell-0.1: Command not executable !\n");
-		return (1);
-	}
-	else if (g_glob.exit_status == CMD_NOT_FOUND)
-	{
-		ft_dprintf(2, "minishell-0.1: Command not found !\n");
-		return (1);
-	}
-	else if (g_glob.exit_status == SYNTAX_ERROR)
-	{
-		ft_dprintf(2, "minishell-0.1: Syntax ERROR !\n");
-		return (1);
-	}
-	else if (g_glob.exit_status == MAXIMUM_HEREDOC)
-	{
-		ft_dprintf(2, "minishell-0.1: Maximum HEREDOC OPENED !\n");
+		if (g_glob.exit_status == UNSPECIFIED_ERROR)
+			ft_dprintf(2,"Minishell-0.1: Unspecified error !\n");
+		else if (g_glob.exit_status == CMD_NOT_EXECUTABLE)
+			ft_dprintf(2, "minishell-0.1: Command not executable !\n");
+		else if (g_glob.exit_status == CMD_NOT_FOUND)
+			ft_dprintf(2, "minishell-0.1: Command not found !\n");
+		else if (g_glob.exit_status == SYNTAX_ERROR)
+			ft_dprintf(2, "minishell-0.1: Syntax ERROR !\n");
+		else if (g_glob.exit_status == MAXIMUM_HEREDOC)
+			ft_dprintf(2, "minishell-0.1: Maximum HEREDOC OPENED !\n");
 		return (1);
 	}
 	return (0);
@@ -140,37 +123,4 @@ int	ft_is_delimiter(char c)
 	else if (c == '$')
 		return (DOLLAR);
 	return (0);
-}
-
-char	*ft_replace_str(char *original, char *new, int start, int end)
-{
-	char	*result;
-	int		i;
-	int		j;
-	int		k;
-	int		lo;
-	int		ln;
-
-	i = 0;
-	j = 0;
-	ln = ft_strlen(new);
-	lo = ft_strlen(original);
-	result = ft_malloc(lo - end + start + ln + 2, 1);
-	while (original[i])
-	{
-		if (i != start)
-			result[j++] = original[i++];
-		else
-		{
-			if (ln != 0)
-			{
-				k = 0;
-				while (new[k])
-					result[j++] = new[k++];
-			}
-			i = end + 1;
-		}
-	}
-	result[j] = '\0';
-	return (result);
 }
