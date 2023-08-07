@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 23:23:30 by nabboune          #+#    #+#             */
-/*   Updated: 2023/08/07 23:09:06 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/08/08 00:30:59 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,10 @@ void	ft_prompt(void)
 		ft_pre_prompt();
 		input = readline("MiniShell-0.1$ ");
 		dic = ft_crea_dic(input);
+		printf("00\n");
 		if (ft_dic_not_created(dic, input))
 			continue ;
+		printf("01\n");
 		if (ft_check_dic_exit(dic, input))
 			continue ;
 		if (ft_update(&dic, input))

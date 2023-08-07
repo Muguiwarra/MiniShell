@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 22:57:23 by nabboune          #+#    #+#             */
-/*   Updated: 2023/08/07 23:07:38 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/08/08 00:23:19 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,6 @@ void	ft_op_dquote(t_dic **ptr2)
 		}
 	}
 }
-
-// else if (ft_isdigit((*ptr)->next->value[itr->i + itr->j + 1]))
-// {
-// 	printf("{%s}\n", (*ptr)->next->value);
-// 	(*ptr)->next->value = ft_replace_str((*ptr)->next->value,
-// 			"", itr->i, itr->i + 1);
-// }
 
 void	ft_op_cmd_dollar(t_dic **dic, t_dic **ptr2, int operation)
 {

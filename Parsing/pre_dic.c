@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 03:13:13 by nabboune          #+#    #+#             */
-/*   Updated: 2023/08/07 23:52:36 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/08/08 00:54:16 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,8 @@ int	ft_dollar(t_dic **dic, char *input, int pipe, int i)
 	{
 		if (!ft_isdigit(input[i + j + 1]))
 		{
-			while (input[i + j + 1] && !ft_is_delimiter(input[i + j + 1]))
+			while (input[i + j + 1] && (ft_isalnum(input[i + j + 1])
+			|| input[i + j + 1] == '_'))
 				j++;
 			ft_addpage_back(dic, ft_pagenew(DOLLAR, "$\0", pipe));
 			ft_addpage_back(dic, ft_pagenew(CMD,
