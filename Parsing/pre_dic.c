@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 03:13:13 by nabboune          #+#    #+#             */
-/*   Updated: 2023/08/07 23:11:15 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/08/07 23:52:36 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,14 +76,20 @@ int	ft_dollar(t_dic **dic, char *input, int pipe, int i)
 	}
 	else if (input[i + 1] && !ft_is_delimiter(input[i + 1]))
 	{
-		while (input[i + j + 1] && !ft_is_delimiter(input[i + j + 1])
-			&& !ft_isdigit(input[i + j + 1]))
-			j++;
-		if (ft_isdigit(input[i + j + 1]))
-			j++;
-		ft_addpage_back(dic, ft_pagenew(DOLLAR, "$\0", pipe));
-		ft_addpage_back(dic, ft_pagenew(CMD,
-				ft_expand(ft_substr(input, i + 1, j, 1)), pipe));
+		if (!ft_isdigit(input[i + j + 1]))
+		{
+			while (input[i + j + 1] && !ft_is_delimiter(input[i + j + 1]))
+				j++;
+			ft_addpage_back(dic, ft_pagenew(DOLLAR, "$\0", pipe));
+			ft_addpage_back(dic, ft_pagenew(CMD,
+					ft_expand(ft_substr(input, i + 1, j, 1)), pipe));
+		}
+		else
+		{
+			ft_addpage_back(dic, ft_pagenew(DOLLAR, "$\0", pipe));
+			ft_addpage_back(dic, ft_pagenew(CMD,
+					ft_expand(ft_substr(input, i + 1, ++j, 1)), pipe));
+		}
 	}
 	return (j);
 }
