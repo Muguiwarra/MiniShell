@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 17:57:58 by nabboune          #+#    #+#             */
-/*   Updated: 2023/08/07 18:01:21 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/08/07 22:32:52 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ int	ft_dic_not_created(t_dic *dic, char *input)
 {
 	if (!dic)
 	{
-		ft_dprintf(2, "MiniShell-0.1: Not enough ressources\n");
 		ft_ending_prompt(input);
 		return (1);
 	}

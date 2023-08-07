@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/05 01:27:29 by nabboune          #+#    #+#             */
-/*   Updated: 2023/08/06 04:35:29 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/08/07 23:18:11 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	ft_update_01_in_out_core(t_dic **ptr, char *var, t_iterators *itr)
 {
+	printf("{%s}\n", (*ptr)->next->value);
 	if ((*ptr)->next->value[itr->i + itr->j + 1] == '?')
 		(*ptr)->next->value = ft_replace_str((*ptr)->next->value,
 				ft_expand("?\0"), itr->i, itr->i + 1);
@@ -54,6 +55,9 @@ void	ft_update_01_dquote_core(t_dic **ptr, char *var, t_iterators *itr)
 	if ((*ptr)->next->value[itr->i + itr->j + 1] == '?')
 		(*ptr)->next->value = ft_replace_str((*ptr)->next->value,
 				ft_expand("?\0"), itr->i, itr->i + 1);
+	else if (ft_isdigit((*ptr)->next->value[itr->i + itr->j + 1]))
+		(*ptr)->next->value = ft_replace_str((*ptr)->next->value,
+				"", itr->i, itr->i + 1);
 	else
 	{
 		while ((*ptr)->next->value[itr->i + itr->j + 1]

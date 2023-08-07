@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 23:23:30 by nabboune          #+#    #+#             */
-/*   Updated: 2023/08/07 17:58:21 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/08/07 23:09:06 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,10 @@ int	ft_check_exit(void)
 		else if (g_glob.exit_status == SYNTAX_ERROR)
 			ft_dprintf(2, "minishell-0.1: Syntax ERROR !\n");
 		else if (g_glob.exit_status == MAXIMUM_HEREDOC)
+		{
 			ft_dprintf(2, "minishell-0.1: Maximum HEREDOC OPENED !\n");
+			exit(2);
+		}
 		return (1);
 	}
 	return (0);

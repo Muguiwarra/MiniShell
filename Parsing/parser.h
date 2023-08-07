@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 23:24:08 by nabboune          #+#    #+#             */
-/*   Updated: 2023/08/07 17:59:17 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/08/07 21:33:26 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,8 +142,6 @@ void						ft_del_page_core(t_dic **dic, t_dic *ptr);
 void						ft_delete_pages(t_dic **dic, t_dic *ptr,
 								int i, int j);
 
-void						ft_less_great(t_dic **dic, t_dic *ptr1,
-								int operation);
 void						ft_rm_multi_sp(t_dic **dic);
 int							ft_check_exit(void);
 void						ft_get_lim_core_sq(char *input, char **val,

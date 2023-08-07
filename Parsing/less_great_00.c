@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 22:56:22 by nabboune          #+#    #+#             */
-/*   Updated: 2023/08/06 04:35:29 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/08/07 23:07:54 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,8 @@ int	ft_op_dquote_cond(t_dic **ptr2, int i, int j)
 {
 	if ((*ptr2)->next->value[i + j + 1]
 		&& ft_is_delimiter((*ptr2)->next->value[i + j + 1]) != SPACES
-		&& ft_is_delimiter((*ptr2)->next->value[i + j + 1]) != DQUOTE)
+		&& ft_is_delimiter((*ptr2)->next->value[i + j + 1]) != DQUOTE
+		&& !ft_isdigit((*ptr2)->next->value[i + j + 1]))
 		return (1);
 	return (0);
 }
