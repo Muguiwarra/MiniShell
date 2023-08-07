@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibel-har <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 12:35:34 by ibel-har          #+#    #+#             */
-/*   Updated: 2023/07/31 03:58:27 by ibel-har         ###   ########.fr       */
+/*   Updated: 2023/08/07 16:55:30 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ int	unset_parse(char *str)
 	int	i;
 
 	i = 0;
-	if (ft_isalpha(str[i]) == 0)
+	if (str && (ft_isalpha(str[i]) == 0 && str[i] != '_'))
 		return (0);
-	while (str[i])
+	while (str && str[i])
 	{
 		if (ft_isalnum(str[i]) == 0 && str[i] != '_')
 			return (0);

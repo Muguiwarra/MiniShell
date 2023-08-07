@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 23:24:08 by nabboune          #+#    #+#             */
-/*   Updated: 2023/08/07 02:49:16 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/08/07 17:59:17 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,10 @@ typedef struct s_parsing_output
 
 int							ft_is_delimiter(char c);
 void						ft_new_line(int signum);
+void						ft_pre_prompt(void);
+int							ft_dic_not_created(t_dic *dic, char *input);
+int							ft_check_dic_exit(t_dic *dic, char *input);
+int							ft_update(t_dic **dic, char *input);
 void						ft_prompt(void);
 void						ft_ending_prompt(char *input);
 void						rl_replace_line(const char *line, int i);
@@ -142,6 +146,10 @@ void						ft_less_great(t_dic **dic, t_dic *ptr1,
 								int operation);
 void						ft_rm_multi_sp(t_dic **dic);
 int							ft_check_exit(void);
+void						ft_get_lim_core_sq(char *input, char **val,
+								int *i, t_iterators *itr);
+void						ft_get_lim_core_dq(char *input, char **val,
+								int *i, t_iterators *itr);
 void						ft_get_limiter_core(char *input, char **val,
 								int *i, t_iterators *itr);
 int							ft_get_limiter(t_dic **dic, char *input, int i,

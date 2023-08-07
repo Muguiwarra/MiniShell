@@ -6,7 +6,7 @@
 #    By: nabboune <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/15 23:13:53 by nabboune          #+#    #+#              #
-#    Updated: 2023/08/06 23:50:14 by nabboune         ###   ########.fr        #
+#    Updated: 2023/08/07 17:59:48 by nabboune         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ MSG = "auto_commit"
 
 CFLAGS = -Wall -Wextra -Werror -fsanitize=address
 
-NEEDED_FLAGS = -lreadline -L/goinfre/nabboune/homebrew/opt/readline/lib -I /goinfre/nabboune/homebrew/opt/readline/include
+NEEDED_FLAGS = -lreadline -L/goinfre/nabboune/homebrew/opt/readline/lib -I/goinfre/nabboune/homebrew/opt/readline/include
 
 SRCS =	Minishell.c \
 		src/ft_dprintf/ft_dputchar.c \
@@ -31,6 +31,7 @@ SRCS =	Minishell.c \
 		src/ft_dprintf/ft_dputstr.c \
 		src/ft_dprintf/ft_dputnbr.c \
 		src/ft_malloc.c \
+		Parsing/pre_prompt.c \
 		Parsing/prompt.c \
 		Parsing/expand.c \
 		Parsing/elem_op_dic_00.c \

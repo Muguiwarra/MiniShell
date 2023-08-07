@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 02:42:53 by nabboune          #+#    #+#             */
-/*   Updated: 2023/08/07 04:16:48 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/08/07 17:02:39 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	ft_outfile_fd(t_dic *dic, int out, int *i)
 			fd_outfile = open(dic->value, O_CREAT | O_RDWR, 0644);
 	}
 	else
-		fd_outfile = open(dic->value, O_CREAT | O_TRUNC| O_RDWR, 0644);
+		fd_outfile = open(dic->value, O_CREAT | O_TRUNC | O_RDWR, 0644);
 	if (fd_outfile == -1)
 		return (ft_file_err(dic), 1);
 	(*i)++;

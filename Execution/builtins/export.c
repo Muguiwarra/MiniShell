@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 10:36:04 by ibel-har          #+#    #+#             */
-/*   Updated: 2023/08/06 23:59:17 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/08/07 16:55:41 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ int	var_parse(char *str)
 	int	i;
 
 	i = 0;
-	if (ft_isalpha(str[i]) == 0)
+	if (str && (ft_isalpha(str[i]) == 0 && str[i] != '_'))
 		return (0);
-	while (str[i])
+	while (str && str[i])
 	{
 		if (ft_isalnum(str[i]) == 0 && str[i] != '_')
 		{

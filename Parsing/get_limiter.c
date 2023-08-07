@@ -6,35 +6,51 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/05 02:57:07 by nabboune          #+#    #+#             */
-/*   Updated: 2023/08/06 04:35:29 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/08/07 17:54:35 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+void	ft_get_lim_core_sq(char *input, char **val, int *i, t_iterators *itr)
+{
+	itr->l++;
+	while (input[*i + itr->j + itr->k + itr->l]
+		&& input[*i + itr->j + itr->k + itr->l] != '\'')
+		itr->l++;
+	if (!input[*i + itr->j + itr->k + itr->l])
+	{
+		g_glob.exit_status = SYNTAX_ERROR;
+		return ;
+	}
+	*val = ft_strjoin(*val, ft_substr(input, *i + itr->j + itr->k + 1,
+				itr->l - 1, 1), 1);
+	itr->k += itr->l;
+}
+
+void	ft_get_lim_core_dq(char *input, char **val, int *i, t_iterators *itr)
+{
+	itr->l++;
+	while (input[*i + itr->j + itr->k + itr->l]
+		&& input[*i + itr->j + itr->k + itr->l] != '\"')
+		itr->l++;
+	if (!input[*i + itr->j + itr->k + itr->l])
+	{
+		g_glob.exit_status = SYNTAX_ERROR;
+		return ;
+	}
+	*val = ft_strjoin(*val, ft_substr(input, *i + itr->j + itr->k + 1,
+				itr->l - 1, 1), 1);
+	itr->k += itr->l;
+}
+
 void	ft_get_limiter_core(char *input, char **val, int *i, t_iterators *itr)
 {
 	itr->l = 0;
 	if (input[*i + itr->j + itr->k + itr->l] == '\'')
-	{
-		itr->l++;
-		while (input[*i + itr->j + itr->k + itr->l]
-			&& input[*i + itr->j + itr->k + itr->l] != '\'')
-			itr->l++;
-		*val = ft_strjoin(*val, ft_substr(input, *i + itr->j + itr->k + 1,
-					itr->l - 1, 1), 1);
-		itr->k += itr->l;
-	}
+		ft_get_lim_core_sq(input, val, i, itr);
 	else if (input[*i + itr->j + itr->k + itr->l] == '\"')
-	{
-		itr->l++;
-		while (input[*i + itr->j + itr->k + itr->l]
-			&& input[*i + itr->j + itr->k + itr->l] != '\"')
-			itr->l++;
-		*val = ft_strjoin(*val, ft_substr(input, *i + itr->j + itr->k + 1,
-					itr->l - 1, 1), 1);
-		itr->k += itr->l;
-	}
+		ft_get_lim_core_dq(input, val, i, itr);
 	else
 		*val = ft_strjoin(*val, ft_substr(input, *i + itr->j + itr->k, 1, 1),
 				1);

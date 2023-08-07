@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 23:23:30 by nabboune          #+#    #+#             */
-/*   Updated: 2023/08/07 03:57:00 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/08/07 17:58:21 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,50 +20,15 @@ void	ft_prompt(void)
 
 	while (1)
 	{
-		signal(SIGINT, ft_new_line);
-		signal(SIGQUIT, SIG_IGN);
-		signal(SIGSEGV, ft_new_line);
-		g_glob.exit_status = 0;
-		rl_on_new_line();
+		ft_pre_prompt();
 		input = readline("MiniShell-0.1$ ");
 		dic = ft_crea_dic(input);
-		if (!dic)
-		{
-			ft_check_exit();
-			ft_ending_prompt(input);
+		if (ft_dic_not_created(dic, input))
 			continue ;
-		}
-		if (ft_check_exit())
-		{
-			ft_ending_prompt(input);
+		if (ft_check_dic_exit(dic, input))
 			continue ;
-		}
-		ft_check_dic(dic);
-		if (ft_check_exit())
-		{
-			ft_ending_prompt(input);
+		if (ft_update(&dic, input))
 			continue ;
-		}
-		ft_update_00(&dic);
-		ft_check_dic(dic);
-		if (ft_check_exit())
-		{
-			ft_ending_prompt(input);
-			continue ;
-		}
-		ft_update_01(&dic);
-		if (ft_check_exit())
-		{
-			ft_ending_prompt(input);
-			continue ;
-		}
-		ft_update_02(&dic);
-		if (ft_check_exit())
-		{
-			ft_ending_prompt(input);
-			continue ;
-		}
-		ft_update_03(&dic);
 		out = ft_parse_out(dic);
 		g_glob.exit_status = execute(out, env_arr(g_glob.env));
 		ft_ending_prompt(input);
