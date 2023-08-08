@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 18:06:51 by nabboune          #+#    #+#             */
-/*   Updated: 2023/08/07 22:30:23 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/08/08 00:38:29 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ void	ft_check_dic(t_dic *dic)
 	t_iterators	itr;
 
 	itr.doc = 0;
+	printf("check_dic.c ==> ft_check_dic\n");
 	while (dic)
 	{
 		itr.i = 0;

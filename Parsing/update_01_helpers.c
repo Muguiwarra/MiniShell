@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/05 01:27:29 by nabboune          #+#    #+#             */
-/*   Updated: 2023/08/07 23:18:11 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/08/08 00:53:49 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,8 @@ void	ft_update_01_in_out_core(t_dic **ptr, char *var, t_iterators *itr)
 	else
 	{
 		while ((*ptr)->next->value[itr->i + itr->j + 1]
-			&& ft_is_delimiter((*ptr)->next->value[itr->i + itr->j + 1])
-			!= SPACES && ft_is_delimiter((*ptr)->next->value[itr->i
-					+ itr->j + 1]) != DQUOTE)
+			&& (ft_isalnum((*ptr)->next->value[itr->i + itr->j + 1])
+			|| (*ptr)->next->value[itr->i + itr->j + 1] == '_'))
 			itr->j++;
 		var = ft_substr((*ptr)->next->value, itr->i + 1, itr->j, 1);
 		(*ptr)->next->value = ft_replace_str((*ptr)->next->value,
@@ -61,12 +60,8 @@ void	ft_update_01_dquote_core(t_dic **ptr, char *var, t_iterators *itr)
 	else
 	{
 		while ((*ptr)->next->value[itr->i + itr->j + 1]
-			&& ft_is_delimiter((*ptr)->next->value[itr->i + itr->j
-					+ 1]) != SPACES && (*ptr)->next->value[itr->i + itr->j
-				+ 1] != '\"' && (*ptr)->next->value[itr->i + itr->j + 1] != '\''
-			&& (*ptr)->next->value[itr->i + itr->j + 1] != '$'
-			&& (*ptr)->next->value[itr->i + itr->j + 1] != '<'
-			&& (*ptr)->next->value[itr->i + itr->j + 1] != '>')
+			&& (ft_isalnum((*ptr)->next->value[itr->i + itr->j + 1])
+			|| (*ptr)->next->value[itr->i + itr->j + 1] == '_'))
 			itr->j++;
 		var = ft_substr((*ptr)->next->value, itr->i + 1, itr->j, 1);
 		(*ptr)->next->value = ft_replace_str((*ptr)->next->value,
