@@ -3,28 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   run_ps.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ibel-har <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 18:29:03 by ibel-har          #+#    #+#             */
-/*   Updated: 2023/08/07 04:24:01 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/08/08 05:45:31 by ibel-har         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-void	ft_dup2(int fd, int std_fd)
-{
-	if (dup2(fd, std_fd) == -1)
-		pfd_err_msg("Dup2");
-	if (close(fd) == -1)
-		pfd_err_msg("Close");
-}
-
-void	ft_dup(int std_fd)
-{
-	if (dup(std_fd) == -1)
-		pfd_err_msg("Dup");
-}
 
 void	input_rdir(t_parsing_output *cmd, t_vars *vars)
 {
@@ -40,7 +26,6 @@ void	input_rdir(t_parsing_output *cmd, t_vars *vars)
 	{
 		if (dup2(vars->std_in, 0) == -1)
 			pfd_err_msg("Dup2");
-		// close(vars->std_in);
 	}
 	close(vars->fd[0]);
 }
@@ -92,14 +77,8 @@ void	run_ps(t_parsing_output *cmd, t_vars *vars, char **envp)
 		if (is_builtin(cmd->cmd[0]))
 			exit(builtins(cmd, &g_glob.env));
 		else
-		exec_cmd(cmd->cmd, envp);
+			exec_cmd(cmd->cmd, envp);
 	}
 	else
 		input_rdir(cmd, vars);
 }
-
-/*
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		A child process get SEGEV if the CL has "$" alone...
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-*/

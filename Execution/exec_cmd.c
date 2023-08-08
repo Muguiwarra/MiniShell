@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ibel-har <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 02:08:53 by ibel-har          #+#    #+#             */
-/*   Updated: 2023/08/06 02:45:31 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/08/08 05:15:39 by ibel-har         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 int	check_dir(char *path)
 {
-	struct stat path_stat;
+	struct stat	path_stat;
+
 	stat(path, &path_stat);
 	if (S_ISDIR(path_stat.st_mode))
 		return (1);
@@ -23,7 +24,7 @@ int	check_dir(char *path)
 	return (0);
 }
 
-void cmd_err_check(char **cmd)
+void	cmd_err_check(char **cmd)
 {
 	if (!cmd)
 		cmd_err_msg(" ");

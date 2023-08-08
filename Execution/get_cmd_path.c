@@ -6,7 +6,7 @@
 /*   By: ibel-har <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 20:28:40 by ibel-har          #+#    #+#             */
-/*   Updated: 2023/08/02 10:33:16 by ibel-har         ###   ########.fr       */
+/*   Updated: 2023/08/08 00:38:24 by ibel-har         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,27 +21,20 @@ char	*check_path(char *cmd, char *path_str)
 
 	i = 0;
 	paths = ft_split(path_str, ':');
-	s_cmd = ft_strjoin("/", cmd, 0);
+	s_cmd = ft_strjoin("/", cmd, 1);
 	while (paths[i])
 	{
-		cmd_path = ft_strjoin(paths[i], s_cmd, 0);
+		cmd_path = ft_strjoin(paths[i], s_cmd, 1);
 		if (access(cmd_path, X_OK) == -1)
-		{
-			free(cmd_path);
 			cmd_path = NULL;
-		}
 		else
 		{
-			free(s_cmd);
 			s_cmd = NULL;
-			free_array(paths);
 			return (cmd_path);
 		}
 		i++;
 	}
-	free(s_cmd);
 	s_cmd = NULL;
-	free_array(paths);
 	return (cmd);
 }
 
@@ -72,7 +65,7 @@ char	**cmd_split(char **cmd, char **envp)
 		path_str = add_char(ft_get_env(envp, "PATH="), ':', '.');
 		path = check_path(cmd[0], path_str);
 		if (ft_strcmp(path, cmd[0]) == 0)
-			return (free(path_str), cmd);
+			return (cmd);
 		tmp = cmd[0];
 		cmd[0] = path;
 		free(tmp);

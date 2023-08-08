@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ibel-har <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 12:35:34 by ibel-har          #+#    #+#             */
-/*   Updated: 2023/08/07 16:55:30 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/08/08 05:42:26 by ibel-har         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void	delete_env_var(t_env **env, char *key)
 
 	tmp = *env;
 	prev = NULL;
-
 	while (tmp)
 	{
 		if (ft_strcmp(tmp->key, key) == 0)

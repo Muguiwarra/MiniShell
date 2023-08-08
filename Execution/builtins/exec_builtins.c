@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtins.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ibel-har <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 04:11:52 by ibel-har          #+#    #+#             */
-/*   Updated: 2023/08/07 04:02:40 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/08/08 05:37:20 by ibel-har         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int is_builtin(char *cmd)
+int	is_builtin(char *cmd)
 {
 	if (ft_strcmp(cmd, "cd") == 0)
 		return (1);

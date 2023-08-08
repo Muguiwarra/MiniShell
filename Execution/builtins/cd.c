@@ -6,7 +6,7 @@
 /*   By: ibel-har <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 07:55:14 by ibel-har          #+#    #+#             */
-/*   Updated: 2023/07/31 05:36:54 by ibel-har         ###   ########.fr       */
+/*   Updated: 2023/08/08 05:22:33 by ibel-har         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	cd_home(t_env **env)
 	home = get_t_env(*env, "HOME");
 	if (home == NULL)
 	{
-		ft_dprintf(2,"minishell: cd: HOME not set\n");
+		ft_dprintf(2, "minishell: cd: HOME not set\n");
 		status = 1;
 	}
 	else
@@ -83,11 +83,11 @@ int	cd_prevwd(t_env **env)
 		status = 1;
 	}
 	else
-		status =  cd_path(env, oldpwd);
+		status = cd_path(env, oldpwd);
 	return (status);
 }
 
-int ft_cd(t_env **env, char **args)
+int	ft_cd(t_env **env, char **args)
 {
 	int	status;
 

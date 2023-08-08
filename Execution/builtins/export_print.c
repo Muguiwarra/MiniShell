@@ -6,7 +6,7 @@
 /*   By: ibel-har <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 11:37:52 by ibel-har          #+#    #+#             */
-/*   Updated: 2023/08/02 06:45:08 by ibel-har         ###   ########.fr       */
+/*   Updated: 2023/08/08 05:39:02 by ibel-har         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_env	*cp_env(t_env *env)
 	new = NULL;
 	while (tmp)
 	{
-		env_add_back(&new, env_new(tmp->key, tmp->value));
+		env_add_back(&new, env_new(tmp->key, tmp->value, 1));
 		tmp = tmp->next;
 	}
 	return (new);
@@ -77,8 +77,8 @@ int	ft_export_print(t_env *env)
 
 	status = 0;
 	penv = cp_env(env);
-	alpha_sort(&env);
-	tmp = env;
+	alpha_sort(&penv);
+	tmp = penv;
 	while (tmp)
 	{
 		if (tmp->value)
@@ -87,6 +87,5 @@ int	ft_export_print(t_env *env)
 			printf("declare -x %s\n", tmp->key);
 		tmp = tmp->next;
 	}
-	env_clear(&tmp);
 	return (status);
 }

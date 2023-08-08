@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ibel-har <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 01:32:10 by marvin            #+#    #+#             */
-/*   Updated: 2022/10/24 00:32:53 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/08/08 00:07:18 by ibel-har         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static void	ft_strnptr(char **ptr, char const *s, size_t l, char c)
 		}
 		if (s[i - 1] != c)
 		{
-			ptr[j++] = (char *)malloc((ls + 1) * sizeof(char));
+			ptr[j++] = (char *)ft_malloc((ls + 1) * sizeof(char), 1);
 			if (!ptr[j - 1])
 				return ;
 		}
@@ -94,7 +94,7 @@ char	**ft_split(char const *s, char c)
 		return (0);
 	nc = ft_nstr(s, c);
 	l = ft_strlen(s);
-	ptr = (char **)malloc((nc + 1) * sizeof(char *));
+	ptr = (char **)ft_malloc((nc + 1) * sizeof(char *), 1);
 	if (!ptr)
 		return (0);
 	ft_strnptr(ptr, s, l, c);
