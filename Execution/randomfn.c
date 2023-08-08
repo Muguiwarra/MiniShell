@@ -6,7 +6,7 @@
 /*   By: ibel-har <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 23:14:13 by ibel-har          #+#    #+#             */
-/*   Updated: 2023/08/08 05:18:59 by ibel-har         ###   ########.fr       */
+/*   Updated: 2023/08/08 06:44:04 by ibel-har         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	*randfn(int N)
 
 	i = 0;
 	randomizer = 0;
-	filename = malloc(sizeof(char) * (N + 1));
+	filename = ft_malloc(sizeof(char) * (N + 1), 1);
 	randomizer = randomy() % 10;
 	while (i < N)
 	{

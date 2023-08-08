@@ -6,7 +6,7 @@
 /*   By: ibel-har <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 19:24:57 by ibel-har          #+#    #+#             */
-/*   Updated: 2023/08/08 05:36:34 by ibel-har         ###   ########.fr       */
+/*   Updated: 2023/08/08 06:49:21 by ibel-har         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ t_env	*env_init(char **envp)
 		env_add_back(&env, env_new(var[0], var[1], 0));
 		i++;
 	}
+	free(cwd);
 	return (env);
 }
 
@@ -105,13 +106,10 @@ t_env	*env_default(void)
 
 	env = NULL;
 	cwd = getcwd(NULL, 0);
+	if (!cwd)
+		return (NULL);
 	env_add_back(&env, env_new("PWD", cwd, 0));
 	env_add_back(&env, env_new("SHLVL", "1", 0));
 	free(cwd);
 	return (env);
 }
-/*
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	don't forget the default uninitialized env
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-*/

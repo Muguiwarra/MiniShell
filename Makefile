@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: nabboune <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: ibel-har <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/15 23:13:53 by nabboune          #+#    #+#              #
-#    Updated: 2023/08/08 06:39:24 by nabboune         ###   ########.fr        #
+#    Updated: 2023/08/08 06:46:24 by ibel-har         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ MSG = "auto_commit"
 
 CFLAGS = -Wall -Wextra -Werror #-fsanitize=address
 
-NEEDED_FLAGS = -lreadline -L/goinfre/nabboune/homebrew/opt/readline/lib -I/goinfre/nabboune/homebrew/opt/readline/include
+NEEDED_FLAGS = -lreadline -L/goinfre/ibel-har/homebrew/opt/readline/lib -I/goinfre/ibel-har/homebrew/opt/readline/include
 
 SRCS =	Minishell.c \
 		src/ft_dprintf/ft_dputchar.c \
