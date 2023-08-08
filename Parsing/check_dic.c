@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 18:06:51 by nabboune          #+#    #+#             */
-/*   Updated: 2023/08/08 00:38:29 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/08/08 04:23:33 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ void	ft_check_dic(t_dic *dic)
 	t_iterators	itr;
 
 	itr.doc = 0;
-	printf("check_dic.c ==> ft_check_dic\n");
 	while (dic)
 	{
 		itr.i = 0;
@@ -78,4 +77,10 @@ void	ft_check_dic(t_dic *dic)
 		if (dic)
 			dic = dic->next;
 	}
+}
+
+void	ft_file_err(t_dic *dic)
+{
+	ft_dprintf(2, "Minishell-0.1: %s: %s\n", dic->value, strerror(errno));
+	g_glob.exit_status = UNSPECIFIED_ERROR;
 }

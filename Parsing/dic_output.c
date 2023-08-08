@@ -6,19 +6,38 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 19:21:21 by nabboune          #+#    #+#             */
-/*   Updated: 2023/08/06 04:35:29 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/08/08 04:23:26 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+int	ft_heredoc_fd(t_dic *dic, int nb, int *j)
+{
+	int	fd_heredoc;
+
+	fd_heredoc = 0;
+	fd_heredoc = here_doc(dic->next->value);
+	if (fd_heredoc == -1)
+		return (ft_file_err(dic), -1);
+	(*j)++;
+	if (*j != nb)
+		if (close(fd_heredoc) == -1)
+			return (ft_file_err(dic), fd_heredoc);
+	return (fd_heredoc);
+}
+
 int	ft_infile(t_dic *dic, int in, int pipe)
 {
 	int	fd_infile;
 	int	i;
+	int	j;
+	int	nb_heredoc;
 
 	fd_infile = 0;
 	i = 0;
+	j = 0;
+	nb_heredoc = ft_nb_heredoc(dic, pipe);
 	while (dic && dic->pipe != pipe)
 		dic = dic->next;
 	while (dic && dic->pipe == pipe)
@@ -26,11 +45,7 @@ int	ft_infile(t_dic *dic, int in, int pipe)
 		if (dic->key == INFILE)
 			fd_infile = ft_infile_fd(dic, in, &i);
 		else if (dic->key == HEREDOC)
-		{
-			fd_infile = here_doc(dic->next->value);
-			if (fd_infile == -1)
-				return (ft_file_err(dic), fd_infile);
-		}
+			fd_infile = ft_heredoc_fd(dic, nb_heredoc, &j);
 		dic = dic->next;
 	}
 	return (fd_infile);

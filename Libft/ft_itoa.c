@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 00:02:11 by marvin            #+#    #+#             */
-/*   Updated: 2022/10/24 00:31:14 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/08/08 01:14:15 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,9 +103,9 @@ char	*ft_itoa(int n)
 	j = ft_ndigit(n);
 	k = j;
 	if (n == 0)
-		ptr = (char *)malloc(2 * sizeof(char));
+		ptr = (char *)ft_malloc(2 * sizeof(char), 1);
 	else
-		ptr = (char *)malloc((j + 1) * sizeof(char));
+		ptr = (char *)ft_malloc((j + 1) * sizeof(char), 1);
 	if (!ptr)
 		return (0);
 	if (n < 0)

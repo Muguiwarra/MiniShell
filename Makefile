@@ -6,7 +6,7 @@
 #    By: nabboune <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/15 23:13:53 by nabboune          #+#    #+#              #
-#    Updated: 2023/08/07 17:59:48 by nabboune         ###   ########.fr        #
+#    Updated: 2023/08/08 06:17:40 by nabboune         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,8 +39,10 @@ SRCS =	Minishell.c \
 		Parsing/pre_dic.c \
 		Parsing/crea_dic.c \
 		Parsing/check_dic.c \
-		Parsing/less_great_00.c \
+		Parsing/heredoc.c \
+		Parsing/dollar_core.c \
 		Parsing/less_great_01.c \
+		Parsing/less_great_00.c \
 		Parsing/update_01_helpers.c \
 		Parsing/update_02_helpers.c \
 		Parsing/update_02_helpers_core.c \

@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 23:24:08 by nabboune          #+#    #+#             */
-/*   Updated: 2023/08/07 21:33:26 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/08/08 06:22:19 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,16 @@ typedef struct s_iterators
 	int	ln;
 	int	doc;
 }		t_iterators;
+
+typedef struct s_variables
+{
+	char	*line;
+	char	*var;
+	int		i;
+	int		j;
+	int		le;
+	char	tmp_char;
+}		t_variables;
 
 typedef struct s_dic
 {
@@ -154,9 +164,16 @@ int							ft_get_limiter(t_dic **dic, char *input, int i,
 								int pipe);
 void						ft_squote_dquote(t_dic **dic, char *input,
 								int pipe, int i);
+int							ft_dollar_core(t_dic **dic, char *input, int pipe,
+								t_iterators *itr);
+void						ft_dollar_double_core(t_dic **dic, char *input,
+								int pipe, t_iterators *itr);
+void						ft_dollar_triple_core(t_dic **dic, char *input,
+								int pipe, t_iterators *itr);
+void						ft_dollar_init_itr(t_iterators *itr, int i);
 int							ft_dollar(t_dic **dic, char *input,
 								int pipe, int i);
-
+void						ft_syntax_err(void);
 char						*ft_expand(char *var);
 char						*ft_replace_str(char *original, char *new,
 								int start, int end);
@@ -164,9 +181,17 @@ char						*ft_replace_str(char *original, char *new,
 char						*randfn(int N);
 int							randomy(void);
 void						ft_exit_heredoc(int signum);
+int							ft_her_doc_c_core_01(char *line, int *i, int j);
+void						ft_pre_her_doc_c(t_variables *var, int heredoc,
+								char *dlm);
+void						ft_post_her_doc_c(t_variables *var);
+void						ft_postpost_herdoc(t_variables *var, int heredoc);
+void						ft_err_line(char *line, int heredoc);
 
 int							ft_pipes(t_dic *dic);
 void						ft_file_err(t_dic *dic);
+int							ft_nb_heredoc(t_dic *dic, int pipe);
+int							ft_heredoc_fd(t_dic *dic, int nb, int *j);
 int							ft_nb_infiles(t_dic *dic, int pipe);
 int							ft_nb_outfiles(t_dic *dic, int pipe);
 int							ft_nb_cmd(t_dic *dic, int pipe);
@@ -176,10 +201,5 @@ int							ft_outfile_fd(t_dic *dic, int out, int *i);
 int							ft_outfile(t_dic *dic, int out, int pipe);
 char						**ft_getcmd(t_dic *dic, int nb_cmd, int pipe);
 t_parsing_output			*ft_parse_out(t_dic *dic);
-
-// To Remove : Testing
-// void	ft_exec(char **paths, char **env);
-// char	**ft_get_paths(char **env);
-// void	ft_ending_prompt_exec(char *input);
 
 #endif

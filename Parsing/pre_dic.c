@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 03:13:13 by nabboune          #+#    #+#             */
-/*   Updated: 2023/08/08 00:54:16 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/08/08 04:36:06 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,40 +59,31 @@ void	ft_squote_dquote(t_dic **dic, char *input, int pipe, int i)
 
 int	ft_dollar(t_dic **dic, char *input, int pipe, int i)
 {
-	int	j;
-	int	k;
+	int			ret;
+	t_iterators	itr;
 
-	j = 0;
-	k = 1;
-	if ((input[i + 1] && ft_is_delimiter(input[i + 1])) || !input[i + 1])
+	ft_dollar_init_itr(&itr, i);
+	if (input[itr.i + itr.j + 1] && input[itr.i + itr.j + 1] == '$')
 	{
-		if (!input[i + 1] || ft_is_delimiter(input[i + 1]) == SPACES)
-			ft_addpage_back(dic, ft_pagenew(CMD, "$\0", pipe));
-		else if (ft_is_delimiter(input[i + 1]) == DQUOTE
-			|| ft_is_delimiter(input[i + 1]) == SQUOTE)
-			return (-1);
-		else
-			return (ft_syntax_err(), -2);
+		while (input[itr.i + itr.j + 1] && input[itr.i + itr.j + 1] == '$')
+			itr.j++;
+		if (input[itr.i + itr.j + 1]
+			&& !ft_is_delimiter(input[itr.i + itr.j + 1]))
+		{
+			ft_addpage_back(dic, ft_pagenew(CMD,
+					ft_substr(input, itr.i, itr.j - 1, 1), pipe));
+			itr.j--;
+		}
+		ft_addpage_back(dic, ft_pagenew(CMD,
+				ft_substr(input, itr.i, itr.j + 1, 1), pipe));
 	}
-	else if (input[i + 1] && !ft_is_delimiter(input[i + 1]))
+	else
 	{
-		if (!ft_isdigit(input[i + j + 1]))
-		{
-			while (input[i + j + 1] && (ft_isalnum(input[i + j + 1])
-			|| input[i + j + 1] == '_'))
-				j++;
-			ft_addpage_back(dic, ft_pagenew(DOLLAR, "$\0", pipe));
-			ft_addpage_back(dic, ft_pagenew(CMD,
-					ft_expand(ft_substr(input, i + 1, j, 1)), pipe));
-		}
-		else
-		{
-			ft_addpage_back(dic, ft_pagenew(DOLLAR, "$\0", pipe));
-			ft_addpage_back(dic, ft_pagenew(CMD,
-					ft_expand(ft_substr(input, i + 1, ++j, 1)), pipe));
-		}
+		ret = ft_dollar_core(dic, input, pipe, &itr);
+		if (ret == -1 || ret == -2)
+			return (ret);
 	}
-	return (j);
+	return (itr.j);
 }
 
 t_iterators	*ft_init_cre(t_dic **dic, char *input, int *pipe)
