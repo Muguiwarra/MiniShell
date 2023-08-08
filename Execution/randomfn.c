@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   randomfn.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ibel-har <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 23:14:13 by ibel-har          #+#    #+#             */
-/*   Updated: 2023/08/05 23:28:11 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/08/08 05:18:59 by ibel-har         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 int	randomy(void)
 {
-	int	fd;
-	char *buf;
-	int	i;
-	int	rand;
+	int		fd;
+	char	*buf;
+	int		i;
+	int		rand;
 
 	fd = open("/dev/random", O_RDONLY);
 	buf = get_next_line(fd);
@@ -34,9 +34,12 @@ int	randomy(void)
 
 char	*randfn(int N)
 {
-	int i = 0;
-	int randomizer = 0;
-	char *filename;
+	int		i;
+	int		randomizer;
+	char	*filename;
+
+	i = 0;
+	randomizer = 0;
 	filename = malloc(sizeof(char) * (N + 1));
 	randomizer = randomy() % 10;
 	while (i < N)

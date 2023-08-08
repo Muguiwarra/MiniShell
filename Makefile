@@ -6,7 +6,7 @@
 #    By: nabboune <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/15 23:13:53 by nabboune          #+#    #+#              #
-#    Updated: 2023/08/08 06:17:40 by nabboune         ###   ########.fr        #
+#    Updated: 2023/08/08 06:39:24 by nabboune         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ CC = cc
 
 MSG = "auto_commit"
 
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror #-fsanitize=address
 
 NEEDED_FLAGS = -lreadline -L/goinfre/nabboune/homebrew/opt/readline/lib -I/goinfre/nabboune/homebrew/opt/readline/include
 
@@ -51,7 +51,7 @@ SRCS =	Minishell.c \
 		Parsing/elem_op_dic_out.c \
 		Parsing/dic_output.c \
 		Parsing/fd_files.c \
-		Execution/pipex.c\
+		Execution/execution.c\
 		Execution/add_char.c\
 		Execution/get_cmd_path.c\
 		Execution/err_msg.c\
@@ -59,7 +59,6 @@ SRCS =	Minishell.c \
 		Execution/here_doc.c\
 		Execution/env_to_arr.c\
 		Execution/run_ps.c\
-		Execution/t.c\
 		Execution/utils.c \
 		Execution/randomfn.c \
 		Execution/builtins/env.c \

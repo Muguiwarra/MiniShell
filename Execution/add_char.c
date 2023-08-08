@@ -6,7 +6,7 @@
 /*   By: ibel-har <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 02:57:36 by ibel-har          #+#    #+#             */
-/*   Updated: 2023/07/27 22:00:39 by ibel-har         ###   ########.fr       */
+/*   Updated: 2023/08/08 00:31:38 by ibel-har         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*add_char(char *str, char dlm, char to_add)
 
 	i = 0;
 	j = 0;
-	new_str = (char *)malloc(sizeof(char) * (ft_dlm_count(str, dlm) + 1));
+	new_str = (char *)ft_malloc(sizeof(char) * (ft_dlm_count(str, dlm) + 1), 1);
 	while (str[i])
 	{
 		if (i == 0 && str[i] == dlm)

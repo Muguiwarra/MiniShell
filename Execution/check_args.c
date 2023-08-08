@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 18:24:25 by ibel-har          #+#    #+#             */
-/*   Updated: 2023/08/08 00:02:20 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/08/08 06:34:07 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ void	check_outfile(char **argv, t_vars *vars)
 				| O_APPEND, 0644);
 		if (vars->outfile == -1)
 		{
-			ft_dprintf(2, "minishell: %s: %s\n", argv[vars->argc - 1], strerror(errno));
+			ft_dprintf(2, "minishell: %s: %s\n", argv[vars->argc - 1],
+				strerror(errno));
 			exit(1);
 		}
 	}
@@ -46,7 +47,8 @@ void	check_outfile(char **argv, t_vars *vars)
 				| O_TRUNC, 0644);
 		if (vars->outfile == -1)
 		{
-			ft_dprintf(2, "minishell: %s: %s\n", argv[vars->argc - 1], strerror(errno));
+			ft_dprintf(2, "minishell: %s: %s\n", argv[vars->argc - 1],
+				strerror(errno));
 			exit(1);
 		}
 	}

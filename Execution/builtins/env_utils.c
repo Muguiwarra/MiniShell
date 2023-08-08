@@ -3,30 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ibel-har <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 19:30:42 by ibel-har          #+#    #+#             */
-/*   Updated: 2023/08/05 23:14:13 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/08/08 05:37:02 by ibel-har         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-t_env	*env_new(char *key, char *value)
+t_env	*env_new(char *key, char *value, int to_free)
 {
 	t_env	*new;
 
-	new = (t_env *)ft_malloc(sizeof(t_env), 0);
+	new = (t_env *)ft_malloc(sizeof(t_env), to_free);
 	if (!new)
 		return (NULL);
 	if (!key)
 		new->key = NULL;
 	else
-		new->key = ft_strdup(key);
+		new->key = ft_strdup(key, to_free);
 	if (!value)
 		new->value = NULL;
 	else
-		new->value = ft_strdup(value);
+		new->value = ft_strdup(value, to_free);
 	new->next = NULL;
 	return (new);
 }
@@ -68,20 +68,4 @@ t_env	*env_last(t_env *env)
 	while (env->next)
 		env = env->next;
 	return (env);
-}
-
-void	env_clear(t_env **env)
-{
-	t_env	*tmp;
-
-	if (!env)
-		return ;
-	while (*env)
-	{
-		tmp = (*env)->next;
-		free((*env)->key);
-		free((*env)->value);
-		free(*env);
-		*env = tmp;
-	}
 }

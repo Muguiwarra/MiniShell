@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ibel-har <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 18:33:28 by ibel-har          #+#    #+#             */
-/*   Updated: 2023/08/07 00:41:31 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/08/08 05:40:40 by ibel-har         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	status_calculator(char *str)
 	unsigned long long	res;
 	unsigned long long	max;
 	int					sign;
-	int 				status;
+	int					status;
 
 	res = status_overflow(str, &sign);
 	max = 9223372036854775807;
@@ -60,14 +60,14 @@ int	status_calculator(char *str)
 	}
 }
 
-int is_digits(char *str)
+int	is_digits(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] ==  '-' || str[i] == '+')
+		if (str[i] == '-' || str[i] == '+')
 			i++;
 		if (str[i] < '0' || str[i] > '9')
 			return (0);
@@ -75,9 +75,10 @@ int is_digits(char *str)
 	}
 	return (1);
 }
-int status_setter(char *str)
+
+int	status_setter(char *str)
 {
-	int status;
+	int	status;
 
 	status = status_calculator(str);
 	if (!is_digits(str) || status == -1)
@@ -89,6 +90,7 @@ int status_setter(char *str)
 	}
 	return (status);
 }
+
 int	ft_exit(char **arg)
 {
 	int	status;
@@ -114,4 +116,3 @@ int	ft_exit(char **arg)
 		ft_putstr_fd("exit\n", 1);
 	return (status);
 }
-

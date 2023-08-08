@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ibel-har <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 10:36:04 by ibel-har          #+#    #+#             */
-/*   Updated: 2023/08/07 16:55:41 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/08/08 05:42:00 by ibel-har         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,35 +32,6 @@ int	var_parse(char *str)
 	return (1);
 }
 
-// void	var_export(t_env **env, char *key, char *value, int apnd)
-// {
-// 	t_env	*tmp;
-// 	char	*tmp_val;
-
-// 	tmp = *env;
-// 	tmp_val = NULL;
-// 	while (tmp)
-// 	{
-// 		if (ft_strcmp(tmp->key, key) == 0)
-// 		{
-// 			if (tmp->value)
-// 			{
-// 				if (apnd == 0)
-// 					tmp_val = ft_strdup(value);
-// 				else if (apnd == 1)
-// 					tmp_val = ft_strjoin(tmp->value, value,0);
-// 				free(tmp->value);
-// 				tmp->value = tmp_val;
-// 			}
-// 			else
-// 				tmp->value = ft_strdup(value);
-// 			return ;
-// 		}
-// 		tmp = tmp->next;
-// 	}
-// 	env_add_back(env, env_new(key, value));
-// }
-
 void	var_export(t_env **env, char *key, char *value, int apnd)
 {
 	t_env	*tmp;
@@ -73,17 +44,17 @@ void	var_export(t_env **env, char *key, char *value, int apnd)
 		if (tmp->value && value)
 		{
 			if (apnd == 0)
-				tmp_val = ft_strdup(value);
+				tmp_val = ft_strdup(value, 0);
 			else if (apnd == 1)
-				tmp_val = ft_strjoin(tmp->value, value,0);
+				tmp_val = ft_strjoin(tmp->value, value, 0);
 			free(tmp->value);
 			tmp->value = tmp_val;
 		}
 		else if (value)
-			tmp->value = ft_strdup(value);
+			tmp->value = ft_strdup(value, 0);
 		return ;
 	}
-	env_add_back(env, env_new(key, value));
+	env_add_back(env, env_new(key, value, 0));
 }
 
 int	export_cases(char **var, t_env **env)
@@ -109,8 +80,7 @@ int	export_cases(char **var, t_env **env)
 		var_export(env, var[0], var[1], 0);
 	return (status);
 }
-//
-//  export ZS ZS=hello abort
+
 int	ft_export(t_env **env, char **args)
 {
 	char	**var;
@@ -127,13 +97,12 @@ int	ft_export(t_env **env, char **args)
 	{
 		var = split_var(args[i]);
 		status = export_cases(var, env);
-		free_array(var);
 		i++;
 	}
 	return (status);
 }
 
-int	ft_export_null()
+int	ft_export_null(void)
 {
 	ft_dprintf(2, "minishell-0.1: export: `': not a valid identifier!\n");
 	return (1);

@@ -6,7 +6,7 @@
 /*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 08:57:48 by nabboune          #+#    #+#             */
-/*   Updated: 2023/08/07 02:51:31 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/08/08 06:37:35 by nabboune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,8 @@
 # define CMD_NOT_EXECUTABLE 126
 # define CMD_NOT_FOUND 127
 # define SYNTAX_ERROR 258
-// # define PROMPT ""
 
-typedef struct	s_global
+typedef struct s_global
 {
 	t_env	*env;
 	char	**paths;

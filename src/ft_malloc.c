@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_malloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nabboune <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ibel-har <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 03:04:17 by nabboune          #+#    #+#             */
-/*   Updated: 2023/07/31 06:37:44 by nabboune         ###   ########.fr       */
+/*   Updated: 2023/08/08 00:04:17 by ibel-har         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	*ft_malloc(size_t size, int i)
+void	*ft_malloc(size_t size, int to_free)
 {
 	void	*ptr;
 	t_list	*obj;
@@ -20,7 +20,7 @@ void	*ft_malloc(size_t size, int i)
 	ptr = malloc(size);
 	if (!ptr)
 		exit(UNSPECIFIED_ERROR);
-	if (i == 1)
+	if (to_free == 1)
 	{
 		obj = malloc(sizeof(t_list));
 		if (!obj)
